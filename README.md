@@ -1,46 +1,40 @@
-# streamelements-mock
+# Streamelements Devkit
 
-This template should help get you started developing with Vue 3 in Vite.
+Local development kit to build streamelements widgets locally, benefiting from HMR and IDE support.
 
-## Recommended IDE Setup
+## Getting Started
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Use the following command to install the project dependencies. 
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
+
+// Or
+
+pnpm instal
 ```
 
-### Compile and Hot-Reload for Development
+Then, run with this
 
-```sh
+```bash
 npm run dev
+
+// Or
+
+pnpm dev
 ```
+## Development
 
-### Type-Check, Compile and Minify for Production
+1. Create a new folder under src/widgets with your widgets name
+1. Create 4 seperate files (name them "custom") with .css, .html, .js, .json file extensions
+3. Plug the new folder name and files into the existing imports for `CustomWidgetEditor.vue` and `CustomWidgetPreview.vue`
+4. Also change `currentWidget` to the relevant type `chat` | `eventlist` | `goal`
 
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+```Typescript
+//CHANGE ACTIVE WIDGET AND WIDGET TYPE HERE
+let currentWidget: WidgetTypes = WidgetTypes.chat;
+import customHTML from "../widgets/Free Chat Widget/custom.html?raw"
+import customCSS from "../widgets/Free Chat Widget/custom.css?raw"
+import customFields from "../widgets/Free Chat Widget/custom.json"
+import customJS from "../widgets/Free Chat Widget/custom.js?raw"
 ```
