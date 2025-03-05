@@ -8,21 +8,21 @@ Use the following command to install the project dependencies.
 
 ```bash
 npm install
-
-// Or
-
+```
+Or
+```bash
 pnpm install
 ```
-
-Then, run with this
-
+Once finished, run with this
 ```bash
 npm run dev
-
-// Or
-
+```
+Or
+```bash
 pnpm dev
 ```
+
+
 ## Development
 
 1. Create a new folder under src/widgets with your widgets name
