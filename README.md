@@ -1,6 +1,6 @@
 # Streamelements Devkit
 
-Local development kit to build streamelements widgets locally, benefiting from HMR and IDE support.
+Development kit to build streamelements widgets locally, benefiting from HMR and IDE support.
 
 ## Getting Started
 
