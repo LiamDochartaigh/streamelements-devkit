@@ -1,0 +1,1 @@
+export type IndexableType = { [key: string]: any };

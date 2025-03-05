@@ -1,0 +1,47 @@
+<div class="wrapper" id="hexeumWidget">
+    <div class="goal-graphic">
+  	<svg xmlns="http://www.w3.org/2000/svg" id="backdropSVG" version="1.2" viewBox="0 0 2000 0">
+    	<path id="goalBackdrop"/>
+  </svg>
+  </div>
+  <div id="log" class="sl__chat__layout"></div>
+<div class="goal-graphic">
+  <svg xmlns="http://www.w3.org/2000/svg" id="mainSVG" version="1.2" viewBox="0 0 2000 0">
+    
+<defs>
+	<filter id="glow" height="300%" width="300%" x="-75%" y="-75%">
+		<feGaussianBlur in="thicken" stdDeviation="10" result="coloredBlur" />
+		<feMerge>
+			<feMergeNode in="coloredBlur"/>
+			<feMergeNode in="SourceGraphic"/>
+		</feMerge>
+	</filter>
+</defs>
+    
+    <path id="goalGlow"/>
+    <path id="goalOutline"/>
+    <path id="goalMain"/>
+    <path id="goalInset"/>
+    
+    <mask id="goalOutlineMask">
+      <path id="goalOutlineBounds"/>
+      <path id="goalOutlineCutOff"/>
+    </mask>
+    
+    <mask id="goalMainMask">
+      <path id="goalMainBounds"/>
+      <path id="goalMainCutOff"/>
+    </mask>
+    
+    <mask id="goalInsetMask">
+      <path id="goalInsetBounds"/>
+      <path id="goalInsetCutOff"/>
+    </mask>
+    
+    <mask id="glowMask">
+      <path id="glowBounds"/>
+      <path id="glowCutOff"/>
+    </mask>
+</svg>
+</div>
+</div>

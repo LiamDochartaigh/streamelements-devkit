@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family={fontName}:wght@200;300;400;500;600;700;800&display=swap');
+* {
+  --bar-color: {fillColor};
+  --detail-border-color: {detailColor};
+  --widget-color: {widgetColor};
+  --bg-fill-color: {bgFillColor};
+  --text-color: {textColor};
+  --text-size: {fontSize}px;
+  --angle-bottom-left: {angleBottomLeft}%;
+  --angle-bottom-right: {angleBottomRight};
+  --angle-top-left: {angleTopLeft}%;
+  --angle-top-right: {angleTopRight};
+  --widthRaw: {width};
+  --heightRaw: {height};
+  --width: {width}px;
+  --height: {height}px;
+  --border-thickness: {borderThickness};
+    font-family: '{fontName}', cursive;
+    font-weight: {messageFontWeight};
+}
+
+#goalInset{
+  fill: var(--detail-border-color);
+  mask: url(#goalInsetMask);
+}
+
+#goalMain{
+  fill: var(--widget-color);
+  mask: url(#goalMainMask);
+}
+
+#goalBackdrop{
+  fill: var(--bg-fill-color);
+}
+
+#goalGlow{
+  filter: url(#glow);
+  fill: var(--detail-border-color);
+}
+
+#goalOutline{
+  fill: var(--detail-border-color);
+  mask: url(#goalOutlineMask);
+}
+
+#goalFill{
+  fill: var(--bar-color);
+  mask: url(#goalFillMask);
+}
+
+#goalMainCutOff, #goalInsetCutOff, #goalOutlineCutOff{
+  fill: black;
+}
+#goalMainBounds, #goalFillMaskPath, #goalInsetBounds, #goalOutlineBounds{
+  fill: white;
+}
+
+.goal-graphic{
+  width: 100%;
+}
+
+.wrapper {
+    font-size: var(--text-size);
+    color: var(--text-color);
+    text-align: center;
+    text-transform: uppercase;
+  width: 100%;
+  height: 100%;
+}
+
+#goal-container
+{
+  height: 100%;
+  position: relative;
+  background-color: red;
+}
+
+#goal-bar {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: var(--bar-color);
+}
+
+#title{
+  padding-bottom: 5px;
+}
+
+#bar-cover {
+    height: 100%;
+    margin-right: 0;
+    position: relative;
+    background-color: var(--bg-fill-color);
+}
+
+#progress {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.top-text-wrapper {
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+
+.inner-wrapper {
+    text-transform: Uppercase;
+    width: 100vw;
+    display: inline-block;
+    text-align: center;
+}
+
+#image {
+    width: 100%;
+  display: flex;
+  height: auto;
+}

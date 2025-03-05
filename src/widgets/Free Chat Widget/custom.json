@@ -1,0 +1,188 @@
+{
+  "testMessageButton": {
+      "label": "Send Test Message",
+      "group": "Preview",
+      "type": "button",
+      "value": "hexeum_test_message"
+    },
+    "previewModeLabel": {
+      "label": "Preview Mode",
+      "group": "Preview",
+      "type": "hidden"
+    },
+    "previewMode": {
+      "label": "Preview Chat Layout",
+      "group": "Preview",
+      "type": "dropdown",
+      "value": "true",
+      "options": {
+        "true": "On",
+        "false": "Off"
+      }
+    },   
+   "borderRoundness":{
+      "group": "Appearance Options",
+      "label": "Edge Roundess",
+      "type": "dropdown",
+        "options": {
+          "straight": "Straight",
+          "soft": "Soft",
+          "round": "Round"
+        },
+      "value": "round"
+    },
+    "borderThickness":{
+      "group": "Chat Box Style",
+      "label": "Border Thickness",
+      "type": "textfield",
+      "value": "2"
+    },
+    "glow": {
+      "label": "Glow",
+      "type": "dropdown",
+        "group": "Chat Box Style",
+            "options": {
+                "true": "On",
+                "false": "Off"
+            },
+      "value": "false"
+    },
+    "borderStyle": {
+      "label": "Border Style",
+      "type": "dropdown",
+        "group": "Chat Box Style",
+            "options": {
+                "simple": "Simple",
+                "detailed": "Detailed"
+            },
+      "value": "simple"
+    },  
+    "chatStyle": {
+      "label": "Chat Style",
+      "type": "dropdown",
+        "group": "Appearance Options",
+            "options": {
+                "box": "Box",
+                "bubbles": "Bubbles"
+            },
+      "value": "bubbles"
+    },  
+    "bgOpacity": {
+      "group": "Chat Box Style",
+        "label": "Background Opacity",
+        "type": "slider",
+        "name": "",
+        "value": 0.1,
+        "max": 1,
+        "min": 0,
+        "steps": 0.1
+    },
+  "fontName": {
+      "type": "googleFont",
+   "group": "Font Options",
+      "label": "Select a font:",
+      "value": "PT Serif"
+    },
+  "fontSize": {
+      "group": "Font Options",
+        "label": "Font Size",
+        "type": "slider",
+        "name": "",
+        "value": 25,
+        "max": 80,
+        "min": 12,
+        "steps": 1
+    },
+  "messageFontWeight": {
+        "label": "Font Thickness",
+        "type": "dropdown",
+    "group": "Font Options",
+        "options": {
+            "100": "Thin (100)",
+            "300": "Light (300)",
+            "400": "Regular (400)",
+            "500": "Medium (500)",
+            "700": "Bold (700)",
+            "900": "Black (900)"
+        },
+        "value": "700"
+    },
+  "usernameFontWeight": {
+        "label": "Font Thickness",
+        "type": "dropdown",
+    "group": "Font Options",
+        "options": {
+            "100": "Thin (100)",
+            "300": "Light (300)",
+            "400": "Regular (400)",
+            "500": "Medium (500)",
+            "700": "Bold (700)",
+            "900": "Black (900)"
+        },
+        "value": "700"
+    },
+    "messageSpacing": {
+      "group": "Appearance Options",
+        "label": "Message Spacing",
+        "type": "slider",
+        "name": "",
+        "value": 0,
+        "max": 20,
+        "min": 0,
+        "steps": 1
+    },
+    "hideCommands": {
+    "type": "checkbox",
+    "group": "Chat Options",
+    "label": "Hide Commands Starting With '!'",
+     "value" : "false"
+  },
+  "mutedUsers": {
+    "label": "Muted users (comma separated)",
+    "group": "Chat Options",
+    "type": "text",
+    "value": ""
+  },
+  "fadeMessages": {
+    "type": "checkbox",
+    "group": "Chat Options",
+    "label": "Hide Messages",
+     "value" : false
+  },
+    "hideMessage": {
+    "type": "number",
+    "group": "Chat Options",
+    "label": "Hide after seconds",
+    "value": 15
+  },
+  "widgetColor": {
+    "label": "Primary Color",
+    "group": "Chat Colors",
+    "type": "colorpicker",
+    "value": "#bb36d9"
+  },
+  "detailColor": {
+      "label": "Secondary Color",
+    "group": "Chat Colors",
+    "type": "colorpicker",
+    "value": "#d55ef0"
+  },
+    "nameColor": {
+    "label": "Username Color",
+    "group": "Chat Colors",
+    "type": "colorpicker",
+    "value": "#fefdfd"
+  },
+  "messageColor": {
+    "label": "Message Color",
+    "group": "Chat Colors",
+    "type": "colorpicker",
+    "value": "#fefdfd"
+  },
+  "messageAnimation": {
+    "type": "checkbox",
+    "group": "Chat Options",
+    "label": "Disable Message Animations",
+     "value" : false
+  }
+   }
