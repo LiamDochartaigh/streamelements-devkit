@@ -11,7 +11,7 @@ npm install
 
 // Or
 
-pnpm instal
+pnpm install
 ```
 
 Then, run with this
