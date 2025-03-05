@@ -27,7 +27,7 @@ pnpm dev
 
 1. Create a new folder under src/widgets with your widgets name
 1. Create 4 seperate files (name them "custom") with .css, .html, .js, .json file extensions
-3. Plug the new folder name and files into the existing imports for `CustomWidgetEditor.vue` and `CustomWidgetPreview.vue`
+3. Plug the new folder name and files into the existing imports for `src/views/CustomWidgetEditor.vue` and `src/views/CustomWidgetPreview.vue`
 4. Also change `currentWidget` to the relevant type `chat` | `eventlist` | `goal`
 
 ```Typescript
