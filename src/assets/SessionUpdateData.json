@@ -1,0 +1,574 @@
+{
+    "session": {
+        "follower-latest": {
+            "avatar": "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg",
+            "providerId": "135181000",
+            "name": "velma",
+            "_id": "654113a0b928ce0e5104bfc7",
+            "sessionTop": false,
+            "type": "follower",
+            "originalEventName": "follower-latest"
+        },
+        "follower-session": {
+            "count": 0
+        },
+        "follower-week": {
+            "count": 0
+        },
+        "follower-month": {
+            "count": 0
+        },
+        "follower-goal": {
+            "amount": 16
+        },
+        "follower-total": {
+            "count": 17
+        },
+        "subscriber-latest": {
+            "name": "",
+            "amount": 0,
+            "tier": "",
+            "message": ""
+        },
+        "subscriber-new-latest": {
+            "amount": 0,
+            "message": "",
+            "name": ""
+        },
+        "subscriber-resub-latest": {
+            "amount": 0,
+            "message": "",
+            "name": ""
+        },
+        "subscriber-gifted-latest": {
+            "amount": 0,
+            "message": "",
+            "name": "",
+            "sender": "",
+            "tier": ""
+        },
+        "subscriber-session": {
+            "count": 0
+        },
+        "subscriber-new-session": {
+            "count": 0
+        },
+        "subscriber-resub-session": {
+            "count": 0
+        },
+        "subscriber-gifted-session": {
+            "count": 0
+        },
+        "subscriber-week": {
+            "count": 0
+        },
+        "subscriber-month": {
+            "count": 0
+        },
+        "subscriber-goal": {
+            "amount": 0
+        },
+        "subscriber-total": {
+            "count": 0
+        },
+        "subscriber-points": {
+            "amount": 0
+        },
+        "subscriber-alltime-gifter": {
+            "amount": 0,
+            "name": ""
+        },
+        "host-latest": {
+            "name": "",
+            "amount": 0
+        },
+        "raid-latest": {
+            "name": "",
+            "amount": 0
+        },
+        "cheer-session": {
+            "amount": 0
+        },
+        "cheer-week": {
+            "amount": 0
+        },
+        "cheer-month": {
+            "amount": 0
+        },
+        "cheer-total": {
+            "amount": 0
+        },
+        "cheer-count": {
+            "count": 0
+        },
+        "cheer-goal": {
+            "amount": 0
+        },
+        "cheer-latest": {
+            "name": "",
+            "amount": 0
+        },
+        "cheer-session-top-donation": {
+            "name": "",
+            "amount": 0
+        },
+        "cheer-weekly-top-donation": {
+            "name": "",
+            "amount": 0
+        },
+        "cheer-monthly-top-donation": {
+            "name": "",
+            "amount": 0
+        },
+        "cheer-alltime-top-donation": {
+            "name": "",
+            "amount": 0
+        },
+        "cheer-session-top-donator": {
+            "name": "",
+            "amount": 0
+        },
+        "cheer-weekly-top-donator": {
+            "name": "",
+            "amount": 0
+        },
+        "cheer-monthly-top-donator": {
+            "name": "",
+            "amount": 0
+        },
+        "cheer-alltime-top-donator": {
+            "name": "",
+            "amount": 0
+        },
+        "tip-latest": {
+            "name": "we",
+            "amount": 38.9,
+            "message": " "
+        },
+        "tip-session-top-donation": {
+            "name": "",
+            "amount": 0
+        },
+        "tip-weekly-top-donation": {
+            "name": "we",
+            "amount": 38.9
+        },
+        "tip-monthly-top-donation": {
+            "name": "we",
+            "amount": 38.9
+        },
+        "tip-alltime-top-donation": {
+            "name": "we",
+            "amount": 38.9
+        },
+        "tip-session-top-donator": {
+            "name": "",
+            "amount": 0
+        },
+        "tip-weekly-top-donator": {
+            "name": "we",
+            "amount": 155.6
+        },
+        "tip-monthly-top-donator": {
+            "name": "we",
+            "amount": 155.6
+        },
+        "tip-alltime-top-donator": {
+            "name": "we",
+            "amount": 155.6
+        },
+        "tip-session": {
+            "amount": 0
+        },
+        "tip-week": {
+            "amount": 0
+        },
+        "tip-month": {
+            "amount": 0
+        },
+        "tip-total": {
+            "amount": 303.76
+        },
+        "tip-count": {
+            "count": 0
+        },
+        "tip-goal": {
+            "amount": 303.76
+        },
+        "merch-goal-orders": {
+            "amount": 0
+        },
+        "merch-goal-items": {
+            "amount": 0
+        },
+        "merch-goal-total": {
+            "amount": 0
+        },
+        "merch-latest": {
+            "amount": 0,
+            "items": [],
+            "name": ""
+        },
+        "follower-recent": [
+            {
+                "avatar": "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg",
+                "providerId": "135181000",
+                "name": "velma",
+                "_id": "654113a0b928ce0e5104bfc7",
+                "sessionTop": false,
+                "type": "follower",
+                "originalEventName": "follower-latest"
+            },
+            {
+                "name": "angeroow",
+                "_id": "5d23b8a9458d820d9f15e0b5",
+                "createdAt": "2019-07-08T21:42:01.453Z",
+                "type": "follower"
+            },
+            {
+                "name": "lco8",
+                "createdAt": "2019-01-19T03:57:31.829Z",
+                "type": "follower"
+            },
+            {
+                "name": "gripzzisdabomb",
+                "createdAt": "2019-01-15T05:06:28.372Z",
+                "type": "follower"
+            },
+            {
+                "name": "jastikamoon",
+                "createdAt": "2019-01-12T01:29:26.667Z",
+                "type": "follower"
+            },
+            {
+                "name": "d3nnyxl",
+                "createdAt": "2019-01-09T13:33:41.901Z",
+                "type": "follower"
+            },
+            {
+                "name": "grandflashmaster",
+                "createdAt": "2018-12-30T19:15:13.318Z",
+                "type": "follower"
+            },
+            {
+                "name": "canibauz",
+                "createdAt": "2018-12-27T11:31:54.572Z",
+                "type": "follower"
+            },
+            {
+                "name": "zboyo",
+                "createdAt": "2018-12-20T06:08:45.291Z",
+                "type": "follower"
+            },
+            {
+                "name": "deadliestace93",
+                "createdAt": "2018-12-19T18:49:06.525Z",
+                "type": "follower"
+            },
+            {
+                "name": "xindrrak",
+                "createdAt": "2018-12-15T20:24:21.692Z",
+                "type": "follower"
+            },
+            {
+                "name": "lordyeshua",
+                "createdAt": "2018-12-12T16:57:35.845Z",
+                "type": "follower"
+            },
+            {
+                "name": "lalalandx2",
+                "createdAt": "2018-12-12T11:08:29.457Z",
+                "type": "follower"
+            },
+            {
+                "name": "firesageplays",
+                "createdAt": "2018-12-11T20:05:23.953Z",
+                "type": "follower"
+            },
+            {
+                "name": "little_mackie",
+                "createdAt": "2018-12-05T09:34:51.437Z",
+                "type": "follower"
+            },
+            {
+                "name": "answessie",
+                "createdAt": "2018-11-28T15:47:04.099Z",
+                "type": "follower"
+            },
+            {
+                "name": "thenewhackandslash",
+                "createdAt": "2018-11-21T19:50:05.194Z",
+                "type": "follower"
+            }
+        ],
+        "subscriber-recent": [],
+        "host-recent": [],
+        "raid-recent": [],
+        "cheer-recent": [],
+        "tip-recent": [
+            {
+                "name": "we",
+                "amount": 38.9,
+                "createdAt": "2022-06-22T07:26:54.035Z",
+                "type": "tip"
+            },
+            {
+                "name": "Tasd",
+                "amount": 5.5,
+                "createdAt": "2022-06-22T07:26:53.879Z",
+                "type": "tip"
+            },
+            {
+                "name": "dsdsd",
+                "amount": 10.5,
+                "createdAt": "2022-06-22T07:26:53.716Z",
+                "type": "tip"
+            },
+            {
+                "name": "Testi",
+                "amount": 0.1,
+                "createdAt": "2022-06-22T07:26:53.561Z",
+                "type": "tip"
+            },
+            {
+                "name": "sd",
+                "amount": 10.5,
+                "createdAt": "2022-06-22T07:26:53.393Z",
+                "type": "tip"
+            },
+            {
+                "name": "Testihg",
+                "amount": 0.78,
+                "createdAt": "2022-06-22T07:26:53.215Z",
+                "type": "tip"
+            },
+            {
+                "name": "LiamDono",
+                "amount": 9.66,
+                "createdAt": "2022-06-22T07:26:53.052Z",
+                "type": "tip"
+            },
+            {
+                "name": "Tasd",
+                "amount": 5.5,
+                "createdAt": "2022-05-25T20:21:14.752Z",
+                "type": "tip"
+            },
+            {
+                "name": "LiamDono",
+                "amount": 9.66,
+                "createdAt": "2022-05-25T20:21:14.694Z",
+                "type": "tip"
+            },
+            {
+                "name": "sd",
+                "amount": 10.5,
+                "createdAt": "2022-05-25T20:21:14.581Z",
+                "type": "tip"
+            },
+            {
+                "name": "Testi",
+                "amount": 0.1,
+                "createdAt": "2022-05-25T20:21:14.501Z",
+                "type": "tip"
+            },
+            {
+                "name": "Testihg",
+                "amount": 0.78,
+                "createdAt": "2022-05-25T20:21:14.419Z",
+                "type": "tip"
+            },
+            {
+                "name": "dsdsd",
+                "amount": 10.5,
+                "createdAt": "2022-05-25T20:21:14.335Z",
+                "type": "tip"
+            },
+            {
+                "name": "we",
+                "amount": 38.9,
+                "createdAt": "2022-05-25T20:21:14.251Z",
+                "type": "tip"
+            },
+            {
+                "name": "Testi",
+                "amount": 0.1,
+                "createdAt": "2022-05-25T14:17:45.964Z",
+                "type": "tip"
+            },
+            {
+                "name": "Tasd",
+                "amount": 5.5,
+                "createdAt": "2022-05-25T14:17:45.894Z",
+                "type": "tip"
+            },
+            {
+                "name": "sd",
+                "amount": 10.5,
+                "createdAt": "2022-05-25T14:17:45.806Z",
+                "type": "tip"
+            },
+            {
+                "name": "we",
+                "amount": 38.9,
+                "createdAt": "2022-05-25T14:17:45.722Z",
+                "type": "tip"
+            },
+            {
+                "name": "dsdsd",
+                "amount": 10.5,
+                "createdAt": "2022-05-25T14:17:45.640Z",
+                "type": "tip"
+            },
+            {
+                "name": "LiamDono",
+                "amount": 9.66,
+                "createdAt": "2022-05-25T14:17:45.551Z",
+                "type": "tip"
+            },
+            {
+                "name": "Testihg",
+                "amount": 0.78,
+                "createdAt": "2022-05-25T14:17:45.471Z",
+                "type": "tip"
+            },
+            {
+                "name": "Tasd",
+                "amount": 5.5,
+                "createdAt": "2022-05-23T16:08:23.171Z",
+                "type": "tip"
+            },
+            {
+                "name": "we",
+                "amount": 38.9,
+                "createdAt": "2022-05-23T16:08:23.118Z",
+                "type": "tip"
+            },
+            {
+                "name": "Testi",
+                "amount": 0.1,
+                "createdAt": "2022-05-23T16:08:23.022Z",
+                "type": "tip"
+            },
+            {
+                "name": "LiamDono",
+                "amount": 9.66,
+                "createdAt": "2022-05-23T16:08:22.901Z",
+                "type": "tip"
+            }
+        ],
+        "merch-recent": [],
+        "charityCampaignDonation-alltime-top-donation": {
+            "amount": 0,
+            "name": ""
+        },
+        "charityCampaignDonation-alltime-top-donator": {
+            "amount": 0,
+            "name": ""
+        },
+        "charityCampaignDonation-latest": {
+            "amount": 0,
+            "name": ""
+        },
+        "charityCampaignDonation-monthly-top-donation": {
+            "amount": 0,
+            "name": ""
+        },
+        "charityCampaignDonation-monthly-top-donator": {
+            "amount": 0,
+            "name": ""
+        },
+        "charityCampaignDonation-recent": [],
+        "charityCampaignDonation-weekly-top-donation": {
+            "amount": 0,
+            "name": ""
+        },
+        "charityCampaignDonation-weekly-top-donator": {
+            "amount": 0,
+            "name": ""
+        },
+        "cheerPurchase-alltime-top-donation": {
+            "amount": 0,
+            "name": ""
+        },
+        "cheerPurchase-alltime-top-donator": {
+            "amount": 0,
+            "name": ""
+        },
+        "cheerPurchase-latest": {
+            "amount": 0,
+            "name": ""
+        },
+        "cheerPurchase-monthly-top-donation": {
+            "amount": 0,
+            "name": ""
+        },
+        "cheerPurchase-monthly-top-donator": {
+            "amount": 0,
+            "name": ""
+        },
+        "cheerPurchase-recent": [],
+        "cheerPurchase-weekly-top-donation": {
+            "amount": 0,
+            "name": ""
+        },
+        "cheerPurchase-weekly-top-donator": {
+            "amount": 0,
+            "name": ""
+        },
+        "purchase-latest": {
+            "amount": 0,
+            "avatar": "",
+            "items": [],
+            "message": "",
+            "name": ""
+        },
+        "superchat-alltime-top-donation": {
+            "amount": 0,
+            "name": ""
+        },
+        "superchat-alltime-top-donator": {
+            "amount": 0,
+            "name": ""
+        },
+        "superchat-count": {
+            "count": 0
+        },
+        "superchat-goal": {
+            "amount": 0
+        },
+        "superchat-latest": {
+            "amount": 0,
+            "name": ""
+        },
+        "superchat-month": {
+            "amount": 0
+        },
+        "superchat-monthly-top-donation": {
+            "amount": 0,
+            "name": ""
+        },
+        "superchat-monthly-top-donator": {
+            "amount": 0,
+            "name": ""
+        },
+        "superchat-recent": [],
+        "superchat-session": {
+            "amount": 0
+        },
+        "superchat-total": {
+            "amount": 0
+        },
+        "superchat-week": {
+            "amount": 0
+        },
+        "superchat-weekly-top-donation": {
+            "amount": 0,
+            "name": ""
+        },
+        "superchat-weekly-top-donator": {
+            "amount": 0,
+            "name": ""
+        }
+    }
+}

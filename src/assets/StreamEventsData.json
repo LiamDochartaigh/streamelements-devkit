@@ -1,0 +1,217 @@
+{
+    "alertEvents": {
+        "follow": {
+            "listener": "follow-latest",
+            "event": {
+                "amount": 1,
+                "avatar": "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg",
+                "providerId": "135181000",
+                "name": "eli",
+                "_id": "6543f2d54e4137463dd0de800e",
+                "sessionTop": false,
+                "type": "follower",
+                "originalEventName": "follower-latest"
+            }
+        },
+        "donoMessage": {
+            "listener": "tip-latest",
+            "event": {
+                "amount": 50,
+                "avatar": "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg",
+                "providerId": "135181000",
+                "gifted": false,
+                "message": "Do not fear a man that spams 1000 memes, instead fear a man that spams a meme 1000 times",
+                "name": "elly",
+                "_id": "6543f2d54e4137463dd0de8e",
+                "sessionTop": false,
+                "type": "tip",
+                "originalEventName": "tip-latest"
+            }
+        },
+        "dono": {
+            "listener": "tip-latest",
+            "event": {
+                "amount": 50,
+                "avatar": "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg",
+                "providerId": "135181000",
+                "name": "darsey",
+                "_id": "6543f331809fd637768e5234",
+                "sessionTop": false,
+                "type": "tip",
+                "originalEventName": "tip-latest"
+            }
+        },
+        "subscriber": {
+            "listener": "subscriber-latest",
+            "event": {
+                "amount": 5,
+                "providerId": "135181000",
+                "name": "olly",
+                "_id": "6543f3b94e4137463dd0f5a1",
+                "sessionTop": false,
+                "type": "subscriber",
+                "originalEventName": "subscriber-latest"
+            }
+        },
+        "giftedSub": {
+            "listener": "subscriber-latest",
+            "event": {
+                "amount": 5,
+                "providerId": "135181000",
+                "sender": "pennie",
+                "gifted": true,
+                "name": "pennie",
+                "_id": "6543f52db928ce0e5137422c",
+                "sessionTop": false,
+                "type": "subscriber",
+                "originalEventName": "subscriber-latest"
+            }
+        },
+        "subMessage": {
+            "listener": "subscriber-latest",
+            "event": {
+                "amount": 1,
+                "providerId": "135181000",
+                "gifted": false,
+                "message": "Howdy, my name is Bill",
+                "name": "jacquenetta",
+                "_id": "6543f55cc77e8d66a6aec1bd",
+                "sessionTop": false,
+                "type": "subscriber",
+                "originalEventName": "subscriber-latest"
+            }
+        },
+        "cheer": {
+            "listener": "cheer-latest",
+            "event": {
+                "amount": 800,
+                "providerId": "135181000",
+                "message": "Do not fear a man that spams 1000 memes, instead fear a man that spams a meme 1000 times Cheer100 Cheer100 Cheer100 Cheer100 Cheer100 Cheer100 Cheer100 Cheer100",
+                "name": "sophronia",
+                "_id": "6543f6f0b0667e30774ca9f2",
+                "sessionTop": true,
+                "type": "cheer",
+                "originalEventName": "cheer-latest"
+            }
+        },
+        "raid": {
+            "listener": "raid-latest",
+            "event": {
+                "amount": 50,
+                "avatar": "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg",
+                "providerId": "135181000",
+                "name": "andra",
+                "_id": "6543f7be809fd637768ec5b0",
+                "sessionTop": false,
+                "type": "raid",
+                "originalEventName": "raid-latest"
+            }
+        }
+    },
+    "chatMessage": {
+        "listener": "message",
+        "event": {
+            "service": "twitch",
+            "data": {
+                "time": 1698339405912,
+                "tags": {
+                    "badge-info": "",
+                    "badges": "broadcaster/1,no_video/1",
+                    "client-nonce": "e9f7e38996c0063fa9a8e2f8fc8c5bc2",
+                    "color": "",
+                    "display-name": "hexeum_gfx",
+                    "emotes": "",
+                    "first-msg": "0",
+                    "flags": "",
+                    "id": "49e016c7-c47b-4679-9cf0-83e27a48dd8d",
+                    "mod": "0",
+                    "returning-chatter": "0",
+                    "room-id": "135181000",
+                    "subscriber": "0",
+                    "tmi-sent-ts": "1698339405295",
+                    "turbo": "0",
+                    "user-id": "135181000",
+                    "user-type": ""
+                },
+                "nick": "hexeum_gfx",
+                "userId": "135181000",
+                "displayName": "hexeum_gfx",
+                "displayColor": "",
+                "badges": [
+                    {
+                        "type": "moderator",
+                        "version": "1",
+                        "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+                        "description": "Moderator"
+                    }
+                ],
+                "channel": "hexeum_gfx",
+                "text": "efefefefe",
+                "isAction": false,
+                "emotes": [
+                    {
+                        "type": "ffz",
+                        "name": "CatBag",
+                        "id": "25927",
+                        "gif": false,
+                        "urls": {
+                            "1": "https://cdn.frankerfacez.com/emote/25927/1",
+                            "2": "https://cdn.frankerfacez.com/emote/25927/2",
+                            "4": "https://cdn.frankerfacez.com/emote/25927/4"
+                        },
+                        "start": 0,
+                        "end": 6
+                    },
+                    {
+                        "type": "bttv",
+                        "name": "TwaT",
+                        "id": "54fa935601e468494b85b557",
+                        "gif": false,
+                        "urls": {
+                            "1": "https://cdn.betterttv.net/emote/54fa935601e468494b85b557/1x",
+                            "2": "https://cdn.betterttv.net/emote/54fa935601e468494b85b557/2x",
+                            "4": "https://cdn.betterttv.net/emote/54fa935601e468494b85b557/3x"
+                        },
+                        "start": 8,
+                        "end": 12
+                    },
+                    {
+                        "type": "twitch",
+                        "name": "LUL",
+                        "id": "425618",
+                        "gif": false,
+                        "urls": {
+                            "1": "https://static-cdn.jtvnw.net/emoticons/v2/425618/default/dark/1.0",
+                            "2": "https://static-cdn.jtvnw.net/emoticons/v2/425618/default/dark/2.0",
+                            "4": "https://static-cdn.jtvnw.net/emoticons/v2/425618/default/dark/3.0"
+                        },
+                        "start": 13,
+                        "end": 15
+                    }
+                ],
+                "msgId": "49e016c7-c47b-4679-9cf0-83e27a48dd8d"
+            },
+            "renderedText": "efefefefe"
+        }
+    },
+    "deleteMessage": {
+        "listener": "delete-message",
+        "event": {
+            "msgId": "5bc31d84-de94-4f7e-b2a2-668ddadb3049"
+        }
+    },
+    "deleteMessages": {
+        "listener": "delete-messages",
+        "event": {
+            "userId": "100135110"
+        }
+    },
+    "editorButtonClickEvent": {
+        "listener": "event:test",
+        "event": {
+            "listener": "widget-button",
+            "field": "testMessageButton",
+            "value": "hexeum_test_message"
+        }
+    }
+}

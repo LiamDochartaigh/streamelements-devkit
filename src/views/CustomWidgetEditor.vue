@@ -41,9 +41,9 @@ import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import lodash from "lodash";
 
 import CustomField from "@/components/CustomFields/CustomField.vue";
-import seData from "../widgets/StreamElementsData.json"
-import eventsData from "../widgets/StreamEventsData.json"
-import SessionData from "../widgets/SessionUpdateData.json";
+import seData from "../assets/StreamElementsData.json"
+import eventsData from "../assets/StreamEventsData.json"
+import SessionData from "../assets/SessionUpdateData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { v4 as uuidv4 } from 'uuid';
 
