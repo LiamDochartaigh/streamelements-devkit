@@ -3,7 +3,7 @@
         <div class="sidebar">
             <div v-for="(group, index) in customFieldGroups" :key="index">
                 <span @click="ExpandSidebarGroup(`${group}Group${index + 1}`.replace(/\s+/g, ''))"><strong>{{ group
-                }}</strong></span>
+                        }}</strong></span>
                 <div class="custom-field-group"
                     :ref="el => customFieldsRefs[`${group}Group${index + 1}`.replace(/\s+/g, '')] = el"
                     style="display: none; padding: 0px 5px 0px 5px;">
@@ -380,7 +380,7 @@ function SimulateChat(continuously: boolean = true) {
             eventData = GenerateRandomMessage();
             chatCounter++;
         }
-        else{
+        else {
             eventData = GenerateRandomEvent();
             chatCounter = 0;
         }
