@@ -3,19 +3,19 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { Assets, Widget, WidgetRegistryOptions } from './types';
 
-export default function widgetRegistryPlugin(options: WidgetRegistryOptions = {
-    modulesDir: 'src/widgets',
-    outputFile: 'src/widget-registry.ts',
-    fileExtensions: {
-      js: ['.js'],
-      css: ['.css',],
-      template: ['.html',],
-      fields: ['.json',],
-    }
-  }) {
+export default function widgetRegistry(options: WidgetRegistryOptions = {
+  modulesDir: 'src/widgets',
+  outputFile: 'src/widget-registry.ts',
+  fileExtensions: {
+    js: ['.js'],
+    css: ['.css',],
+    template: ['.html',],
+    fields: ['.json',],
+  }
+}) {
   const { modulesDir, outputFile, fileExtensions } = options;
   return {
-    name: 'widget-registry-plugin',
+    name: 'widget-registry',
 
     async buildStart() {
       try {
@@ -75,6 +75,8 @@ export const modules: ModuleInfo[] = ${JSON.stringify(modules, null, 2)};
 export default modules;
 `;
 
+
+        console.log(modules);
         // Ensure output directory exists
         const outputDir = path.dirname(outputFile);
         await fs.mkdir(outputDir, { recursive: true });
