@@ -1,4 +1,3 @@
-// plugins/module-registry/index.ts
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { Assets, Widget, WidgetRegistryOptions } from './types';
@@ -75,8 +74,6 @@ export const modules: ModuleInfo[] = ${JSON.stringify(modules, null, 2)};
 export default modules;
 `;
 
-
-        console.log(modules);
         // Ensure output directory exists
         const outputDir = path.dirname(outputFile);
         await fs.mkdir(outputDir, { recursive: true });

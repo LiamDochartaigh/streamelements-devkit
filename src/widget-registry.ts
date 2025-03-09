@@ -1,5 +1,5 @@
 // Auto-generated module registry
-// Generated on 2025-03-08T16:53:24.901Z
+// Generated on 2025-03-09T18:27:14.064Z
 // DO NOT EDIT MANUALLY
 
 export interface ModuleAsset {
