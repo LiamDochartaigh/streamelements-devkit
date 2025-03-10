@@ -59,19 +59,7 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
         const content = `// Auto-generated module registry
 // Generated on ${new Date().toISOString()}
 
-interface ModuleAsset {
-  js?: string;
-  css?: string;
-  template?: string;
-  [key: string]: string | undefined;
-}
-
-interface ModuleInfo {
-  name: string;
-  assets: ModuleAsset;
-}
-
-export const modules: ModuleInfo[] = ${stringifyWidgets};`;
+export const widgets = ${stringifyWidgets};`;
 
         // Ensure output directory exists
         const outputDir = path.dirname(outputFile);

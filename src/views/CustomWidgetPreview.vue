@@ -13,19 +13,18 @@ import eventsData from "../assets/StreamEventsData.json"
 import SessionData from "../assets/SessionUpdateData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { v4 as uuidv4 } from 'uuid';
+import { widgets } from "@/widget-registry";
 
 //CHANGE ACTIVE WIDGET AND WIDGET TYPE HERE
 let currentWidget: WidgetTypes = WidgetTypes.chat;
-import customHTML from "../widgets/Free Chat Widget/custom.html?raw"
-import customCSS from "../widgets/Free Chat Widget/custom.css?raw"
-import customFields from "../widgets/Free Chat Widget/custom.json"
-import customJS from "../widgets/Free Chat Widget/custom.js?raw"
+const widgetName = useRouter().currentRoute.value.query.name as string;
+const widget = widgets.find(widget => widget.name === widgetName)!;
 
-const originalFieldsdata: IndexableType = customFields;
-const fieldsdata: IndexableType = customFields;
-const updatedCSS = ref(customCSS);
-const updatedJS = ref(customJS);
-const updatedHTML = ref(customHTML);
+const originalFieldsdata: IndexableType = JSON.parse(widget.assets.fields);
+const fieldsdata: IndexableType = JSON.parse(widget.assets.fields);
+const updatedCSS = ref(widget.assets.css);
+const updatedJS = ref(widget.assets.js);
+const updatedHTML = ref(widget.assets.template);
 const updatedSeData: IndexableType = seData;
 const eventsDataTypes: IndexableType = eventsData;
 const iFrameContainer = ref();
@@ -234,10 +233,10 @@ function InitializeWidget() {
         updatedSeData.fieldData[key] = fieldsdata[key].value;
     });
 
-    updatedCSS.value = ApplyTemplateToFile(customCSS);
-    updatedJS.value = ApplyTemplateToFile(customJS);
+    updatedCSS.value = ApplyTemplateToFile(widget.assets.css);
+    updatedJS.value = ApplyTemplateToFile(widget.assets.js);
     updatedJS.value = WrapJSFile(updatedJS.value);
-    updatedHTML.value = ApplyTemplateToFile(customHTML);
+    updatedHTML.value = ApplyTemplateToFile(widget.assets.template);
     iFrameContainer.value.innerHTML = "";
     const iframe = document.createElement('iframe');
     iframe.srcdoc = updatedHTML.value;

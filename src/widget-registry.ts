@@ -1,19 +1,7 @@
 // Auto-generated module registry
-// Generated on 2025-03-10T21:49:39.690Z
+// Generated on 2025-03-10T22:26:26.295Z
 
-interface ModuleAsset {
-  js?: string;
-  css?: string;
-  template?: string;
-  [key: string]: string | undefined;
-}
-
-interface ModuleInfo {
-  name: string;
-  assets: ModuleAsset;
-}
-
-export const modules: ModuleInfo[] = [
+export const widgets = [
   {
     name: "Free Chat Widget",
     assets: {
