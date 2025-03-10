@@ -52,29 +52,26 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
           });
         }
 
+        let stringifyWidgets = JSON.stringify(modules, null, 2);
+        stringifyWidgets = stringifyWidgets.replace(/"([a-zA-Z_$][a-zA-Z0-9_$]*)"\s*:/g, '$1:');
+
         // Generate the TypeScript file content
         const content = `// Auto-generated module registry
 // Generated on ${new Date().toISOString()}
-// DO NOT EDIT MANUALLY
 
-export interface ModuleAsset {
+interface ModuleAsset {
   js?: string;
   css?: string;
   template?: string;
   [key: string]: string | undefined;
 }
 
-export interface ModuleInfo {
+interface ModuleInfo {
   name: string;
   assets: ModuleAsset;
 }
 
-export const modules: ModuleInfo[] = {
-  ${modules[0]}
-}
-
-export default modules;
-`;
+export const modules: ModuleInfo[] = ${stringifyWidgets};`;
 
         // Ensure output directory exists
         const outputDir = path.dirname(outputFile);
