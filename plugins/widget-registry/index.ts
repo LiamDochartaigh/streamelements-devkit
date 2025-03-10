@@ -69,7 +69,9 @@ export interface ModuleInfo {
   assets: ModuleAsset;
 }
 
-export const modules: ModuleInfo[] = ${JSON.stringify(modules, null, 2)};
+export const modules: ModuleInfo[] = {
+  ${modules[0]}
+}
 
 export default modules;
 `;
