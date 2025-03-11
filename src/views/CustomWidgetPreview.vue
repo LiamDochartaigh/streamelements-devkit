@@ -15,7 +15,7 @@ import { type IndexableType } from '@/utility/CustomTypes';
 import { v4 as uuidv4 } from 'uuid';
 import { widgets } from "@/widget-registry";
 
-//CHANGE ACTIVE WIDGET AND WIDGET TYPE HERE
+//CHANGE WIDGET TYPE HERE
 let currentWidget: WidgetTypes = WidgetTypes.chat;
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
