@@ -4,10 +4,8 @@
         <input type="text" :value="props.fieldData?.value" @input="TextChanged" />
     </div>
 </template>
-    
-<script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
 
+<script setup lang="ts">
 const props = defineProps({
     fieldData: Object
 });
@@ -19,5 +17,5 @@ function TextChanged(event: Event) {
     emit('input', target.value);
 }
 </script>
-    
+
 <style></style>

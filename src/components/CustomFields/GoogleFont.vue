@@ -5,9 +5,7 @@
     </div>
     </template>
     
-    <script setup lang="ts">
-    import { defineProps, defineEmits } from 'vue';
-    
+    <script setup lang="ts">    
     const props = defineProps({
         fieldData: Object
     });
