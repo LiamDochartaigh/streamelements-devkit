@@ -1,6 +1,7 @@
 // Auto-generated module registry
-// Generated on 2025-03-11T19:42:37.178Z
+// Generated on 2025-03-11T21:31:20.856Z
 
+import Free_Chat_Widget_ts_config from '@/widgets/Free Chat Widget/config';
 import Free_Chat_Widget_css_custom from '@/widgets/Free Chat Widget/custom.css?raw';
 import Free_Chat_Widget_template_custom from '@/widgets/Free Chat Widget/custom.html?raw';
 import Free_Chat_Widget_js_custom from '@/widgets/Free Chat Widget/custom.js?raw';
@@ -22,7 +23,8 @@ export const widgets = [
     template: Free_Chat_Widget_template_custom,
     js: Free_Chat_Widget_js_custom,
     fields: Free_Chat_Widget_fields_custom
-  }
+  },
+  config: Free_Chat_Widget_ts_config
 },
 {
   name: "Test Chatbox",

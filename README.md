@@ -28,7 +28,14 @@ pnpm dev
 1. Create a new folder under src/widgets with your widgets name
 1. Create 4 seperate files (name them "custom") with .css, .html, .js, .json file extensions
 4. Change `currentWidget` to the relevant type `chat` | `eventlist` | `goal` in files `src/views/CustomWidgetEditor.vue` and `src/views/CustomWidgetPreview.vue`
+5. Create a `config.ts` file within the widget folder to define the widget type
+
 ```Typescript
-//CHANGE WIDGET TYPE HERE
-let currentWidget: WidgetTypes = WidgetTypes.chat;
+// config.ts
+
+import type { WidgetConfig } from "../types"
+
+export default {
+    type: 'chat'
+} as WidgetConfig
 ```

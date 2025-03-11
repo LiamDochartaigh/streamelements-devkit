@@ -3,7 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, defineAsyncComponent } from 'vue';
 import { type IndexableType } from '@/utility/CustomTypes';
 const props = defineProps({
     type: String,

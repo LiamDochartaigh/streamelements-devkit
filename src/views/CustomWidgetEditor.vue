@@ -48,11 +48,10 @@ import { type IndexableType } from '@/utility/CustomTypes';
 import { v4 as uuidv4 } from 'uuid';
 import { widgets } from "@/widget-registry";
 
-//CHANGE WIDGET TYPE HERE
-let currentWidget: WidgetTypes = WidgetTypes.chat;
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
 
+const currentWidget = widget.config?.type;
 const originalFieldsdata: IndexableType = JSON.parse(widget.assets.fields);
 const fieldsdata: IndexableType = JSON.parse(widget.assets.fields);
 const updatedCSS = ref(widget.assets.css);
@@ -62,11 +61,6 @@ const updatedSeData: IndexableType = seData;
 const eventsDataTypes: IndexableType = eventsData;
 const iFrameContainer = ref();
 const timeoutId = ref<number | null>(null);
-const enum WidgetTypes {
-    chat,
-    goal,
-    eventlist
-}
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
 let chatMessageIds: string[] = [];
@@ -275,13 +269,13 @@ function WrapJSFile(fileString: string) {
 }
 
 const widgetDimensions = computed(() => {
-    if (currentWidget == WidgetTypes.chat) {
+    if (currentWidget == 'chat') {
         return [800, 1000];
     }
-    else if (currentWidget == WidgetTypes.goal) {
+    else if (currentWidget == 'goal') {
         return [1435, 290];
     }
-    else if (currentWidget == WidgetTypes.eventlist) {
+    else if (currentWidget == 'eventlist') {
         return [800, 800];
     }
     else {
@@ -329,13 +323,13 @@ function InitializeWidget() {
                 iFrameDocument.body.style.height = widgetDimensions.value[1] + 'px';
                 iFrameDocument.body.style.overflow = 'hidden';
 
-                if (currentWidget === WidgetTypes.chat) {
+                if (currentWidget === 'chat') {
                     LoadChatBox();
                 }
-                else if (currentWidget === WidgetTypes.goal) {
+                else if (currentWidget === 'goal') {
                     LoadGoals();
                 }
-                else if (currentWidget === WidgetTypes.eventlist) {
+                else if (currentWidget === 'eventlist') {
                 }
                 else {
                     console.log("Invalid Widget Type");

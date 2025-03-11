@@ -33,18 +33,26 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
           const moduleFiles = await fs.readdir(modulePath);
 
           const assets: Assets = {};
+          let config;
 
           for (const file of moduleFiles) {
             const extension = path.extname(file);
 
             for (const [assetType, validExtensions] of Object.entries(fileExtensions)) {
               if (validExtensions.includes(extension)) {
-
                 const importPath = path.join('@/widgets', moduleName, file)
                   .replace(/\\/g, '/');
-
-                const newImport = generateImport(importPath, assetType);
+                const newImport = generateImport({ filePath: importPath, type: assetType, raw: true });
                 assets[assetType] = `${newImport.name}`;
+                imports.push(newImport.statement);
+                break;
+              }
+              else if (extension === '.ts') {
+                const importPath = path.join('@/widgets', moduleName, file)
+                  .replace(/\\/g, '/').replace(/\.ts$/g, '');;
+                  
+                const newImport = generateImport({ filePath: importPath, type: 'ts', raw: false });
+                config = newImport.name;
                 imports.push(newImport.statement);
                 break;
               }
@@ -53,11 +61,12 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
 
           modules.push(JSON.stringify({
             name: moduleName,
-            assets
+            assets,
+            config,
           }, null, 2));
         }
 
-        const assetsReg = new RegExp(`(${Object.keys(fileExtensions).join('|')}):\\s*['"](.+?)['"]`, 'g');
+        const assetsReg = new RegExp(`(${Object.keys(fileExtensions).concat('config').join('|')}):\\s*['"](.+?)['"]`, 'g');
         let stringifyWidgets = modules.join(',\n').replace(/"([a-zA-Z_$][a-zA-Z0-9_$]*)"\s*:/g, '$1:');
         stringifyWidgets = stringifyWidgets.replace(assetsReg, '$1: $2');
 
@@ -86,7 +95,7 @@ ${stringifyWidgets}
   };
 }
 
-function generateImport(filePath: string, type: string) {
+function generateImport({ filePath, type, raw }: { filePath: string, type: string, raw?: boolean }) {
 
   const pathParts = filePath.split('/');
   const widgetName = pathParts[pathParts.length - 2] || 'unknown';
@@ -102,7 +111,7 @@ function generateImport(filePath: string, type: string) {
   // Import statements need to be relevant to the output file location
 
   return {
-    statement: `import ${sanitizedWidgetName}_${type}_${sanitizedFileName} from '${filePath}?raw';`,
+    statement: `import ${sanitizedWidgetName}_${type}_${sanitizedFileName} from '${filePath + (raw ? '?raw' : '')}';`,
     name: `${sanitizedWidgetName}_${type}_${sanitizedFileName}`,
   };
 }
