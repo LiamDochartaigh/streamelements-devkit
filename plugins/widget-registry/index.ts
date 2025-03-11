@@ -21,8 +21,10 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
         const modulesFolderPath = path.resolve(modulesDir);
         const moduleFolders = await fs.readdir(modulesFolderPath, { withFileTypes: true });
 
-        const modules: Widget[] = [];
+        const modules: string[] = [];
+        const imports: string[] = [];
 
+        // Turn folders into modules
         for (const folder of moduleFolders) {
           if (!folder.isDirectory()) continue;
 
@@ -40,26 +42,35 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
                 const relativePath = path.join(modulesDir, moduleName, file)
                   .replace(/\\/g, '/');
 
-                assets[assetType] = `./${relativePath}`;
+                const newImport = generateImport(relativePath, assetType);
+
+                assets[assetType] = `${newImport.name}`;
+                imports.push(newImport.statement);
                 break;
               }
             }
           }
 
-          modules.push({
+          console.log('the imports ', imports);
+
+          modules.push(JSON.stringify({
             name: moduleName,
             assets
-          });
+          }, null, 2));
         }
 
-        let stringifyWidgets = JSON.stringify(modules, null, 2);
-        stringifyWidgets = stringifyWidgets.replace(/"([a-zA-Z_$][a-zA-Z0-9_$]*)"\s*:/g, '$1:');
-
+        const assetsReg = new RegExp(`(${Object.keys(fileExtensions).join('|')}):\\s*['"](.+?)['"]`, 'g');
+        let stringifyWidgets = modules.join(',\n').replace(/"([a-zA-Z_$][a-zA-Z0-9_$]*)"\s*:/g, '$1:');
+        stringifyWidgets.replace(assetsReg, '$1: $2');
         // Generate the TypeScript file content
         const content = `// Auto-generated module registry
 // Generated on ${new Date().toISOString()}
 
-export const widgets = ${stringifyWidgets};`;
+${imports.join('\n')}
+
+export const widgets = [
+${stringifyWidgets}
+];`;
 
         // Ensure output directory exists
         const outputDir = path.dirname(outputFile);
@@ -73,5 +84,24 @@ export const widgets = ${stringifyWidgets};`;
         console.error('Error generating module registry:', error);
       }
     }
+  };
+}
+
+function generateImport(filePath: string, type: string) {
+
+  const pathParts = filePath.split('/');
+  const widgetName = pathParts[pathParts.length - 2] || 'unknown';
+
+  const sanitizedWidgetName = widgetName
+    .replace(/[^a-zA-Z0-9_]/g, '_')
+    .replace(/^[0-9]/, '_$&')
+    .replace(/_{2,}/g, '_');
+
+  const fileName = pathParts[pathParts.length - 1].split('.')[0];
+  const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9_]/g, '_');
+
+  return {
+    statement: `import ${sanitizedWidgetName}_${type}_${sanitizedFileName} from '${filePath}?raw';`,
+    name: `${sanitizedWidgetName}_${type}_${sanitizedFileName}`,
   };
 }
