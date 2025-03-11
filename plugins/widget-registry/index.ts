@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import type { Assets, Widget, WidgetRegistryOptions } from './types';
+import type { Assets, WidgetRegistryOptions } from './types';
 
 export default function widgetRegistry(options: WidgetRegistryOptions = {
   modulesDir: 'src/widgets',
@@ -39,19 +39,17 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
 
             for (const [assetType, validExtensions] of Object.entries(fileExtensions)) {
               if (validExtensions.includes(extension)) {
-                const relativePath = path.join(modulesDir, moduleName, file)
+
+                const importPath = path.join('@/widgets', moduleName, file)
                   .replace(/\\/g, '/');
 
-                const newImport = generateImport(relativePath, assetType);
-
+                const newImport = generateImport(importPath, assetType);
                 assets[assetType] = `${newImport.name}`;
                 imports.push(newImport.statement);
                 break;
               }
             }
           }
-
-          console.log('the imports ', imports);
 
           modules.push(JSON.stringify({
             name: moduleName,
@@ -61,7 +59,8 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
 
         const assetsReg = new RegExp(`(${Object.keys(fileExtensions).join('|')}):\\s*['"](.+?)['"]`, 'g');
         let stringifyWidgets = modules.join(',\n').replace(/"([a-zA-Z_$][a-zA-Z0-9_$]*)"\s*:/g, '$1:');
-        stringifyWidgets.replace(assetsReg, '$1: $2');
+        stringifyWidgets = stringifyWidgets.replace(assetsReg, '$1: $2');
+
         // Generate the TypeScript file content
         const content = `// Auto-generated module registry
 // Generated on ${new Date().toISOString()}
@@ -99,6 +98,8 @@ function generateImport(filePath: string, type: string) {
 
   const fileName = pathParts[pathParts.length - 1].split('.')[0];
   const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9_]/g, '_');
+
+  // Import statements need to be relevant to the output file location
 
   return {
     statement: `import ${sanitizedWidgetName}_${type}_${sanitizedFileName} from '${filePath}?raw';`,

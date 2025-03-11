@@ -18,7 +18,7 @@ const router = createRouter({
     },
     {
       path: '/preview-widget',
-      name: 'wigdet-preview',
+      name: 'preview-widget',
       component: WidgetPreview
     }
   ]
