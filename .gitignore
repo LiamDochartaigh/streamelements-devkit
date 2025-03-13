@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 /src/widgets/*
-!/src/widgets/.gitkeep
+!/src/widgets/Free-Chat-Widget
 .DS_Store
 dist
 dist-ssr
