@@ -47,6 +47,8 @@ import SessionData from "../assets/SessionUpdateData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { v4 as uuidv4 } from 'uuid';
 import { widgets } from "@/widget-registry";
+import SE_API from "@/assets/SE_API?raw";
+import { k } from "vite/dist/node/types.d-aGj9QkWt";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
@@ -204,7 +206,6 @@ const PREVIEW_CHAT_MESSAGES = [
 
 let sessionData: IndexableType = lodash.cloneDeep(SessionData);
 
-
 function FieldUpdated(event: any, fieldName: any) {
     fieldsdata[fieldName].value = event;
     ResetWidget();
@@ -313,12 +314,17 @@ function InitializeWidget() {
                 scriptElement.innerHTML = updatedJS.value;
                 scriptElement.id = "custom-widget-script";
 
+                const apiElement = iFrameDocument.createElement('script');
+                apiElement.innerHTML = SE_API;
+                apiElement.id = "custom-widget-api";
+
                 const styleElement = iFrameDocument.createElement('style');
                 styleElement.textContent = updatedCSS.value;
                 styleElement.id = "custom-widget-style";
 
                 iFrameDocument.head.appendChild(styleElement);
                 iFrameDocument.head.appendChild(scriptElement);
+                iFrameDocument.head.appendChild(apiElement);
 
                 iFrameDocument.body.style.height = widgetDimensions.value[1] + 'px';
                 iFrameDocument.body.style.overflow = 'hidden';
@@ -464,7 +470,7 @@ function DeleteRandomMessage() {
     DispatchIframeEvent(event);
 }
 
-function DispatchIframeEvent(event: CustomEvent) {
+function DispatchIframeEvent(event: CustomEvent | MessageEvent) {
     const iframe = iFrameContainer.value.querySelector('iframe') as HTMLIFrameElement;
     const iframeWindow = iframe.contentWindow;
     if (iframeWindow) {
@@ -472,15 +478,48 @@ function DispatchIframeEvent(event: CustomEvent) {
     }
 }
 
+function MessageHandler(event: MessageEvent<{
+    key: string;
+    request: string;
+    response: string;
+    value: string;
+}>): void {
+
+    const resolveEvent = (result: any) => new MessageEvent('message', {
+        data: {
+            listener: event.data.response,
+            event: undefined,
+            result: result
+        }
+    });
+
+    if (event.data.request == 'store_set') {
+        localStorage.setItem(event.data.key, event.data.value);
+        DispatchIframeEvent(resolveEvent({
+            key: event.data.key,
+            message: 'successfully updated key'
+        }));
+    }
+    else if (event.data.request == 'store_get') {
+        const data = localStorage.getItem(event.data.key);
+        DispatchIframeEvent(resolveEvent({
+            value: data
+        }));
+    }
+}
+
 onMounted(() => {
     ResetWidget()
     BuildSidebar();
+
+    window.addEventListener('message', MessageHandler);
 });
 
 onBeforeUnmount(() => {
     if (timeoutId.value) {
         clearTimeout(timeoutId.value);
     }
+    window.removeEventListener('message', MessageHandler);
 })
 </script>
 

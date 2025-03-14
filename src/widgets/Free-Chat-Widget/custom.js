@@ -9,7 +9,7 @@ let chatStyle;
 //Platform Specific
 let goalTypeSelector, countTypeSelector;
 let minPadding = 5;
-let thickness = ({{borderThickness}} ?? 0) < minPadding ? minPadding: {{borderThickness}} ?? 0;
+let thickness = ({{borderThickness}} ?? 0) < minPadding ?minPadding: {{borderThickness}} ?? 0;
 let paddingBorder;
 let shapeRoundness;
 let roundSetting;
@@ -155,7 +155,18 @@ const PREVIEW_CHAT_EMOTES = [
   }
 ];
 
+async function SetData() {
+  console.log("Widget Loaded ", await SE_API.store.set('tester', 'imagine some val'));
+  console.log('API Finished', SE_API);
+  GetData();
+}
+
+async function GetData(){
+  console.log("Getting Data ", await SE_API.store.get('tester'));
+}
+
 window.addEventListener('onWidgetLoad', function (obj) {
+  SetData();
   let fieldData = obj.detail.fieldData;
   hideMessageTime = fieldData.hideMessage;
   hideCommands = fieldData.hideCommands;
@@ -209,10 +220,10 @@ function BuildNewChatMessage(data) {
   }
 }
 
-function BuildBadges(badges){
+function BuildBadges(badges) {
   let formattedBadges = "";
   for (let i = 0; i < badges.length; i++) {
-    formattedBadges += `<img alt="" src="${ badges[i].url}" class="badge"> `;
+    formattedBadges += `<img alt="" src="${badges[i].url}" class="badge"> `;
   }
   return formattedBadges;
 }
@@ -497,15 +508,14 @@ function GetYIntercept(point, slope) {
 function CreateParallelLine(slope, originalYIntercept, distance) {
 
   direction = -1;
-console.log("Slope: ", slope, "Direction: ", direction, 'Original Y Intercept: ', originalYIntercept);
+  console.log("Slope: ", slope, "Direction: ", direction, 'Original Y Intercept: ', originalYIntercept);
 
-//Happens for horizontal lines
-   if (isFinite(slope)) {
+  //Happens for horizontal lines
+  if (isFinite(slope)) {
     return originalYIntercept + direction * distance * Math.sqrt(1 + Math.pow(slope, 2));
-  } else
-  {
+  } else {
     return originalYIntercept + direction * distance;
-    }
+  }
 }
 
 function calculateIntersection(slope1, yIntercept1, slope2, yIntercept2) {
@@ -569,35 +579,35 @@ function BuildPath(pathPoints, innerPadding = 50) {
     const secondSlope = CalculateSlope(currentPoint, nextPoint);
 
     //If the slopes are the same, the lines are parallel
-    if(firstSlope == secondSlope){
+    if (firstSlope == secondSlope) {
       return null;
     }
-  
-    const firstDirection = (firstSlope < 0 || firstSlope == -0)? -1 : 1;
+
+    const firstDirection = (firstSlope < 0 || firstSlope == -0) ? -1 : 1;
     const secondDirection = (secondSlope < 0 || secondSlope == -0) ? -1 : 1;
     console.log("First Slope: ", firstSlope, "Second Slope: ", secondSlope);
-    console.log("First Dir: ", firstDirection, "Second Dir: ", secondDirection);  
+    console.log("First Dir: ", firstDirection, "Second Dir: ", secondDirection);
 
     //In this case we only can have a horizontal, vertical or normal line
-    if((firstSlope == 0  || secondSlope == 0) 
-      && (!isFinite(firstSlope) || !isFinite(secondSlope))){
+    if ((firstSlope == 0 || secondSlope == 0)
+      && (!isFinite(firstSlope) || !isFinite(secondSlope))) {
       const xPosition = currentPoint.x + (innerPadding * firstDirection);
       const yPosition = currentPoint.y + (innerPadding * secondDirection);
       console.log("Intersection then can only be ", xPosition, yPosition);
     }
-    
-    
+
+
     //const firstIntercept = GetYIntercept(currentPoint, firstSlope);
     //const firstParralelIntercept = CreateParallelLine(firstSlope, firstIntercept, innerPadding);
     // console.log("First Deets ", firstSlope, firstIntercept, firstParralelIntercept);
-    
+
     //const secondIntercept = GetYIntercept(nextPoint, secondSlope);
     //const secondParralelIntercept = CreateParallelLine(secondSlope, secondIntercept, innerPadding);
 
     // console.log("Second Deets ", secondSlope, secondIntercept, secondParralelIntercept);
 
     //const intersection = CalculateIntersection(firstSlope, firstParralelIntercept, secondSlope, secondParralelIntercept);
-    
+
     //console.log('Intersection: ', intersection);
 
     // if (!path) {
