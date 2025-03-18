@@ -6,6 +6,9 @@
     },
     {
       "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./src/widgets/tsconfig.json"
     }
   ],
   "compilerOptions": {

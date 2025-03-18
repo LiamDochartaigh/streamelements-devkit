@@ -1,3 +1,6 @@
+const ok = timerVal;
+const tester = same;
+
 let hideMessageTime;
 let hideCommands;
 let mutedUsers = [];
@@ -9,13 +12,13 @@ let chatStyle;
 //Platform Specific
 let goalTypeSelector, countTypeSelector;
 let minPadding = 5;
-let thickness = ({{borderThickness}} ?? 0) < minPadding ?minPadding: {{borderThickness}} ?? 0;
+let thickness = ({{ borderThickness }} ?? 0)<minPadding ? minPadding : {{ borderThickness }} ?? 0;
 let paddingBorder;
 let shapeRoundness;
 let roundSetting;
 let widgetWidth;
 let wigdetPadding = 20;
-let widgetGlow = {{glow}};
+let widgetGlow = {{ glow }};
 let borderStyle = "{{borderStyle}}";
 let innerBorderPadding = 2;
 let outerBorderPadding = 2;
@@ -161,7 +164,7 @@ async function SetData() {
   GetData();
 }
 
-async function GetData(){
+async function GetData() {
   console.log("Getting Data ", await SE_API.store.get('tester'));
 }
 
