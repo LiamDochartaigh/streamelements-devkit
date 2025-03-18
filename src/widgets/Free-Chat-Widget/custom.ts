@@ -1,6 +1,3 @@
-const ok = timerVal;
-const tester = same;
-
 let hideMessageTime;
 let hideCommands;
 let mutedUsers = [];

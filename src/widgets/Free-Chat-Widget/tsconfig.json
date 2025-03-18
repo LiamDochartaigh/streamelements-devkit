@@ -1,0 +1,12 @@
+{
+  "include": [
+    "./**/*.ts"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strict": true,
+  }
+}

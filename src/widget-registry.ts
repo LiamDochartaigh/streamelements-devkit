@@ -1,5 +1,5 @@
 // Auto-generated module registry
-// Generated on 2025-03-18T17:00:47.788Z
+// Generated on 2025-03-18T20:03:23.821Z
 
 import Astro_Chat_Box_ts_config from '@/widgets/Astro Chat Box/config';
 import Astro_Chat_Box_css_custom from '@/widgets/Astro Chat Box/custom.css?raw';
@@ -17,6 +17,7 @@ import Free_Chat_Widget_template_custom from '@/widgets/Free-Chat-Widget/custom.
 import Free_Chat_Widget_fields_custom from '@/widgets/Free-Chat-Widget/custom.json?raw';
 import Free_Chat_Widget_ts_custom from '@/widgets/Free-Chat-Widget/custom';
 import Free_Chat_Widget_ts_new_fields from '@/widgets/Free-Chat-Widget/new-fields.d';
+import Free_Chat_Widget_fields_tsconfig from '@/widgets/Free-Chat-Widget/tsconfig.json?raw';
 import Hacker_Chat_Box_ts_config from '@/widgets/Hacker Chat Box/config';
 import Hacker_Chat_Box_css_custom from '@/widgets/Hacker Chat Box/custom.css?raw';
 import Hacker_Chat_Box_template_custom from '@/widgets/Hacker Chat Box/custom.html?raw';
@@ -69,7 +70,7 @@ export const widgets = [
   assets: {
     css: Free_Chat_Widget_css_custom,
     template: Free_Chat_Widget_template_custom,
-    fields: Free_Chat_Widget_fields_custom
+    fields: Free_Chat_Widget_fields_tsconfig
   },
   config: Free_Chat_Widget_ts_new_fields
 },
