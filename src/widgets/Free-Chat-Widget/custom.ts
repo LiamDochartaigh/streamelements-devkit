@@ -1,3 +1,5 @@
+export {}
+
 let hideMessageTime;
 let hideCommands;
 let mutedUsers = [];

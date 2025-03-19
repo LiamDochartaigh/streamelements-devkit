@@ -18,11 +18,10 @@ import { widgets } from "@/widget-registry";
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
 
-const currentWidget = widget.config?.type;
 const originalFieldsdata: IndexableType = JSON.parse(widget.assets.fields);
 const fieldsdata: IndexableType = JSON.parse(widget.assets.fields);
 const updatedCSS = ref(widget.assets.css);
-const updatedJS = ref(widget.assets.js);
+const updatedJS = ref(widget.assets.js ?? widget.assets.ts);
 const updatedHTML = ref(widget.assets.template);
 const updatedSeData: IndexableType = seData;
 const eventsDataTypes: IndexableType = eventsData;
@@ -211,18 +210,7 @@ function WrapJSFile(fileString: string) {
 }
 
 const widgetDimensions = computed(() => {
-    if (currentWidget == 'chat') {
-        return [800, 1000];
-    }
-    else if (currentWidget == 'goal') {
-        return [1435, 290];
-    }
-    else if (currentWidget == 'eventlist') {
-        return [800, 800];
-    }
-    else {
-        return [800, 800];
-    }
+    return [800, 800];
 });
 
 function InitializeWidget() {
@@ -233,7 +221,7 @@ function InitializeWidget() {
     });
 
     updatedCSS.value = ApplyTemplateToFile(widget.assets.css);
-    updatedJS.value = ApplyTemplateToFile(widget.assets.js);
+    updatedJS.value = ApplyTemplateToFile(widget.assets.js ?? widget.assets.ts);
     updatedJS.value = WrapJSFile(updatedJS.value);
     updatedHTML.value = ApplyTemplateToFile(widget.assets.template);
     iFrameContainer.value.innerHTML = "";
@@ -265,17 +253,8 @@ function InitializeWidget() {
                 iFrameDocument.body.style.height = widgetDimensions.value[1] + 'px';
                 iFrameDocument.body.style.overflow = 'hidden';
 
-                if (currentWidget === 'chat') {
-                    LoadChatBox();
-                }
-                else if (currentWidget === 'goal') {
-                    LoadGoals();
-                }
-                else if (currentWidget === 'eventlist') {
-                }
-                else {
-                    console.log("Invalid Widget Type");
-                }
+                LoadChatBox();
+                LoadGoals();
             });
             iFrameDocument.head.appendChild(script);
         }
@@ -324,8 +303,8 @@ function SimulateChat(continuously: boolean = true) {
         const randTime = Math.floor(Math.random() * (3000 - 1000 + 1) + 1000);
         timeoutId.value = setTimeout(((eventDataCopy) => {
             return () => {
-            DispatchIframeEvent(eventDataCopy);
-            SimulateChat(continuously);
+                DispatchIframeEvent(eventDataCopy);
+                SimulateChat(continuously);
             };
         })(messageEvent), randTime);
     }
@@ -448,5 +427,4 @@ onBeforeUnmount(() => {
 .custom-field-group {
     margin-bottom: 10px;
 }
-
 </style>

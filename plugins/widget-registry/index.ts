@@ -7,6 +7,7 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
   outputFile: 'src/widget-registry.ts',
   fileExtensions: {
     js: ['.js'],
+    ts: ['.ts'],
     css: ['.css',],
     template: ['.html',],
     fields: ['.json',],
@@ -46,15 +47,6 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
                   .replace(/\\/g, '/');
                 const newImport = generateImport({ filePath: importPath, type: assetType, raw: true });
                 assets[assetType] = `${newImport.name}`;
-                imports.push(newImport.statement);
-                break;
-              }
-              else if (extension === '.ts') {
-                const importPath = path.join('@/widgets', moduleName, file)
-                  .replace(/\\/g, '/').replace(/\.ts$/g, '');;
-                  
-                const newImport = generateImport({ filePath: importPath, type: 'ts', raw: false });
-                config = newImport.name;
                 imports.push(newImport.statement);
                 break;
               }
