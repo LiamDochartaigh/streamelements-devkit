@@ -3,14 +3,19 @@ export { }
 declare global {
     const SE_API: StreamElements_API;
     type Message = 'counter_get' | 'store_get' | 'store_set' | 'resume_queue' | 'sanitize' | 'cheer_filter' | 'set_field' | 'overlay_status';
-    // do the message types?
-    // different input and response for each message type?
+    interface MessageData {
+        response?: string;
+        request?: string;
+        key?: string;
+        value?: string;
+        message?: string;
+        reload?: string;
+    }
     interface StreamElements_API {
         responses: {
             [key: string]: { resolve: (value: any) => void, reject: (reason?: any) => void }
         };
-        sendMessage: (message: string,
-            data: { response: string, request: string, key?: string, value?: string, message?: string, reload?: string }) => Promise<any>;
+        sendMessage: (message: Message, data: MessageData) => Promise<any>;
         counters: {
             get: (key: string) => Promise<any>;
         }
