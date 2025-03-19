@@ -40,12 +40,12 @@ export default function widgetRegistry(options: any = {
           const outputFile = path.join(modulePath, 'custom-fields.d.ts');
           const outputDir = path.dirname(outputFile);
           await fs.mkdir(outputDir, { recursive: true });
-          
+
           await fs.writeFile(outputFile, content, 'utf-8');
 
           const tsconfigContent = {
             "include": [
-              "./**/*.ts",
+              "./**/*.ts", "../types.d.ts"
             ],
             "compilerOptions": {
               "composite": true,

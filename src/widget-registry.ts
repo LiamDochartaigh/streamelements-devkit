@@ -1,5 +1,5 @@
 // Auto-generated module registry
-// Generated on 2025-03-19T13:09:07.857Z
+// Generated on 2025-03-19T15:16:06.585Z
 
 import Astro_Chat_Box_ts_custom_fields from '@/widgets/Astro Chat Box/custom-fields.d.ts?raw';
 import Astro_Chat_Box_css_custom from '@/widgets/Astro Chat Box/custom.css?raw';
