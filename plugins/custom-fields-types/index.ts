@@ -33,12 +33,30 @@ export default function widgetRegistry(options: any = {
               types = parseFieldTypes(fileContent.toString());
             }
           }
-          const content = types.join('\n');
+          let content = 'export {};\n\n';
+          content = content.concat(
+            `declare global {\n  ${types.join('\n  ')}\n}`
+          );
           const outputFile = path.join(modulePath, 'custom-fields.d.ts');
-          console.log('Should be writing to specific file here ', outputFile);
           const outputDir = path.dirname(outputFile);
           await fs.mkdir(outputDir, { recursive: true });
+          
           await fs.writeFile(outputFile, content, 'utf-8');
+
+          const tsconfigContent = {
+            "include": [
+              "./**/*.ts",
+            ],
+            "compilerOptions": {
+              "composite": true,
+              "allowJs": true,
+              "esModuleInterop": true,
+              "resolveJsonModule": true,
+              "strict": true,
+            }
+          }
+          const tsconfigFile = path.join(modulePath, 'tsconfig.json');
+          await fs.writeFile(tsconfigFile, JSON.stringify(tsconfigContent, null, 2), 'utf-8');
         }
         console.log(`Custom Field types generated with ${modules.length} modules`);
       } catch (error) {

@@ -12,7 +12,7 @@ export default defineConfig({
   plugins: [
     vue(),
     widgetRegistry(),
-    // customFields(),
+    customFields(),
     AutoImport({
       imports: [
         'vue',

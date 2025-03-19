@@ -1,26 +1,22 @@
-export {}
+export { }
 
-let hideMessageTime;
-let hideCommands;
-let mutedUsers = [];
-let disableMessageAnimations;
-let fadeMessages;
-let messageID = 0;
-let chatStyle;
+let hideMessageTime: number;
+let hideCommands: boolean;
+let mutedUsers: string[] = [];
+let disableMessageAnimations: boolean;
+let fadeMessages: boolean;
+let messageID = '';
+let style: typeof chatStyle;
 
 //Platform Specific
-let goalTypeSelector, countTypeSelector;
 let minPadding = 5;
-let thickness = ({{ borderThickness }} ?? 0)<minPadding ? minPadding : {{ borderThickness }} ?? 0;
-let paddingBorder;
+let thickness = (borderThickness ?? 0) < minPadding ? minPadding : borderThickness ?? 0;
 let shapeRoundness;
-let roundSetting;
-let widgetWidth;
+let roundSetting: typeof borderRoundness;
+let widgetWidth: number;
+let widgetHeight: number;
+let paddingBorder: number;
 let wigdetPadding = 20;
-let widgetGlow = {{ glow }};
-let borderStyle = "{{borderStyle}}";
-let innerBorderPadding = 2;
-let outerBorderPadding = 2;
 let previewMode = false;
 
 const PREVIEW_CHAT_MESSAGES = [
@@ -167,7 +163,7 @@ async function GetData() {
   console.log("Getting Data ", await SE_API.store.get('tester'));
 }
 
-window.addEventListener('onWidgetLoad', function (obj) {
+window.addEventListener('onWidgetLoad', function (obj: any) {
   SetData();
   let fieldData = obj.detail.fieldData;
   hideMessageTime = fieldData.hideMessage;
@@ -175,7 +171,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
   mutedUsers = fieldData.mutedUsers.toLowerCase().replace(" ", "").split(",");
   disableMessageAnimations = fieldData.messageAnimation;
   fadeMessages = fieldData.fadeMessages;
-  chatStyle = fieldData.chatStyle;
+  style = fieldData.chatStyle;
   roundSetting = fieldData.borderRoundness;
   previewMode = fieldData.previewMode;
   SetRoundness();
@@ -185,7 +181,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
 window.addEventListener("onSessionUpdate", function (obj) {
 });
 
-window.addEventListener('onEventReceived', function (obj) {
+window.addEventListener('onEventReceived', function (obj: any) {
   const listener = obj.detail.listener;
   if (listener == "message") {
     let data = obj.detail.event.data;
@@ -197,32 +193,32 @@ window.addEventListener('onEventReceived', function (obj) {
     DeleteAllUserMessages(obj.detail.event.userId);
   }
   else if (listener == 'event:test' && obj.detail.event.value == "hexeum_test_message") {
-    const filteredMessages = PREVIEW_CHAT_MESSAGES.filter(message => !message.type);
-    let randomMessage = filteredMessages[Math.floor(Math.random() * (filteredMessages.length - 1))];
+    let randomMessage = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * (PREVIEW_CHAT_MESSAGES.length - 1))];
     CreateTestMessage(randomMessage);
   }
 });
 
-function BuildNewChatMessage(data) {
+function BuildNewChatMessage(data: any) {
   if (!(data.text.startsWith("!") && hideCommands === true) &&
     !mutedUsers.includes(data.nick)) {
     let color = data.displayColor !== "" ? data.displayColor : "#fff";
     let from = data.displayName;
     let message = buildMessage(data);;
     let badges = BuildBadges(data.badges);
-    if (chatStyle == 'bubbles') { addBubbleChatMessage(from, color, message, badges, data.userId, data.msgId); }
+    if (style == 'bubbles') { addBubbleChatMessage(from, color, message, badges, data.userId, data.msgId); }
     else { addChatMessage(from, color, message, badges, data.userId, data.msgId); }
 
     $(".meta").removeAttr("style");
 
     $(".sideBar").each(function () {
-      var parentHeight = $(this).parent().outerHeight();
+      let parentHeight = $(this).parent().outerHeight();
+      if (!parentHeight) return;
       $(this).outerHeight(parentHeight * .9);
     });
   }
 }
 
-function BuildBadges(badges) {
+function BuildBadges(badges: any) {
   let formattedBadges = "";
   for (let i = 0; i < badges.length; i++) {
     formattedBadges += `<img alt="" src="${badges[i].url}" class="badge"> `;
@@ -231,36 +227,36 @@ function BuildBadges(badges) {
 }
 
 function SetRoundness() {
-  if (roundSetting == "straight" && chatStyle == 'bubbles') {
+  if (roundSetting == "straight" && style == 'bubbles') {
     shapeRoundness = 0;
     $("body").css("--roundness", shapeRoundness + 'em');
   }
-  else if (roundSetting == "soft" && chatStyle == 'bubbles') {
+  else if (roundSetting == "soft" && style == 'bubbles') {
     shapeRoundness = 1;
     $("body").css("--roundness", shapeRoundness + 'em');
   }
-  else if (roundSetting == "round" && chatStyle == 'bubbles') {
+  else if (roundSetting == "round" && style == 'bubbles') {
     shapeRoundness = 2;
     $("body").css("--roundness", shapeRoundness + 'em');
   }
-  else if (roundSetting == "straight" && chatStyle == 'box') {
+  else if (roundSetting == "straight" && style == 'box') {
     shapeRoundness = 0;
     $("body").css("--roundness", shapeRoundness + 'px');
   }
-  else if (roundSetting == "soft" && chatStyle == 'box') {
+  else if (roundSetting == "soft" && style == 'box') {
     shapeRoundness = 25;
     $("body").css("--roundness", shapeRoundness + 'px');
   }
-  else if (roundSetting == "round" && chatStyle == 'box') {
+  else if (roundSetting == "round" && style == 'box') {
     shapeRoundness = 50;
     $("body").css("--roundness", shapeRoundness + 'px');
   }
 }
 
-function buildMessage(data) {
-  let emotes = data.emotes;
-  let words = data.text.split(" ");
-  let emoteMatch = [];
+function buildMessage(data: any) {
+  let emotes: any[] = data.emotes;
+  let words: string[] = data.text.split(" ");
+  let emoteMatch: string[] = [];
   words.forEach(word => {
     let match = emotes.find(emote => emote.name == word);
     if (match !== undefined) {
@@ -271,7 +267,8 @@ function buildMessage(data) {
   return emoteMatch.join(' ');
 }
 
-function addBubbleChatMessage(from, color, message, badges, userId, msgId) {
+function addBubbleChatMessage(from: string, color: string, message: string, badges: string,
+  userId: string, msgId: string) {
   messageID = msgId;
   const newChatMsg = $.parseHTML(`<div class="chatMsgWrap" data-from="${userId}" data-id="${messageID}">
         <span class="bubble meta" style="color: ${color};">
@@ -317,7 +314,8 @@ function addBubbleChatMessage(from, color, message, badges, userId, msgId) {
 
 }
 
-function addChatMessage(from, color, message, badges, userId, msgId) {
+function addChatMessage(from: string,
+  color: string, message: string, badges: string, userId: string, msgId: string) {
   messageID = msgId;
   const newChatMsg = $.parseHTML(`<div class="chatMsgWrap" style="margin-left: 100%" data-from="${userId}" data-id="${messageID}">
      <div class="containerAfter">
@@ -355,32 +353,36 @@ function addChatMessage(from, color, message, badges, userId, msgId) {
   }
 }
 
-function DeleteMessage(msgId) {
+function DeleteMessage(msgId: string) {
   $(`.chatMsgWrap[data-id="${msgId}"] .message`).text("Message Deleted");
   $(`.chatMsgWrap[data-id="${msgId}"] .message`).css("font-style", "italic");
 }
 
-function DeleteAllUserMessages(userId) {
+function DeleteAllUserMessages(userId: string) {
   $(`.chatMsgWrap[data-from="${userId}"] .message`).text("Message Deleted");
   $(`.chatMsgWrap[data-from="${userId}"] .message`).css("font-style", "italic");
 }
 
-let angleTL, angleBL, angleTR, angleBR, goalWidthBottom, goalWidthTop, topLeftPosition,
-  bottomLeftPosition, bottomRightPosition, topRightPosition, mainPathPoints;
+let angleTL, angleBL, angleTR, angleBR, goalWidthBottom, topLeftPosition, goalWidthTop,
+  bottomLeftPosition, bottomRightPosition, topRightPosition;
+
+let mainPathPoints: Vector2D[];
 
 class Vector2D {
-  constructor(x, y) {
+  x: number;
+  y: number
+  constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
   }
 
-  AddVector2D(v2) {
+  AddVector2D(v2: Vector2D) {
     return new Vector2D((this.x + v2.x), (this.y + v2.y));
   }
-  AddVector(x, y) {
+  AddVector(x: number, y: number) {
     return new Vector2D((this.x + x), (this.y + y));
   }
-  SubtractVector(x, y) {
+  SubtractVector(x: number, y: number) {
     return new Vector2D((this.x - x), (this.y - y));
   }
   RotateClockWise90Degrees() {
@@ -397,51 +399,9 @@ class Vector2D {
   }
 }
 
-function GetVectorDirection(v1, v2) {
-  let direction = new Vector2D(v2.x - v1.x, (v2.y - v1.y));
-  let magnitude = Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.y, 2));
-  let directonNormalized = new Vector2D(direction.x / magnitude, direction.y / magnitude);
-  return directonNormalized;
-}
-
-//next, current, previous
-function CalculateAngleBetweenPoints(p1, p2, p3) {
-  let a = new Vector2D((p1.x - p2.x), (p1.y - p2.y));
-  let b = new Vector2D((p3.x - p2.x), (p3.y - p2.y));
-  let abProduct = (a.x * b.x + a.y * b.y);
-  let magnitudeA = Math.sqrt(Math.pow(a.x, 2) + Math.pow(a.y, 2));
-  let magnitudeB = Math.sqrt(Math.pow(b.x, 2) + Math.pow(b.y, 2));
-  let radians = Math.acos(abProduct / (magnitudeA * magnitudeB));
-  return RadiansToDegrees(radians);
-}
-
-function RadiansToDegrees(radians) {
-  let pi = Math.PI;
-  return radians * (180 / pi);
-}
-
-function DegreesToRadians(degrees) {
-  let pi = Math.PI;
-  return degrees * (pi / 180);
-}
-
-function SetSelectors(period, goalType) {
-  goalTypeSelector = goalType + "-" + period;
-  if (
-    goalType == "cheer" ||
-    goalType == "tip" ||
-    goalType == "superchat" ||
-    goalType == "stars"
-  ) {
-    countTypeSelector = "amount";
-  } else {
-    countTypeSelector = "count";
-  }
-}
-
 function SetViewBox() {
-  widgetWidth = $("#hexeumWidget").width();
-  widgetHeight = $('#hexeumWidget').outerHeight();
+  widgetWidth = $("#hexeumWidget").width() ?? 0;
+  widgetHeight = $('#hexeumWidget').outerHeight() ?? 0;
   paddingBorder = thickness > (widgetHeight / 2) ? widgetHeight / 2 : thickness;
   $('#mainSVG').attr('viewBox', `0 0 ${widgetWidth} ${widgetHeight}`);
   $('#backdropSVG').attr('viewBox', `0 0 ${widgetWidth} ${widgetHeight}`)
@@ -463,110 +423,44 @@ function SetGoalAngles() {
 }
 
 function SetLog() {
-  $('#log').width($('#mainSVG').width() - ((wigdetPadding + thickness) * 2));
-  $('#log').height($('#mainSVG').height() - ((wigdetPadding + thickness) * 2));
+  $('#log').width($('#mainSVG').width() ?? 0 - ((wigdetPadding + thickness) * 2));
+  $('#log').height($('#mainSVG').height() ?? 0 - ((wigdetPadding + thickness) * 2));
 }
 
 function InitializeGoal() {
   SetViewBox();
   SetGoalAngles();
   SetLog();
-  if (chatStyle != 'bubbles') {
+  if (style != 'bubbles') {
     BuildWidget();
   }
   $.getScript(
     "https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js");
-  if (previewMode == "true") {
+  if (previewMode == true) {
     PreviewChat();
   }
 }
 
-function GetNextPoint(pathPoints, currentIndex) {
+function GetNextPoint(pathPoints: Vector2D[], currentIndex: number) {
   if (currentIndex + 1 >= pathPoints.length) {
     return pathPoints[0];
   }
   else return pathPoints[currentIndex + 1];
 }
 
-function GetPreviousPoint(pathPoints, currentIndex) {
+function GetPreviousPoint(pathPoints: Vector2D[], currentIndex: number) {
   if (currentIndex - 1 < 0) { return pathPoints[pathPoints.length - 1]; }
   else return pathPoints[currentIndex - 1];
 }
 
-function CalculateSlope(p1, p2) {
+function CalculateSlope(p1: Vector2D, p2: Vector2D) {
   let yVal = (p2.y - p1.y);
   let xVal = (p2.x - p1.x);
   return yVal / xVal;
 }
 
-function GetYIntercept(point, slope) {
-  if (isFinite(slope)) {
-    return point.y - slope * point.x;
-  } else {
-    return point.y - point.x;
-  }
-}
-
-function CreateParallelLine(slope, originalYIntercept, distance) {
-
-  direction = -1;
-  console.log("Slope: ", slope, "Direction: ", direction, 'Original Y Intercept: ', originalYIntercept);
-
-  //Happens for horizontal lines
-  if (isFinite(slope)) {
-    return originalYIntercept + direction * distance * Math.sqrt(1 + Math.pow(slope, 2));
-  } else {
-    return originalYIntercept + direction * distance;
-  }
-}
-
-function calculateIntersection(slope1, yIntercept1, slope2, yIntercept2) {
-  // Case 1: Both lines are vertical (infinite slopes)
-  if (!isFinite(slope1) && !isFinite(slope2)) {
-    return null; // Parallel vertical lines, no intersection
-  }
-
-  // Case 2: First line is vertical (slope1 is infinite)
-  if (!isFinite(slope1)) {
-    const xIntersection = yIntercept1; // x value is constant for vertical line
-    const yIntersection = slope2 * xIntersection + yIntercept2; // y from second line
-    return { x: xIntersection, y: yIntersection };
-  }
-
-  // Case 3: Second line is vertical (slope2 is infinite)
-  if (!isFinite(slope2)) {
-    const xIntersection = yIntercept2; // x value is constant for vertical line
-    const yIntersection = slope1 * xIntersection + yIntercept1; // y from first line
-    return { x: xIntersection, y: yIntersection };
-  }
-
-  // Case 4: First line is horizontal (slope1 = 0)
-  if (slope1 === 0) {
-    const yIntersection = yIntercept1; // y value is constant for horizontal line
-    const xIntersection = (yIntersection - yIntercept2) / slope2; // Solve for x in the second line's equation
-    return { x: xIntersection, y: yIntersection };
-  }
-
-  // Case 5: Second line is horizontal (slope2 = 0)
-  if (slope2 === 0) {
-    const yIntersection = yIntercept2; // y value is constant for horizontal line
-    const xIntersection = (yIntersection - yIntercept1) / slope1; // Solve for x in the first line's equation
-    return { x: xIntersection, y: yIntersection };
-  }
-
-  // Case 6: General case (non-parallel, non-vertical, non-horizontal lines)
-  if (slope1 === slope2) {
-    return null; // Parallel lines, no intersection
-  }
-
-  const xIntersection = (yIntercept2 - yIntercept1) / (slope1 - slope2);
-  const yIntersection = slope1 * xIntersection + yIntercept1;
-
-  return { x: xIntersection, y: yIntersection };
-}
-
 //Accepts a path of Vector2D's
-function BuildPath(pathPoints, innerPadding = 50) {
+function BuildPath(pathPoints: Vector2D[], innerPadding = 50) {
   let path;
 
   //Programmatically determine the direction of the set of vectors in series
@@ -587,95 +481,22 @@ function BuildPath(pathPoints, innerPadding = 50) {
 
     const firstDirection = (firstSlope < 0 || firstSlope == -0) ? -1 : 1;
     const secondDirection = (secondSlope < 0 || secondSlope == -0) ? -1 : 1;
-    console.log("First Slope: ", firstSlope, "Second Slope: ", secondSlope);
-    console.log("First Dir: ", firstDirection, "Second Dir: ", secondDirection);
 
     //In this case we only can have a horizontal, vertical or normal line
     if ((firstSlope == 0 || secondSlope == 0)
       && (!isFinite(firstSlope) || !isFinite(secondSlope))) {
       const xPosition = currentPoint.x + (innerPadding * firstDirection);
       const yPosition = currentPoint.y + (innerPadding * secondDirection);
-      console.log("Intersection then can only be ", xPosition, yPosition);
     }
-
-
-    //const firstIntercept = GetYIntercept(currentPoint, firstSlope);
-    //const firstParralelIntercept = CreateParallelLine(firstSlope, firstIntercept, innerPadding);
-    // console.log("First Deets ", firstSlope, firstIntercept, firstParralelIntercept);
-
-    //const secondIntercept = GetYIntercept(nextPoint, secondSlope);
-    //const secondParralelIntercept = CreateParallelLine(secondSlope, secondIntercept, innerPadding);
-
-    // console.log("Second Deets ", secondSlope, secondIntercept, secondParralelIntercept);
-
-    //const intersection = CalculateIntersection(firstSlope, firstParralelIntercept, secondSlope, secondParralelIntercept);
-
-    //console.log('Intersection: ', intersection);
-
-    // if (!path) {
-    //   path = `M${intersection.x} ${intersection.y}`;
-    // }
-    // else{
-    //   path += `L ${intersection.x} ${intersection.y}`;
-    // }
   }
   return path;
 }
 
-function GetOuterBorderPadding() {
-  let padding = borderStyle == "detailed" ? outerBorderPadding : 0;
-  if (padding < 0) { return 0 }
-  else if (padding > thickness) { return thickness }
-  else return padding;
-}
-
-function GetInnerBorderPadding() {
-  let innerPadding = borderStyle == "detailed" ? innerBorderPadding : 0;
-  let padding = thickness - innerPadding;
-  if (padding < 0) { return 0 }
-  else if (padding > thickness) { return thickness }
-  else return padding;
-}
-
-function GetMainThickness() {
-  let mainThickness = thickness - GetOuterBorderPadding();
-  if (mainThickness < 0) { return 0 }
-  else if (mainThickness > thickness) { return thickness }
-  else return mainThickness;
-}
-
-function GetInsetThickness() {
-  let insetThickness = borderStyle == "detailed" ? innerBorderPadding : 0;
-  if (insetThickness < 0) { return 0 }
-  else if (insetThickness > thickness) { return thickness }
-  else return insetThickness;
-}
 
 function BuildWidget() {
-
   const pathMain = BuildPath(mainPathPoints);
-  //const pathMainMask = BuildPath(mainPathPoints, thickness);
-
-  $('#goalMain').attr("d", pathMain);
-  $('#goalMainBounds').attr("d", pathMain);
-  //$('#goalMainCutOff').attr("d", pathMainMask);
-}
-
-function UpdateMasking(percentageComplete) {
-  let percentageMultiplier = percentageComplete / 100;
-
-  let positionDifference = bottomLeftPosition.x - topLeftPosition.x;
-  let startingPosition = bottomLeftPosition.x - positionDifference;
-
-  let endPositionDifference = topRightPosition.x - bottomRightPosition.x;
-  let endingPosition = (topRightPosition.x - endPositionDifference) * percentageMultiplier;
-
-  let firstPosition = new Vector2D(startingPosition, topLeftPosition.y);
-  let secondPosition = new Vector2D(bottomLeftPosition.x, bottomLeftPosition.y);
-  let thirdPosition = new Vector2D(endingPosition, bottomRightPosition.y);
-  let fourthPosition = new Vector2D(endingPosition, topRightPosition.y);
-
-  let updatedPath = [firstPosition, secondPosition, thirdPosition, fourthPosition];
+  $('#goalMain').attr("d", pathMain!);
+  $('#goalMainBounds').attr("d", pathMain!);
 }
 
 function PreviewChat() {
@@ -691,7 +512,7 @@ function PreviewChat() {
   }, 250);
 }
 
-function CreateTestMessage(randomMessage) {
+function CreateTestMessage(randomMessage: typeof PREVIEW_CHAT_MESSAGES[number]) {
   const msgId = GenerateRandomHexId();
   const color = "#fff";
   const from = randomMessage.name;
@@ -702,7 +523,7 @@ function CreateTestMessage(randomMessage) {
     text: randomMessage.message,
   }
   const message = buildMessage(msgData);
-  if (chatStyle == 'bubbles') { addBubbleChatMessage(from, color, message, badges, userId, msgId); }
+  if (style == 'bubbles') { addBubbleChatMessage(from, color, message, badges, userId, msgId); }
   else { addChatMessage(from, color, message, badges, userId, msgId); }
 }
 

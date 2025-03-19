@@ -34,8 +34,8 @@
     "borderThickness":{
       "group": "Chat Box Style",
       "label": "Border Thickness",
-      "type": "textfield",
-      "value": "2"
+      "type": "number",
+      "value": 2
     },
     "glow": {
       "label": "Glow",
