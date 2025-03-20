@@ -1,6 +1,463 @@
-export { }
+export { };
 
 declare global {
+    const noInclude: string;
+    interface Window {
+        addEventListener(type: 'onWidgetLoad', listener: (event: CustomEvent<WidgetLoadEvent>) => void): void;
+    }
+
+    interface CustomFields {}
+
+    interface WidgetLoadEvent{
+        channel: {
+            username: string;
+            providerId: string;
+            id: string;
+            avatar: string;
+            apiToken: string;
+        },
+        currency: {
+            code: string;
+            symbol: string;
+            name: string;
+        },
+        fieldData: CustomFields,
+        overlay: {
+            isEditorMode: boolean;
+            muted: boolean;
+        },
+        recents: {
+            name: string;
+            createdAt: string;
+            type: string;
+            amount?: number;
+        }[],
+        session: {
+            data: {
+                "follower-latest": {
+                    name: string;
+                };
+                "follower-session": {
+                    count: number;
+                };
+                "follower-week": {
+                    count: number;
+                };
+                "follower-month": {
+                    count: number;
+                };
+                "follower-goal": {
+                    amount: number;
+                };
+                "follower-total": {
+                    count: number;
+                };
+                "subscriber-latest": {
+                    name: string;
+                    amount: number;
+                    tier: string;
+                    message: string;
+                };
+                "subscriber-new-latest": {
+                    amount: number;
+                    message: string;
+                    name: string;
+                };
+                "subscriber-resub-latest": {
+                    amount: number;
+                    message: string;
+                    name: string;
+                };
+                "subscriber-gifted-latest": {
+                    amount: number;
+                    message: string;
+                    name: string;
+                    sender: string;
+                    tier: string;
+                };
+                "subscriber-session": {
+                    count: number;
+                };
+                "subscriber-new-session": {
+                    count: number;
+                };
+                "subscriber-resub-session": {
+                    count: number;
+                };
+                "subscriber-gifted-session": {
+                    count: number;
+                };
+                "subscriber-week": {
+                    count: number;
+                };
+                "subscriber-month": {
+                    count: number;
+                };
+                "subscriber-goal": {
+                    amount: number;
+                };
+                "subscriber-total": {
+                    count: number;
+                };
+                "subscriber-points": {
+                    amount: number;
+                };
+                "subscriber-alltime-gifter": {
+                    amount: number;
+                    name: string;
+                };
+                "host-latest": {
+                    name: string;
+                    amount: number;
+                };
+                "raid-latest": {
+                    name: string;
+                    amount: number;
+                };
+                "cheer-session": {
+                    amount: number;
+                };
+                "cheer-week": {
+                    amount: number;
+                };
+                "cheer-month": {
+                    amount: number;
+                };
+                "cheer-total": {
+                    amount: number;
+                };
+                "cheer-count": {
+                    count: number;
+                };
+                "cheer-goal": {
+                    amount: number;
+                };
+                "cheer-latest": {
+                    name: string;
+                    amount: number;
+                };
+                "cheer-session-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "cheer-weekly-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "cheer-monthly-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "cheer-alltime-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "cheer-session-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "cheer-weekly-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "cheer-monthly-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "cheer-alltime-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "tip-latest": {
+                    name: string;
+                    amount: number;
+                    message: string;
+                };
+                "tip-session-top-donation": {
+                    name: string;
+                    amount: number;
+                };
+                "tip-weekly-top-donation": {
+                    name: string;
+                    amount: number;
+                };
+                "tip-monthly-top-donation": {
+                    name: string;
+                    amount: number;
+                };
+                "tip-alltime-top-donation": {
+                    name: string;
+                    amount: number;
+                };
+                "tip-session-top-donator": {
+                    name: string;
+                    amount: number;
+                };
+                "tip-weekly-top-donator": {
+                    name: string;
+                    amount: number;
+                };
+                "tip-monthly-top-donator": {
+                    name: string;
+                    amount: number;
+                };
+                "tip-alltime-top-donator": {
+                    name: string;
+                    amount: number;
+                };
+                "tip-session": {
+                    amount: number;
+                };
+                "tip-week": {
+                    amount: number;
+                };
+                "tip-month": {
+                    amount: number;
+                };
+                "tip-total": {
+                    amount: number;
+                };
+                "tip-count": {
+                    count: number;
+                };
+                "tip-goal": {
+                    amount: number;
+                };
+                "merch-goal-orders": {
+                    amount: number;
+                };
+                "merch-goal-items": {
+                    amount: number;
+                };
+                "merch-goal-total": {
+                    amount: number;
+                };
+                "merch-latest": {
+                    amount: number;
+                    items: any[];
+                    name: string;
+                };
+                "follower-recent": Array<{
+                    name: string;
+                    createdAt: string;
+                    type: string;
+                }>;
+                "subscriber-recent": Array<{
+                    name: string;
+                    createdAt: string;
+                    type: string;
+                    tier: string;
+                    amount: number;
+                }>;
+                "host-recent": Array<{
+                    name: string;
+                    createdAt: string;
+                    type: string;
+                    amount: number;
+                }>;
+                "raid-recent": Array<{
+                    name: string;
+                    createdAt: string;
+                    type: string;
+                    amount: number;
+                }>;
+                "cheer-recent": Array<{
+                    name: string;
+                    createdAt: string;
+                    type: string;
+                    amount: number;
+                }>;
+                "tip-recent": Array<{
+                    name: string;
+                    amount: number;
+                    createdAt: string;
+                    type: string;
+                }>;
+                "merch-recent": Array<{
+                    name: string;
+                    createdAt: string;
+                    type: string;
+                }>;
+                "charityCampaignDonation-alltime-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "charityCampaignDonation-alltime-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "charityCampaignDonation-latest": {
+                    amount: number;
+                    name: string;
+                };
+                "charityCampaignDonation-monthly-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "charityCampaignDonation-monthly-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "charityCampaignDonation-recent": Array<{
+                    name: string;
+                    amount: number;
+                    createdAt: string;
+                    type: string;
+                }>;
+                "charityCampaignDonation-weekly-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "charityCampaignDonation-weekly-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "cheerPurchase-alltime-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "cheerPurchase-alltime-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "cheerPurchase-latest": {
+                    amount: number;
+                    name: string;
+                };
+                "cheerPurchase-monthly-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "cheerPurchase-monthly-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "cheerPurchase-recent": Array<{
+                    name: string;
+                    amount: number;
+                    createdAt: string;
+                    type: string;
+                }>;
+                "cheerPurchase-weekly-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "cheerPurchase-weekly-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "purchase-latest": {
+                    amount: number;
+                    avatar: string;
+                    items: any[];
+                    message: string;
+                    name: string;
+                };
+                "superchat-alltime-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "superchat-alltime-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "superchat-count": {
+                    count: number;
+                };
+                "superchat-goal": {
+                    amount: number;
+                };
+                "superchat-latest": {
+                    amount: number;
+                    name: string;
+                };
+                "superchat-month": {
+                    amount: number;
+                };
+                "superchat-monthly-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "superchat-monthly-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "superchat-recent": Array<{
+                    name: string;
+                    amount: number;
+                    createdAt: string;
+                    type: string;
+                }>;
+                "superchat-session": {
+                    amount: number;
+                };
+                "superchat-total": {
+                    amount: number;
+                };
+                "superchat-week": {
+                    amount: number;
+                };
+                "superchat-weekly-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "superchat-weekly-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "charityCampaignDonation-session-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "charityCampaignDonation-session-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "cheerPurchase-session-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "cheerPurchase-session-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+                "hypetrain-latest": {
+                    active: number;
+                    amount: number;
+                    level: number;
+                    levelChanged: number;
+                    name: string;
+                    type: string;
+                };
+                "hypetrain-latest-top-contributors": any[];
+                "hypetrain-level-goal": {
+                    amount: number;
+                };
+                "hypetrain-level-progress": {
+                    amount: number;
+                    percent: number;
+                };
+                "hypetrain-total": {
+                    amount: number;
+                };
+                "superchat-session-top-donation": {
+                    amount: number;
+                    name: string;
+                };
+                "superchat-session-top-donator": {
+                    amount: number;
+                    name: string;
+                };
+            },
+            settings: {
+                autoReset: boolean;
+                calendar: boolean;
+                resetOnStart: boolean;
+            }
+        }
+
+    }
+
     const SE_API: StreamElements_API;
     type MessageConfig = {
         'counter_get': {

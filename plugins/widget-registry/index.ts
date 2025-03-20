@@ -38,11 +38,12 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
           const assets: Assets = {};
           let config;
 
+          const fileFilter = ['tsconfig.json', 'custom-fields.d.ts'];
           for (const file of moduleFiles) {
             const extension = path.extname(file);
 
             for (const [assetType, validExtensions] of Object.entries(fileExtensions)) {
-              if (validExtensions.includes(extension)) {
+              if (validExtensions.includes(extension) && !fileFilter.includes(file)) {
                 const importPath = path.join('@/widgets', moduleName, file)
                   .replace(/\\/g, '/');
                 const newImport = generateImport({ filePath: importPath, type: assetType, raw: true });
@@ -66,7 +67,6 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
 
         // Generate the TypeScript file content
         const content = `// Auto-generated module registry
-// Generated on ${new Date().toISOString()}
 
 ${imports.join('\n')}
 

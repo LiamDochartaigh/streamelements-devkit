@@ -17,7 +17,7 @@ let widgetWidth: number;
 let widgetHeight: number;
 let paddingBorder: number;
 let wigdetPadding = 20;
-let previewMode = false;
+let previewMode = 'true';
 
 const PREVIEW_CHAT_MESSAGES = [
   {
@@ -153,6 +153,8 @@ const PREVIEW_CHAT_EMOTES = [
   }
 ];
 
+const test = noInclude;
+
 async function SetData() {
   const test = await SE_API.store.set('tester', 'imagine some val');
   console.log("Widget Loaded ", await SE_API.store.set('tester', 'imagine some val'));
@@ -165,7 +167,8 @@ async function GetData() {
   const test = await SE_API.counters.get('tester')
 }
 
-window.addEventListener('onWidgetLoad', function (obj: any) {
+window.addEventListener('onWidgetLoad', function (obj) {
+  console.log("On Widget Load Structure", obj.detail.fieldData);
   SetData();
   let fieldData = obj.detail.fieldData;
   hideMessageTime = fieldData.hideMessage;

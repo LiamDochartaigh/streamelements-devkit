@@ -25,18 +25,22 @@ export default function widgetRegistry(options: any = {
           const moduleFiles = await fs.readdir(modulePath);
 
           const fileFilter = ['tsconfig.json'];
-          let types: string[] = [];
+          let globalTypes: string[] = [];
+          let propTypes: string[] = [];
           for (const file of moduleFiles) {
             const extension = path.extname(file);
             if (extension === '.json' && !fileFilter.includes(file)) {
               const fileContent = await fs.readFile(path.join(modulePath, file));
-              types = parseFieldTypes(fileContent.toString());
+              const { parsedProps, parsedTypes } = parseFieldTypes(fileContent.toString());
+              globalTypes = parsedTypes;
+              propTypes = parsedProps;
             }
           }
           let content = 'export {};\n\n';
           content = content.concat(
-            `declare global {\n  ${types.join('\n  ')}\n}`
+            `declare global {\n  interface CustomFields {\n    ${propTypes.join('\n    ')}\n  }`
           );
+          content = content.concat(`\n  ${globalTypes.join('\n  ')}\n }`);
           const outputFile = path.join(modulePath, 'custom-fields.d.ts');
           const outputDir = path.dirname(outputFile);
           await fs.mkdir(outputDir, { recursive: true });
@@ -45,7 +49,7 @@ export default function widgetRegistry(options: any = {
 
           const tsconfigContent = {
             "include": [
-              "./**/*.ts", "../types.d.ts"
+              "./**/*.ts", "../se-types.d.ts"
             ],
             "compilerOptions": {
               "composite": true,
@@ -71,6 +75,7 @@ function parseFieldTypes(customFields: string) {
   const parsed = JSON.parse(customFields);
 
   const parsedTypes: string[] = [];
+  const parsedProps: string[] = [];
   Object.keys(parsed).forEach((key) => {
     if (parsed[key].type === 'dropdown') {
       let types = '';
@@ -78,19 +83,26 @@ function parseFieldTypes(customFields: string) {
         types = !types ? `'${option}'` : types + ` | '${option}'`;
       })
       parsedTypes.push(`const ${key}: ${types};`);
+      parsedProps.push(`${key}: ${types};`);
     }
     else if (parsed[key].type === 'textfield'
       || parsed[key].type === 'text'
       || parsed[key].type === 'colorpicker'
       || parsed[key].type === 'googleFont') {
       parsedTypes.push(`const ${key}: string;`);
+      parsedProps.push(`${key}: string;`);
     }
     else if (parsed[key].type === 'checkbox') {
       parsedTypes.push(`const ${key}: boolean;`);
+      parsedProps.push(`${key}: boolean;`);
     }
     else if (parsed[key].type === 'slider' || parsed[key].type === 'number') {
       parsedTypes.push(`const ${key}: number;`);
+      parsedProps.push(`${key}: number;`);
     }
   });
-  return parsedTypes;
+  return {
+    parsedProps,
+    parsedTypes
+  };
 }
