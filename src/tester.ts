@@ -3,13 +3,10 @@ const SE_APkI: StreamElements_API = {
     sendMessage: (message, data) => {
         return new Promise((resolve, reject) => {
             const response = 'resp_' + Math.random().toString(16).substr(2);
-            const spreadData = {
-                ...data,
-                response: response,
-                request: message
-            };
+            data.response = response;
+            data.request = message;
             SE_APkI.responses[response] = { resolve, reject };
-            parent.postMessage(spreadData, '*');
+            parent.postMessage(data, '*');
         });
     },
     counters: {
