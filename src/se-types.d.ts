@@ -1,7 +1,6 @@
 export { };
 
 declare global {
-    const noInclude: string;
     interface Window {
         addEventListener(type: 'onWidgetLoad', listener: (event: CustomEvent<WidgetLoadEvent>) => void): void;
     }

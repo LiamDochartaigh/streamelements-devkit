@@ -1,72 +1,84 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { Plugin } from 'vite';
 
 export default function widgetRegistry(options: any = {
   modulesDir: 'src/widgets'
-}) {
+}): Plugin {
   const { modulesDir } = options;
+  const folderFilter = ['.git'];
+  const fileFilter = ['tsconfig.json'];
+  const genTypes = async () => {
+    try {
+      const modulesFolderPath = path.resolve(modulesDir);
+      const moduleFolders = await fs.readdir(modulesFolderPath, { withFileTypes: true });
+
+      let widgets = 0;
+
+      // Turn folders into modules
+      for (const folder of moduleFolders) {
+        if (!folder.isDirectory() || folderFilter.includes(folder.name)) continue;
+
+        widgets++;
+        const moduleName = folder.name;
+        const modulePath = path.join(modulesFolderPath, moduleName);
+        const moduleFiles = await fs.readdir(modulePath);
+
+        let globalTypes: string[] = [];
+        let propTypes: string[] = [];
+        for (const file of moduleFiles) {
+          const extension = path.extname(file);
+          if (extension === '.json' && !fileFilter.includes(file)) {
+            const fileContent = await fs.readFile(path.join(modulePath, file));
+            const { parsedProps, parsedTypes } = parseFieldTypes(fileContent.toString());
+            globalTypes = parsedTypes;
+            propTypes = parsedProps;
+          }
+        }
+        let content = 'export {};\n\n';
+        content = content.concat(
+          `declare global {\n  interface CustomFields {\n    ${propTypes.join('\n    ')}\n  }`
+        );
+        content = content.concat(`\n  ${globalTypes.join('\n  ')}\n }`);
+        const outputFile = path.join(modulePath, 'custom-fields.d.ts');
+        const outputDir = path.dirname(outputFile);
+        await fs.mkdir(outputDir, { recursive: true });
+
+        await fs.writeFile(outputFile, content, 'utf-8');
+
+        const tsconfigContent = {
+          "include": [
+            "./**/*.ts", "../../se-types.d.ts"
+          ],
+          "compilerOptions": {
+            "composite": true,
+            "allowJs": true,
+            "esModuleInterop": true,
+            "resolveJsonModule": true,
+            "strict": true,
+          }
+        }
+        const tsconfigFile = path.join(modulePath, 'tsconfig.json');
+        await fs.writeFile(tsconfigFile, JSON.stringify(tsconfigContent, null, 2), 'utf-8');
+      }
+      console.log(`Custom Field types generated for ${widgets} widgets`);
+    } catch (error) {
+      console.error('Error generating custom field types:', error);
+    }
+  }
   return {
     name: 'custom-fields',
-
     async buildStart() {
-      try {
-        const modulesFolderPath = path.resolve(modulesDir);
-        const moduleFolders = await fs.readdir(modulesFolderPath, { withFileTypes: true });
-
-        const modules: string[] = [];
-        const folderFilter = ['.git'];
-
-        // Turn folders into modules
-        for (const folder of moduleFolders) {
-          if (!folder.isDirectory() || folderFilter.includes(folder.name)) continue;
-
-          const moduleName = folder.name;
-          const modulePath = path.join(modulesFolderPath, moduleName);
-          const moduleFiles = await fs.readdir(modulePath);
-
-          const fileFilter = ['tsconfig.json'];
-          let globalTypes: string[] = [];
-          let propTypes: string[] = [];
-          for (const file of moduleFiles) {
-            const extension = path.extname(file);
-            if (extension === '.json' && !fileFilter.includes(file)) {
-              const fileContent = await fs.readFile(path.join(modulePath, file));
-              const { parsedProps, parsedTypes } = parseFieldTypes(fileContent.toString());
-              globalTypes = parsedTypes;
-              propTypes = parsedProps;
-            }
-          }
-          let content = 'export {};\n\n';
-          content = content.concat(
-            `declare global {\n  interface CustomFields {\n    ${propTypes.join('\n    ')}\n  }`
-          );
-          content = content.concat(`\n  ${globalTypes.join('\n  ')}\n }`);
-          const outputFile = path.join(modulePath, 'custom-fields.d.ts');
-          const outputDir = path.dirname(outputFile);
-          await fs.mkdir(outputDir, { recursive: true });
-
-          await fs.writeFile(outputFile, content, 'utf-8');
-
-          const tsconfigContent = {
-            "include": [
-              "./**/*.ts", "../se-types.d.ts"
-            ],
-            "compilerOptions": {
-              "composite": true,
-              "allowJs": true,
-              "esModuleInterop": true,
-              "resolveJsonModule": true,
-              "strict": true,
-            }
-          }
-          const tsconfigFile = path.join(modulePath, 'tsconfig.json');
-          await fs.writeFile(tsconfigFile, JSON.stringify(tsconfigContent, null, 2), 'utf-8');
-        }
-        console.log(`Custom Field types generated with ${modules.length} modules`);
-      } catch (error) {
-        console.error('Error generating custom field types:', error);
+      await genTypes();
+    },
+    handleHotUpdate({ file, server }) {
+      if (!fileFilter.includes(path.basename(file))
+        && path.dirname(file).includes(modulesDir)
+        && path.extname(file) === '.json') {
+          genTypes();
       }
-    }
+      return undefined;
+    },
   };
 }
 

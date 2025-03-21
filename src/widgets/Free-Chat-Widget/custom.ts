@@ -153,8 +153,6 @@ const PREVIEW_CHAT_EMOTES = [
   }
 ];
 
-const test = noInclude;
-
 async function SetData() {
   const test = await SE_API.store.set('tester', 'imagine some val');
   console.log("Widget Loaded ", await SE_API.store.set('tester', 'imagine some val'));
@@ -165,10 +163,11 @@ async function SetData() {
 async function GetData() {
   console.log("Getting Data ", await SE_API.store.get('tester'));
   const test = await SE_API.counters.get('tester')
+  borderThickness
 }
 
 window.addEventListener('onWidgetLoad', function (obj) {
-  console.log("On Widget Load Structure", obj.detail.fieldData);
+  // added new value in JSON but no update
   SetData();
   let fieldData = obj.detail.fieldData;
   hideMessageTime = fieldData.hideMessage;
