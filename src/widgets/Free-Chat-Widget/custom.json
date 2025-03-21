@@ -9,7 +9,7 @@
       "label": "Send Btn Message",
       "group": "Preview",
       "type": "button",
-      "value": "hexeum_test_btn"
+      "value": "send_new_btn"
     },
     "previewModeLabel": {
       "label": "Preview Mode",

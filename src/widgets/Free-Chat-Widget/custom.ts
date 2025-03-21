@@ -154,7 +154,6 @@ const PREVIEW_CHAT_EMOTES = [
 ];
 
 async function SetData() {
-  const test = await SE_API.store.set('tester', 'imagine some val');
   console.log("Widget Loaded ", await SE_API.store.set('tester', 'imagine some val'));
   console.log('API Finished', SE_API);
   GetData();
@@ -163,7 +162,7 @@ async function SetData() {
 async function GetData() {
   console.log("Getting Data ", await SE_API.store.get('tester'));
   const test = await SE_API.counters.get('tester')
-  borderThickness
+  SE_API.setField('fadeMessages', true, false);
 }
 
 window.addEventListener('onWidgetLoad', function (obj) {
@@ -182,11 +181,12 @@ window.addEventListener('onWidgetLoad', function (obj) {
 });
 
 window.addEventListener("onSessionUpdate", function (obj) {
+  obj.detail.session["tip-total"]
 });
 
 window.addEventListener('onEventReceived', function (obj) {
-  if(obj.detail.listener === 'follower-latest') {
-     
+  if (obj.detail.listener === 'event:test') {
+    console.log(obj.detail.event.value === 'send_new_btn');
   }
   const listener = obj.detail.listener;
   if (listener == "message") {

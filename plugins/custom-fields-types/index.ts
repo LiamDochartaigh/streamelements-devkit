@@ -26,40 +26,19 @@ export default function widgetRegistry(options: any = {
 
         let globalTypes: string[] = [];
         let propTypes: string[] = [];
+        let buttonTypes: string[] = [];
         for (const file of moduleFiles) {
           const extension = path.extname(file);
           if (extension === '.json' && !fileFilter.includes(file)) {
             const fileContent = await fs.readFile(path.join(modulePath, file));
-            const { parsedProps, parsedTypes } = parseFieldTypes(fileContent.toString());
+            const { parsedProps, parsedTypes, parsedButtons } = parseFieldTypes(fileContent.toString());
             globalTypes = parsedTypes;
             propTypes = parsedProps;
+            buttonTypes = parsedButtons;
           }
         }
-        let content = 'export {};\n\n';
-        content = content.concat(
-          `declare global {\n  interface CustomFields {\n    ${propTypes.join('\n    ')}\n  }`
-        );
-        content = content.concat(`\n  ${globalTypes.join('\n  ')}\n }`);
-        const outputFile = path.join(modulePath, 'custom-fields.d.ts');
-        const outputDir = path.dirname(outputFile);
-        await fs.mkdir(outputDir, { recursive: true });
-
-        await fs.writeFile(outputFile, content, 'utf-8');
-
-        const tsconfigContent = {
-          "include": [
-            "./**/*.ts", "../../se-types.d.ts"
-          ],
-          "compilerOptions": {
-            "composite": true,
-            "allowJs": true,
-            "esModuleInterop": true,
-            "resolveJsonModule": true,
-            "strict": true,
-          }
-        }
-        const tsconfigFile = path.join(modulePath, 'tsconfig.json');
-        await fs.writeFile(tsconfigFile, JSON.stringify(tsconfigContent, null, 2), 'utf-8');
+        await writeDeclarationFile(globalTypes, propTypes, modulePath, buttonTypes);
+        await writeConfigFile(modulePath);
       }
       console.log(`Custom Field types generated for ${widgets} widgets`);
     } catch (error) {
@@ -75,19 +54,49 @@ export default function widgetRegistry(options: any = {
       if (!fileFilter.includes(path.basename(file))
         && path.dirname(file).includes(modulesDir)
         && path.extname(file) === '.json') {
-          genTypes();
+        genTypes();
       }
       return undefined;
     },
   };
 }
 
+async function writeDeclarationFile(globalTypes: string[], propTypes: string[], modulePath: string, buttonTypes: string[] = []) {
+  let content = 'export {};\n\n';
+  content = content.concat(
+    `declare global {\n  interface CustomFields {\n    ${propTypes.join('\n    ')}\n  }`
+  );
+  content = content.concat(`\n  type ButtonTypes = '${buttonTypes.join('\' | \'')}';`);
+  content = content.concat(`\n  ${globalTypes.join('\n  ')}\n }`);
+  const outputFile = path.join(modulePath, 'custom-fields.d.ts');
+  const outputDir = path.dirname(outputFile);
+  await fs.mkdir(outputDir, { recursive: true });
+  await fs.writeFile(outputFile, content, 'utf-8');
+}
+
+async function writeConfigFile(modulePath: string) {
+  const tsconfigContent = {
+    "include": [
+      "./**/*.ts", "../../se-types.d.ts"
+    ],
+    "compilerOptions": {
+      "composite": true,
+      "allowJs": true,
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "strict": true,
+    }
+  }
+  const tsconfigFile = path.join(modulePath, 'tsconfig.json');
+  await fs.writeFile(tsconfigFile, JSON.stringify(tsconfigContent, null, 2), 'utf-8');
+}
 
 function parseFieldTypes(customFields: string) {
   const parsed = JSON.parse(customFields);
 
   const parsedTypes: string[] = [];
   const parsedProps: string[] = [];
+  const parsedButtons: string[] = [];
   Object.keys(parsed).forEach((key) => {
     if (parsed[key].type === 'dropdown') {
       let types = '';
@@ -112,9 +121,13 @@ function parseFieldTypes(customFields: string) {
       parsedTypes.push(`const ${key}: number;`);
       parsedProps.push(`${key}: number;`);
     }
+    else if (parsed[key].type === 'button') {
+      parsedButtons.push(parsed[key].value);
+    }
   });
   return {
     parsedProps,
-    parsedTypes
+    parsedTypes,
+    parsedButtons
   };
 }

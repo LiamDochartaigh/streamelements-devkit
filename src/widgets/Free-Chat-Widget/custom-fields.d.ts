@@ -24,6 +24,7 @@ declare global {
     messageColor: string;
     messageAnimation: boolean;
   }
+  type ButtonTypes = 'hexeum_test_message' | 'send_new_btn';
   const previewMode: 'true' | 'false';
   const borderRoundness: 'straight' | 'soft' | 'round';
   const borderThickness: number;
