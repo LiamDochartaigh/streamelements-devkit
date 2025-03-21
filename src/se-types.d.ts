@@ -3,11 +3,122 @@ export { };
 declare global {
     interface Window {
         addEventListener(type: 'onWidgetLoad', listener: (event: CustomEvent<WidgetLoadEvent>) => void): void;
+        addEventListener(type: 'onEventReceived', listener: (event: CustomEvent<EventReceived>) => void): void;
     }
 
-    interface CustomFields {}
+    interface CustomFields { }
 
-    interface WidgetLoadEvent{
+    type WidgetEventConfig = {
+        'follower-latest': {
+            avatar: string;
+            displayName: string;
+            name: string;
+            originalEventName: 'follower-latest';
+            providerId: string;
+            sessionTop: boolean;
+            type: 'follower';
+            _id: string;
+        },
+        'subscriber-latest': {
+            amount: number;
+            avatar: string;
+            displayName: string;
+            name: string;
+            originalEventName: "subscriber-latest"
+            providerId: string;
+            sessionTop: boolean;
+            sender?: string;
+            gifted?: boolean;
+            isCommunityGift?: boolean;
+            playedAsCommunityGift?: boolean;
+            type: "subscriber"
+            _id: string;
+        },
+        'tip-latest': {
+            amount: number;
+            avatar: string;
+            displayName: string;
+            name: string;
+            originalEventName: "tip-latest"
+            providerId: string;
+            sessionTop: boolean;
+            type: "tip"
+            _id: string;
+        },
+        'cheer-latest': {
+            amount: number;
+            avatar: string;
+            displayName: string;
+            providerId: string;
+            message: string;
+            name: string;
+            _id: string;
+            sessionTop: boolean;
+            type: 'cheer';
+            originalEventName: 'cheer-latest';
+        },
+        'raid-latest': {
+            amount: number;
+            avatar: string;
+            displayName: string;
+            name: string;
+            originalEventName: 'raid-latest';
+            providerId: string;
+            sessionTop: boolean;
+            type: 'raid';
+            _id: string;
+        },
+        'message': {
+
+            data: {
+                badges: {
+                    description: string;
+                    type: string;
+                    url: string;
+                    version: string;
+                }[];
+                channel: string;
+                displayColor: string;
+                displayName: string;
+                emotes: {
+                    animated: boolean;
+                    end: number;
+                    gif: boolean;
+                    id: string;
+                    name: string;
+                    start: number;
+                    type: string;
+                    urls: { [key as number]: string };
+                }[];
+                isAction: boolean;
+                msgId: string;
+                nick: string;
+                tags: { [key: string]: string };
+                text: string;
+                time: number;
+                userId: string;
+            },
+            renderedText: string;
+            service: string;
+        },
+        'delete-message': {
+            
+        }
+    }
+    // | 'delete-message'
+    // | 'delete-messages'
+    // | 'event:skip'
+    // | 'alertService:toggleSound'
+    // | 'bot:counter'
+    // | 'kvstore:update'
+    // | 'widget-button';
+
+    interface WidgetEvent<EventType extends keyof WidgetEventConfig> {
+        event: WidgetEventConfig[EventType],
+        listener: EventType,
+    }
+
+    interface WidgetLoadEvent {
         channel: {
             username: string;
             providerId: string;
