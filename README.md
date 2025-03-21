@@ -24,18 +24,26 @@ pnpm dev
 ```
 
 ## Development
-
 1. Create a new folder under src/widgets with your widgets name
-1. Create 4 seperate files (name them "custom") with .css, .html, .js, .json file extensions
-4. Change `currentWidget` to the relevant type `chat` | `eventlist` | `goal` in files `src/views/CustomWidgetEditor.vue` and `src/views/CustomWidgetPreview.vue`
-5. Create a `config.ts` file within the widget folder to define the widget type
+2. Create 4 seperate files `custom.css`, `custom.html`, (`custom.js` or `custom.ts`) and `custom.json`. Those 4 files represent the custom code that's used in a Streamelements widget.
+3. Each folder within the `src/widgets` directory represent a widget that can be previewed and tested
 
+## Using Typescript
+If you want of type safety, create a `custom.ts` file instead of `custom.js` in the widget folder (You can't have a `.js` file and a `.ts` file in the same widget directory)
+
+Custom types for each widget will be generated based on data in `custom.json` in the widget directory. Data sent for any of the Streamelements events will be correctly typed based on those custom fields.
+
+The expected event data for the following Streamelements events are fully typed.
 ```Typescript
-// config.ts
+// custom.ts
 
-import type { WidgetConfig } from "../types"
+window.addEventListener('onWidgetLoad', function (obj) {});
 
-export default {
-    type: 'chat'
-} as WidgetConfig
+window.addEventListener('onEventReceived', function (obj) {});
+
+window.addEventListener("onSessionUpdate", function (obj) {});
 ```
+
+The Streamelements API is also fully typed. It's available under the global scope declared as `SE_API`. Exactly the same as expected in widgets once live in Streamelements.
+
+All custom field types should be generated during the build step or after saving any `custom.json` file, which triggers HMR (Hot module reload)
