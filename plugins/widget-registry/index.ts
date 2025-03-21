@@ -7,6 +7,7 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
   outputFile: 'src/widget-registry.ts',
   fileExtensions: {
     js: ['.js'],
+    ts: ['.ts'],
     css: ['.css',],
     template: ['.html',],
     fields: ['.json',],
@@ -37,24 +38,16 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
           const assets: Assets = {};
           let config;
 
+          const fileFilter = ['tsconfig.json', 'custom-fields.d.ts'];
           for (const file of moduleFiles) {
             const extension = path.extname(file);
 
             for (const [assetType, validExtensions] of Object.entries(fileExtensions)) {
-              if (validExtensions.includes(extension)) {
+              if (validExtensions.includes(extension) && !fileFilter.includes(file)) {
                 const importPath = path.join('@/widgets', moduleName, file)
                   .replace(/\\/g, '/');
                 const newImport = generateImport({ filePath: importPath, type: assetType, raw: true });
                 assets[assetType] = `${newImport.name}`;
-                imports.push(newImport.statement);
-                break;
-              }
-              else if (extension === '.ts') {
-                const importPath = path.join('@/widgets', moduleName, file)
-                  .replace(/\\/g, '/').replace(/\.ts$/g, '');;
-                  
-                const newImport = generateImport({ filePath: importPath, type: 'ts', raw: false });
-                config = newImport.name;
                 imports.push(newImport.statement);
                 break;
               }
@@ -74,7 +67,6 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
 
         // Generate the TypeScript file content
         const content = `// Auto-generated module registry
-// Generated on ${new Date().toISOString()}
 
 ${imports.join('\n')}
 

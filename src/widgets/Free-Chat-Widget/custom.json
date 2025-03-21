@@ -5,6 +5,12 @@
       "type": "button",
       "value": "hexeum_test_message"
     },
+    "testBtn": {
+      "label": "Send Btn Message",
+      "group": "Preview",
+      "type": "button",
+      "value": "send_new_btn"
+    },
     "previewModeLabel": {
       "label": "Preview Mode",
       "group": "Preview",
@@ -34,8 +40,8 @@
     "borderThickness":{
       "group": "Chat Box Style",
       "label": "Border Thickness",
-      "type": "textfield",
-      "value": "2"
+      "type": "number",
+      "value": 2
     },
     "glow": {
       "label": "Glow",

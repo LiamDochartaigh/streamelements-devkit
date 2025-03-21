@@ -14,8 +14,10 @@
   --height: {height}px;
   --border-thickness: {borderThickness};
   --backdrop-opacity: {bgOpacity};
-    font-family: '{fontName}', cursive;
-    font-weight: {messageFontWeight};
+  --font-family: '{fontName}', cursive;
+  --msg-font-weight: {messageFontWeight};
+    font-family: var(--font-familt);
+    font-weight: var(--msg-font-weight);
 }
 
 #goalInset{

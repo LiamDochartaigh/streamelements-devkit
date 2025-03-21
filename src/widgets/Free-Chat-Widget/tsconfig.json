@@ -1,0 +1,13 @@
+{
+  "include": [
+    "./**/*.ts",
+    "../../se-types.d.ts"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strict": true
+  }
+}
