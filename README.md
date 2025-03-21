@@ -31,7 +31,7 @@ pnpm dev
 ## Using Typescript
 If you want of type safety, create a `custom.ts` file instead of `custom.js` in the widget folder (You can't have a `.js` file and a `.ts` file in the same widget directory)
 
-Custom types for each widget will be generated based on data in `custom.json` in the widget directory. Data sent for any of the Streamelements events will be correctly typed based on those custom fields.
+Custom types for each widget are generated based on data in `custom.json` for each widget directory. Data sent for any Streamelements events are correctly typed based on custom fields.
 
 The expected event data for the following Streamelements events are fully typed.
 ```Typescript
