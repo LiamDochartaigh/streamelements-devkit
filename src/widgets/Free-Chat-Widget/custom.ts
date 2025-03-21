@@ -167,7 +167,6 @@ async function GetData() {
 }
 
 window.addEventListener('onWidgetLoad', function (obj) {
-  // added new value in JSON but no update
   SetData();
   let fieldData = obj.detail.fieldData;
   hideMessageTime = fieldData.hideMessage;
@@ -185,7 +184,10 @@ window.addEventListener('onWidgetLoad', function (obj) {
 window.addEventListener("onSessionUpdate", function (obj) {
 });
 
-window.addEventListener('onEventReceived', function (obj: any) {
+window.addEventListener('onEventReceived', function (obj) {
+  if(obj.detail.listener === 'follower-latest') {
+     
+  }
   const listener = obj.detail.listener;
   if (listener == "message") {
     let data = obj.detail.event.data;

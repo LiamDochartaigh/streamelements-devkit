@@ -5,6 +5,12 @@
       "type": "button",
       "value": "hexeum_test_message"
     },
+    "testBtn": {
+      "label": "Send Btn Message",
+      "group": "Preview",
+      "type": "button",
+      "value": "hexeum_test_btn"
+    },
     "previewModeLabel": {
       "label": "Preview Mode",
       "group": "Preview",

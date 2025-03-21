@@ -1,122 +1,159 @@
+import type { event } from "jquery";
+
 export { };
 
 declare global {
     interface Window {
         addEventListener(type: 'onWidgetLoad', listener: (event: CustomEvent<WidgetLoadEvent>) => void): void;
-        addEventListener(type: 'onEventReceived', listener: (event: CustomEvent<EventReceived>) => void): void;
+        addEventListener(type: 'onEventReceived', listener: (event: CustomEvent<WidgetEventConfig>) => void): void;
     }
 
     interface CustomFields { }
 
-    type WidgetEventConfig = {
-        'follower-latest': {
-            avatar: string;
-            displayName: string;
-            name: string;
-            originalEventName: 'follower-latest';
-            providerId: string;
-            sessionTop: boolean;
-            type: 'follower';
-            _id: string;
-        },
-        'subscriber-latest': {
-            amount: number;
-            avatar: string;
-            displayName: string;
-            name: string;
-            originalEventName: "subscriber-latest"
-            providerId: string;
-            sessionTop: boolean;
-            sender?: string;
-            gifted?: boolean;
-            isCommunityGift?: boolean;
-            playedAsCommunityGift?: boolean;
-            type: "subscriber"
-            _id: string;
-        },
-        'tip-latest': {
-            amount: number;
-            avatar: string;
-            displayName: string;
-            name: string;
-            originalEventName: "tip-latest"
-            providerId: string;
-            sessionTop: boolean;
-            type: "tip"
-            _id: string;
-        },
-        'cheer-latest': {
-            amount: number;
-            avatar: string;
-            displayName: string;
-            providerId: string;
-            message: string;
-            name: string;
-            _id: string;
-            sessionTop: boolean;
-            type: 'cheer';
-            originalEventName: 'cheer-latest';
-        },
-        'raid-latest': {
-            amount: number;
-            avatar: string;
-            displayName: string;
-            name: string;
-            originalEventName: 'raid-latest';
-            providerId: string;
-            sessionTop: boolean;
-            type: 'raid';
-            _id: string;
-        },
-        'message': {
-
-            data: {
-                badges: {
-                    description: string;
-                    type: string;
-                    url: string;
-                    version: string;
-                }[];
-                channel: string;
-                displayColor: string;
+    type WidgetEventConfig =
+        {
+            listener: 'follower-latest';
+            event: {
+                avatar: string;
                 displayName: string;
-                emotes: {
-                    animated: boolean;
-                    end: number;
-                    gif: boolean;
-                    id: string;
-                    name: string;
-                    start: number;
-                    type: string;
-                    urls: { [key as number]: string };
-                }[];
-                isAction: boolean;
+                name: string;
+                originalEventName: 'follower-latest';
+                providerId: string;
+                sessionTop: boolean;
+                type: 'follower';
+                _id: string;
+            }
+        } | {
+            listener: 'subscriber-latest'
+            event: {
+                amount: number;
+                avatar: string;
+                displayName: string;
+                name: string;
+                originalEventName: "subscriber-latest"
+                providerId: string;
+                sessionTop: boolean;
+                sender?: string;
+                gifted?: boolean;
+                isCommunityGift?: boolean;
+                playedAsCommunityGift?: boolean;
+                type: "subscriber"
+                _id: string;
+            }
+        } | {
+            listener: 'tip-latest';
+            event: {
+                amount: number;
+                avatar: string;
+                displayName: string;
+                name: string;
+                originalEventName: "tip-latest"
+                providerId: string;
+                sessionTop: boolean;
+                type: "tip"
+                _id: string;
+            }
+        } | {
+            listener: 'cheer-latest';
+            event: {
+                amount: number;
+                avatar: string;
+                displayName: string;
+                providerId: string;
+                message: string;
+                name: string;
+                _id: string;
+                sessionTop: boolean;
+                type: 'cheer';
+                originalEventName: 'cheer-latest';
+            }
+        } | {
+            listener: 'raid-latest';
+            event: {
+                amount: number;
+                avatar: string;
+                displayName: string;
+                name: string;
+                originalEventName: 'raid-latest';
+                providerId: string;
+                sessionTop: boolean;
+                type: 'raid';
+                _id: string;
+            }
+        } | {
+            listener: 'message';
+            event: {
+                data: {
+                    badges: {
+                        description: string;
+                        type: string;
+                        url: string;
+                        version: string;
+                    }[];
+                    channel: string;
+                    displayColor: string;
+                    displayName: string;
+                    emotes: {
+                        animated: boolean;
+                        end: number;
+                        gif: boolean;
+                        id: string;
+                        name: string;
+                        start: number;
+                        type: string;
+                        urls: { [key as number]: string };
+                    }[];
+                    isAction: boolean;
+                    msgId: string;
+                    nick: string;
+                    tags: { [key: string]: string };
+                    text: string;
+                    time: number;
+                    userId: string;
+                },
+                renderedText: string;
+                service: string;
+            }
+        } | {
+            listener: 'delete-message';
+            event: {
                 msgId: string;
-                nick: string;
-                tags: { [key: string]: string };
-                text: string;
-                time: number;
+            }
+        } | {
+            listener: 'delete-messages';
+            event: {
                 userId: string;
-            },
-            renderedText: string;
-            service: string;
-        },
-        'delete-message': {
-            
+            }
+        } | {
+            listener: 'event:skip';
+            event: {}
+        } | {
+            listener: 'alertService:toggleSound';
+            event: {
+                muted: boolean;
+            }
+        } | {
+            listener: 'bot:counter';
+            event: {
+                counter: string;
+                value: number;
+            }
+        } | {
+            listener: 'kvstore:update';
+            event: {
+                data: {
+                    key: string;
+                    value: any;
+                }
+            }
+        } | {
+            listener: 'event:test';
+            event: {
+                field: string;
+                value: string;
+                listener: 'widget-button';
+            }
         }
-    }
-    // | 'delete-message'
-    // | 'delete-messages'
-    // | 'event:skip'
-    // | 'alertService:toggleSound'
-    // | 'bot:counter'
-    // | 'kvstore:update'
-    // | 'widget-button';
-
-    interface WidgetEvent<EventType extends keyof WidgetEventConfig> {
-        event: WidgetEventConfig[EventType],
-        listener: EventType,
-    }
 
     interface WidgetLoadEvent {
         channel: {
@@ -573,8 +610,8 @@ declare global {
         'counter_get': {
             data: { key: string };
             response: Promise<{
-                counter: string;
-                value: number;
+                count: number;
+                id: string;
             }>;
         };
         'store_get': {
