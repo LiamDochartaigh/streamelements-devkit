@@ -11,15 +11,15 @@ import Celestial_Chat_Box_fields_custom from '@/widgets/Celestial Chat Box/custo
 import Free_Chat_Widget_css_custom from '@/widgets/Free-Chat-Widget/custom.css?raw';
 import Free_Chat_Widget_template_custom from '@/widgets/Free-Chat-Widget/custom.html?raw';
 import Free_Chat_Widget_fields_custom from '@/widgets/Free-Chat-Widget/custom.json?raw';
-import Free_Chat_Widget_ts_custom from '@/widgets/Free-Chat-Widget/custom.ts?raw';
+import Free_Chat_Widget_ts_custom from '@/widgets/Free-Chat-Widget/custom.ts';
 import Hacker_Chat_Box_css_custom from '@/widgets/Hacker Chat Box/custom.css?raw';
 import Hacker_Chat_Box_template_custom from '@/widgets/Hacker Chat Box/custom.html?raw';
+import Hacker_Chat_Box_js_custom from '@/widgets/Hacker Chat Box/custom.js?raw';
 import Hacker_Chat_Box_fields_custom from '@/widgets/Hacker Chat Box/custom.json?raw';
-import Hacker_Chat_Box_ts_custom from '@/widgets/Hacker Chat Box/custom.ts?raw';
 import Minesweeper_css_custom from '@/widgets/Minesweeper/custom.css?raw';
 import Minesweeper_template_custom from '@/widgets/Minesweeper/custom.html?raw';
 import Minesweeper_fields_custom from '@/widgets/Minesweeper/custom.json?raw';
-import Minesweeper_ts_custom from '@/widgets/Minesweeper/custom.ts?raw';
+import Minesweeper_ts_custom from '@/widgets/Minesweeper/custom.ts';
 import Neon_Christmas_Chat_Box_css_custom from '@/widgets/Neon Christmas Chat Box/custom.css?raw';
 import Neon_Christmas_Chat_Box_template_custom from '@/widgets/Neon Christmas Chat Box/custom.html?raw';
 import Neon_Christmas_Chat_Box_js_custom from '@/widgets/Neon Christmas Chat Box/custom.js?raw';
@@ -70,8 +70,8 @@ export const widgets = [
   assets: {
     css: Hacker_Chat_Box_css_custom,
     template: Hacker_Chat_Box_template_custom,
-    fields: Hacker_Chat_Box_fields_custom,
-    ts: Hacker_Chat_Box_ts_custom
+    js: Hacker_Chat_Box_js_custom,
+    fields: Hacker_Chat_Box_fields_custom
   }
 },
 {
