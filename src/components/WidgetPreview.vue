@@ -5,21 +5,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import lodash from "lodash";
-
-import seData from "../assets/StreamElementsData.json"
-import eventsData from "../assets/StreamEventsData.json"
-import SessionData from "../assets/SessionUpdateData.json";
+import seData from "@/assets/StreamElementsData.json";
+import eventsData from "@/assets/StreamEventsData.json";
+import SessionData from "@/assets/SessionUpdateData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { v4 as uuidv4 } from 'uuid';
 import { widgets } from "@/widget-registry";
 
+const props = defineProps({
+    fields: {
+        type: Object as PropType<IndexableType>,
+        required: true
+    }
+});
+
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
 
-const originalFieldsdata: IndexableType = JSON.parse(widget.assets.fields);
-const fieldsdata: IndexableType = JSON.parse(widget.assets.fields);
+const originalFieldsdata: IndexableType = lodash.cloneDeep(props.fields);
 const updatedCSS = ref(widget.assets.css);
 const updatedJS = ref(widget.assets.js ?? widget.assets.ts);
 const updatedHTML = ref(widget.assets.template);
@@ -27,12 +31,6 @@ const updatedSeData: IndexableType = seData;
 const eventsDataTypes: IndexableType = eventsData;
 const iFrameContainer = ref();
 const timeoutId = ref<number | null>(null);
-const enum WidgetTypes {
-    chat,
-    goal,
-    eventlist
-}
-const customFieldGroups = ref<string[]>([]);
 let chatMessageIds: string[] = [];
 let chatMessageUserIds: string[] = [];
 let chatCounter = 0;
@@ -182,25 +180,15 @@ function ResetWidget() {
     InitializeWidget();
 }
 
-function BuildSidebar() {
-    const groups: string[] = [];
-    Object.keys(fieldsdata).forEach(currkey => {
-        if (groups.filter(group => group === fieldsdata[currkey].group.toString()).length === 0) {
-            groups.push(fieldsdata[currkey].group.toString());
-        }
-    });
-    customFieldGroups.value = groups;
-}
-
 function ApplyTemplateToFile(fileString: string) {
     let fieldsKeys = Object.keys(originalFieldsdata);
     fieldsKeys.forEach(key => {
         const pattern = new RegExp(`{{\\s*${key}\\s*}}`, 'g');
-        fileString = fileString.replace(pattern, fieldsdata[key].value);
+        fileString = fileString.replace(pattern, props.fields[key].value);
     });
     fieldsKeys.forEach(key => {
         const pattern = new RegExp(`{\\s*${key}\\s*}`, 'g');
-        fileString = fileString.replace(pattern, fieldsdata[key].value);
+        fileString = fileString.replace(pattern, props.fields[key].value);
     });
     return fileString;
 }
@@ -215,9 +203,9 @@ const widgetDimensions = computed(() => {
 
 function InitializeWidget() {
 
-    let fieldsKeys = Object.keys(fieldsdata);
+    let fieldsKeys = Object.keys(props.fields);
     fieldsKeys.forEach(key => {
-        updatedSeData.fieldData[key] = fieldsdata[key].value;
+        updatedSeData.fieldData[key] = props.fields[key].value;
     });
 
     updatedCSS.value = ApplyTemplateToFile(widget.assets.css);
@@ -358,7 +346,7 @@ function GenerateRandomMessage() {
     return randomMessageData;
 }
 
-function DispatchIframeEvent(event: CustomEvent) {
+function DispatchIframeEvent(event: CustomEvent | MessageEvent) {
     const iframe = iFrameContainer.value.querySelector('iframe') as HTMLIFrameElement;
     const iframeWindow = iframe.contentWindow;
     if (iframeWindow) {
@@ -366,16 +354,52 @@ function DispatchIframeEvent(event: CustomEvent) {
     }
 }
 
+function MessageHandler(event: MessageEvent<{
+    key: string;
+    request: string;
+    response: string;
+    value: string;
+}>): void {
+
+    const resolveEvent = (result: any) => new MessageEvent('message', {
+        data: {
+            listener: event.data.response,
+            event: undefined,
+            result: result
+        }
+    });
+
+    if (event.data.request == 'store_set') {
+        localStorage.setItem(event.data.key, event.data.value);
+        DispatchIframeEvent(resolveEvent({
+            key: event.data.key,
+            message: 'successfully updated key'
+        }));
+    }
+    else if (event.data.request == 'store_get') {
+        const data = localStorage.getItem(event.data.key);
+        DispatchIframeEvent(resolveEvent({
+            value: data
+        }));
+    }
+}
+
 onMounted(() => {
     ResetWidget()
-    BuildSidebar();
+    window.addEventListener('message', MessageHandler);
 });
 
 onBeforeUnmount(() => {
     if (timeoutId.value) {
         clearTimeout(timeoutId.value);
     }
+    window.removeEventListener('message', MessageHandler);
 })
+
+defineExpose({
+    DispatchIframeEvent,
+});
+
 </script>
 
 <style>

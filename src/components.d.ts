@@ -12,6 +12,7 @@ declare module 'vue' {
     Checkbox: typeof import('./components/CustomFields/Checkbox.vue')['default']
     ColorPicker: typeof import('./components/CustomFields/ColorPicker.vue')['default']
     CustomField: typeof import('./components/CustomFields/CustomField.vue')['default']
+    CustomWidgetPreview: typeof import('./components/CustomWidgetPreview.vue')['default']
     Dropdown: typeof import('./components/CustomFields/Dropdown.vue')['default']
     GoogleFont: typeof import('./components/CustomFields/GoogleFont.vue')['default']
     Hidden: typeof import('./components/CustomFields/Hidden.vue')['default']
@@ -20,5 +21,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Slider: typeof import('./components/CustomFields/Slider.vue')['default']
     Textfield: typeof import('./components/CustomFields/Textfield.vue')['default']
+    WidgetPreview: typeof import('./components/WidgetPreview.vue')['default']
   }
 }
