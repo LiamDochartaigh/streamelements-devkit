@@ -71,6 +71,11 @@
     "watch": true,
     "watchEffect": true,
     "watchPostEffect": true,
-    "watchSyncEffect": true
+    "watchSyncEffect": true,
+    "ButtonClicked": true,
+    "GenerateRandomEvent": true,
+    "GenerateRandomMessage": true,
+    "GenerateBanEvent": true,
+    "GenerateDeleteMessageEvent": true
   }
 }

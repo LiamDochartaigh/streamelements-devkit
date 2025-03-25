@@ -28,7 +28,7 @@ export default defineConfig({
       },
       vueTemplate: true,
       include: [/\.[jt]sx?$/, /\.astro$/, /\.vue$/, /\.vue\?vue/, /\.svelte$/],
-      dirs: ['./src/utils'],
+      dirs: ['src/utils'],
     }),
     Components({
       dts: 'src/components.d.ts',

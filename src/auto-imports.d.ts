@@ -6,7 +6,12 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const ButtonClicked: typeof import('./utils/events')['ButtonClicked']
   const EffectScope: typeof import('vue')['EffectScope']
+  const GenerateBanEvent: typeof import('./utils/events')['GenerateBanEvent']
+  const GenerateDeleteMessageEvent: typeof import('./utils/events')['GenerateDeleteMessageEvent']
+  const GenerateRandomEvent: typeof import('./utils/events')['GenerateRandomEvent']
+  const GenerateRandomMessage: typeof import('./utils/events')['GenerateRandomMessage']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
@@ -77,7 +82,12 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
+    readonly ButtonClicked: UnwrapRef<typeof import('./utils/events')['ButtonClicked']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly GenerateBanEvent: UnwrapRef<typeof import('./utils/events')['GenerateBanEvent']>
+    readonly GenerateDeleteMessageEvent: UnwrapRef<typeof import('./utils/events')['GenerateDeleteMessageEvent']>
+    readonly GenerateRandomEvent: UnwrapRef<typeof import('./utils/events')['GenerateRandomEvent']>
+    readonly GenerateRandomMessage: UnwrapRef<typeof import('./utils/events')['GenerateRandomMessage']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
