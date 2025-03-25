@@ -1,18 +1,14 @@
-export default {}
-
-let messageID = '';
-let fieldData: CustomFields;
-let mutedUsersArray: string[] = [];
-
-//Platform Specific
+var custom_default = {};
+let messageID = "";
+let fieldData;
+let mutedUsersArray = [];
 let minPadding = 5;
-let thickness: number;
+let thickness;
 let shapeRoundness;
-let widgetWidth: number;
-let widgetHeight: number;
-let paddingBorder: number;
+let widgetWidth;
+let widgetHeight;
+let paddingBorder;
 let wigdetPadding = 20;
-
 const PREVIEW_CHAT_MESSAGES = [
   {
     name: "steviebiscuits",
@@ -47,7 +43,6 @@ const PREVIEW_CHAT_MESSAGES = [
     message: "I love this channel so much! Kreygasm"
   }
 ];
-
 const PREVIEW_CHAT_EMOTES = [
   {
     "type": "ffz",
@@ -146,20 +141,17 @@ const PREVIEW_CHAT_EMOTES = [
     "end": 35
   }
 ];
-
 async function SetData() {
-  console.log("Widget Loaded ", await SE_API.store.set('tester', 'imagine some val'));
-  console.log('API Finished', SE_API);
+  console.log("Widget Loaded ", await SE_API.store.set("tester", "imagine some val"));
+  console.log("API Finished", SE_API);
   GetData();
 }
-
 async function GetData() {
-  console.log("Getting Data ", await SE_API.store.get('tester'));
-  const test = await SE_API.counters.get('tester')
-  SE_API.setField('fadeMessages', true, false);
+  console.log("Getting Data ", await SE_API.store.get("tester"));
+  const test = await SE_API.counters.get("tester");
+  SE_API.setField("fadeMessages", true, false);
 }
-
-window.addEventListener('onWidgetLoad', function (obj) {
+window.addEventListener("onWidgetLoad", function(obj) {
   SetData();
   fieldData = { ...obj.detail.fieldData };
   thickness = (fieldData.borderThickness ?? 0) < minPadding ? minPadding : fieldData.borderThickness ?? 0;
@@ -167,14 +159,12 @@ window.addEventListener('onWidgetLoad', function (obj) {
   SetRoundness();
   InitializeGoal();
 });
-
-window.addEventListener("onSessionUpdate", function (obj) {
-  obj.detail.session["tip-total"]
+window.addEventListener("onSessionUpdate", function(obj) {
+  obj.detail.session["tip-total"];
 });
-
-window.addEventListener('onEventReceived', function (obj) {
-  if (obj.detail.listener === 'event:test') {
-    console.log(obj.detail.event.value === 'hexeum_test_message');
+window.addEventListener("onEventReceived", function(obj) {
+  if (obj.detail.listener === "event:test") {
+    console.log(obj.detail.event.value === "hexeum_test_message");
   }
   const listener = obj.detail.listener;
   if (listener == "message") {
@@ -182,87 +172,77 @@ window.addEventListener('onEventReceived', function (obj) {
     BuildNewChatMessage(data);
   } else if (listener == "delete-message") {
     DeleteMessage(obj.detail.event.msgId);
-  }
-  else if (listener == 'delete-messages') {
+  } else if (listener == "delete-messages") {
     DeleteAllUserMessages(obj.detail.event.userId);
-  }
-  else if (listener == 'event:test' && obj.detail.event.value == "hexeum_test_message") {
+  } else if (listener == "event:test" && obj.detail.event.value == "hexeum_test_message") {
     let randomMessage = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * (PREVIEW_CHAT_MESSAGES.length - 1))];
     CreateTestMessage(randomMessage);
   }
 });
-
-function BuildNewChatMessage(data: any) {
-  if (!(data.text.startsWith("!") && fieldData.hideCommands === true) &&
-    !mutedUsersArray.includes(data.nick)) {
+function BuildNewChatMessage(data) {
+  if (!(data.text.startsWith("!") && fieldData.hideCommands === true) && !mutedUsersArray.includes(data.nick)) {
     let color = data.displayColor !== "" ? data.displayColor : "#fff";
     let from = data.displayName;
-    let message = buildMessage(data);;
+    let message = buildMessage(data);
+    ;
     let badges = BuildBadges(data.badges);
-    if (fieldData.chatStyle == 'bubbles') { addBubbleChatMessage(from, color, message, badges, data.userId, data.msgId); }
-    else { addChatMessage(from, color, message, badges, data.userId, data.msgId); }
-
+    if (fieldData.chatStyle == "bubbles") {
+      addBubbleChatMessage(from, color, message, badges, data.userId, data.msgId);
+    } else {
+      addChatMessage(from, color, message, badges, data.userId, data.msgId);
+    }
     $(".meta").removeAttr("style");
-
-    $(".sideBar").each(function () {
+    $(".sideBar").each(function() {
       let parentHeight = $(this).parent().outerHeight();
-      if (!parentHeight) return;
-      $(this).outerHeight(parentHeight * .9);
+      if (!parentHeight)
+        return;
+      $(this).outerHeight(parentHeight * 0.9);
     });
   }
 }
-
-function BuildBadges(badges: any) {
+function BuildBadges(badges) {
   let formattedBadges = "";
   for (let i = 0; i < badges.length; i++) {
     formattedBadges += `<img alt="" src="${badges[i].url}" class="badge"> `;
   }
   return formattedBadges;
 }
-
 function SetRoundness() {
-  if (fieldData.borderRoundness == "straight" && fieldData.chatStyle == 'bubbles') {
+  if (fieldData.borderRoundness == "straight" && fieldData.chatStyle == "bubbles") {
     shapeRoundness = 0;
-    $("body").css("--roundness", shapeRoundness + 'em');
-  }
-  else if (fieldData.borderRoundness == "soft" && fieldData.chatStyle == 'bubbles') {
+    $("body").css("--roundness", shapeRoundness + "em");
+  } else if (fieldData.borderRoundness == "soft" && fieldData.chatStyle == "bubbles") {
     shapeRoundness = 1;
-    $("body").css("--roundness", shapeRoundness + 'em');
-  }
-  else if (fieldData.borderRoundness == "round" && fieldData.chatStyle == 'bubbles') {
+    $("body").css("--roundness", shapeRoundness + "em");
+  } else if (fieldData.borderRoundness == "round" && fieldData.chatStyle == "bubbles") {
     shapeRoundness = 2;
-    $("body").css("--roundness", shapeRoundness + 'em');
-  }
-  else if (fieldData.borderRoundness == "straight" && fieldData.chatStyle == 'box') {
+    $("body").css("--roundness", shapeRoundness + "em");
+  } else if (fieldData.borderRoundness == "straight" && fieldData.chatStyle == "box") {
     shapeRoundness = 0;
-    $("body").css("--roundness", shapeRoundness + 'px');
-  }
-  else if (fieldData.borderRoundness == "soft" && fieldData.chatStyle == 'box') {
+    $("body").css("--roundness", shapeRoundness + "px");
+  } else if (fieldData.borderRoundness == "soft" && fieldData.chatStyle == "box") {
     shapeRoundness = 25;
-    $("body").css("--roundness", shapeRoundness + 'px');
-  }
-  else if (fieldData.borderRoundness == "round" && fieldData.chatStyle == 'box') {
+    $("body").css("--roundness", shapeRoundness + "px");
+  } else if (fieldData.borderRoundness == "round" && fieldData.chatStyle == "box") {
     shapeRoundness = 50;
-    $("body").css("--roundness", shapeRoundness + 'px');
+    $("body").css("--roundness", shapeRoundness + "px");
   }
 }
-
-function buildMessage(data: any) {
-  let emotes: any[] = data.emotes;
-  let words: string[] = data.text.split(" ");
-  let emoteMatch: string[] = [];
-  words.forEach(word => {
-    let match = emotes.find(emote => emote.name == word);
-    if (match !== undefined) {
-      let emoteHTML = `<img alt="" src="${match.urls[1]}" class="emote"/>`
+function buildMessage(data) {
+  let emotes = data.emotes;
+  let words = data.text.split(" ");
+  let emoteMatch = [];
+  words.forEach((word) => {
+    let match = emotes.find((emote) => emote.name == word);
+    if (match !== void 0) {
+      let emoteHTML = `<img alt="" src="${match.urls[1]}" class="emote"/>`;
       emoteMatch.push(emoteHTML);
-    } else emoteMatch.push(word);
+    } else
+      emoteMatch.push(word);
   });
-  return emoteMatch.join(' ');
+  return emoteMatch.join(" ");
 }
-
-function addBubbleChatMessage(from: string, color: string, message: string, badges: string,
-  userId: string, msgId: string) {
+function addBubbleChatMessage(from, color, message, badges, userId, msgId) {
   messageID = msgId;
   const newChatMsg = $.parseHTML(`<div class="chatMsgWrap" data-from="${userId}" data-id="${messageID}">
         <span class="bubble meta" style="color: ${color};">
@@ -275,41 +255,35 @@ function addBubbleChatMessage(from: string, color: string, message: string, badg
 		</div>
 	</div>  
 </div>`);
-  $(newChatMsg).appendTo('#log');
-
+  $(newChatMsg).appendTo("#log");
   if (fieldData.messageAnimation == false) {
-    $(`.chatMsgWrap[data-id="${messageID}"] .bubble.meta`)[0].style.transform = 'scale(0)';
-    $(`.chatMsgWrap[data-id="${messageID}"] .message.bubble`)[0].style.transform = 'scale(0)';
+    $(`.chatMsgWrap[data-id="${messageID}"] .bubble.meta`)[0].style.transform = "scale(0)";
+    $(`.chatMsgWrap[data-id="${messageID}"] .message.bubble`)[0].style.transform = "scale(0)";
     anime({
       targets: `.chatMsgWrap[data-id="${messageID}"] .bubble.meta`,
       scale: 1,
       duration: 800,
-      easing: "easeOutElastic",
+      easing: "easeOutElastic"
     });
-
     anime({
       targets: `.chatMsgWrap[data-id="${messageID}"] .message.bubble`,
       scale: 1,
       duration: 150,
       delay: 150,
-      easing: "easeInOutQuad",
+      easing: "easeInOutQuad"
     });
   }
-
   if (fieldData.fadeMessages == true) {
     anime({
       targets: `.chatMsgWrap[data-id="${messageID}"]`,
-      opacity: '0',
+      opacity: "0",
       duration: 500,
-      delay: (fieldData.hideMessage * 1000),
-      easing: "linear",
+      delay: fieldData.hideMessage * 1e3,
+      easing: "linear"
     });
   }
-
 }
-
-function addChatMessage(from: string,
-  color: string, message: string, badges: string, userId: string, msgId: string) {
+function addChatMessage(from, color, message, badges, userId, msgId) {
   messageID = msgId;
   const newChatMsg = $.parseHTML(`<div class="chatMsgWrap" style="margin-left: 100%" data-from="${userId}" data-id="${messageID}">
      <div class="containerAfter">
@@ -325,65 +299,54 @@ function addChatMessage(from: string,
 	</div>  
   <div class="seperator"></div>
 </div>`);
-  $(newChatMsg).appendTo('#log');
-
+  $(newChatMsg).appendTo("#log");
   if (fieldData.messageAnimation == false) {
     anime({
       targets: `.chatMsgWrap[data-id="${messageID}"]`,
-      marginLeft: '0%',
+      marginLeft: "0%",
       duration: 300,
-      easing: "easeInOutQuad",
+      easing: "easeInOutQuad"
     });
   }
-
   if (fieldData.fadeMessages == true) {
     anime({
       targets: `.chatMsgWrap[data-id="${messageID}"]`,
-      opacity: '0',
+      opacity: "0",
       duration: 500,
-      delay: (fieldData.hideMessage * 1000),
-      easing: "linear",
+      delay: fieldData.hideMessage * 1e3,
+      easing: "linear"
     });
   }
 }
-
-function DeleteMessage(msgId: string) {
+function DeleteMessage(msgId) {
   $(`.chatMsgWrap[data-id="${msgId}"] .message`).text("Message Deleted");
   $(`.chatMsgWrap[data-id="${msgId}"] .message`).css("font-style", "italic");
 }
-
-function DeleteAllUserMessages(userId: string) {
+function DeleteAllUserMessages(userId) {
   $(`.chatMsgWrap[data-from="${userId}"] .message`).text("Message Deleted");
   $(`.chatMsgWrap[data-from="${userId}"] .message`).css("font-style", "italic");
 }
-
-let angleTL, angleBL, angleTR, angleBR, goalWidthBottom, topLeftPosition, goalWidthTop,
-  bottomLeftPosition, bottomRightPosition, topRightPosition;
-
-let mainPathPoints: Vector2D[];
-
+let angleTL, angleBL, angleTR, angleBR, goalWidthBottom, topLeftPosition, goalWidthTop, bottomLeftPosition, bottomRightPosition, topRightPosition;
+let mainPathPoints;
 class Vector2D {
-  x: number;
-  y: number
-  constructor(x: number, y: number) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
   }
-
-  AddVector2D(v2: Vector2D) {
-    return new Vector2D((this.x + v2.x), (this.y + v2.y));
+  AddVector2D(v2) {
+    return new Vector2D(this.x + v2.x, this.y + v2.y);
   }
-  AddVector(x: number, y: number) {
-    return new Vector2D((this.x + x), (this.y + y));
+  AddVector(x, y) {
+    return new Vector2D(this.x + x, this.y + y);
   }
-  SubtractVector(x: number, y: number) {
-    return new Vector2D((this.x - x), (this.y - y));
+  SubtractVector(x, y) {
+    return new Vector2D(this.x - x, this.y - y);
   }
   RotateClockWise90Degrees() {
-    return new Vector2D(this.y * (-1), this.x);
+    return new Vector2D(this.y * -1, this.x);
   }
   RotateAntiClockWise90Degrees() {
-    return new Vector2D(this.y, this.x * (-1));
+    return new Vector2D(this.y, this.x * -1);
   }
   GetMagnitude() {
     return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
@@ -392,21 +355,18 @@ class Vector2D {
     return new Vector2D(this.x / this.GetMagnitude(), this.y / this.GetMagnitude());
   }
 }
-
 function SetViewBox() {
   widgetWidth = $("#hexeumWidget").width() ?? 0;
-  widgetHeight = $('#hexeumWidget').outerHeight() ?? 0;
-  paddingBorder = thickness > (widgetHeight / 2) ? widgetHeight / 2 : thickness;
-  $('#mainSVG').attr('viewBox', `0 0 ${widgetWidth} ${widgetHeight}`);
-  $('#backdropSVG').attr('viewBox', `0 0 ${widgetWidth} ${widgetHeight}`)
+  widgetHeight = $("#hexeumWidget").outerHeight() ?? 0;
+  paddingBorder = thickness > widgetHeight / 2 ? widgetHeight / 2 : thickness;
+  $("#mainSVG").attr("viewBox", `0 0 ${widgetWidth} ${widgetHeight}`);
+  $("#backdropSVG").attr("viewBox", `0 0 ${widgetWidth} ${widgetHeight}`);
 }
-
 function SetGoalAngles() {
   angleTL = 0;
   angleBL = 0;
   angleTR = 0;
   angleBR = 0;
-
   goalWidthBottom = widgetWidth - angleBL - angleBR;
   goalWidthTop = widgetWidth - angleTL - angleTR;
   topLeftPosition = new Vector2D(angleTL, 0);
@@ -415,88 +375,70 @@ function SetGoalAngles() {
   topRightPosition = new Vector2D(bottomRightPosition.x + angleBR - angleTR, bottomRightPosition.y - widgetHeight);
   mainPathPoints = [topLeftPosition, bottomLeftPosition, bottomRightPosition, topRightPosition];
 }
-
 function SetLog() {
-  $('#log').width($('#mainSVG').width() ?? 0 - ((wigdetPadding + thickness) * 2));
-  $('#log').height($('#mainSVG').height() ?? 0 - ((wigdetPadding + thickness) * 2));
+  $("#log").width($("#mainSVG").width() ?? 0 - (wigdetPadding + thickness) * 2);
+  $("#log").height($("#mainSVG").height() ?? 0 - (wigdetPadding + thickness) * 2);
 }
-
 function InitializeGoal() {
   SetViewBox();
   SetGoalAngles();
   SetLog();
-  if (fieldData.chatStyle != 'bubbles') {
+  if (fieldData.chatStyle != "bubbles") {
     BuildWidget();
   }
   $.getScript(
-    "https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js");
-  if (fieldData.previewMode == 'true') {
+    "https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"
+  );
+  if (fieldData.previewMode == "true") {
     PreviewChat();
   }
 }
-
-function GetNextPoint(pathPoints: Vector2D[], currentIndex: number) {
+function GetNextPoint(pathPoints, currentIndex) {
   if (currentIndex + 1 >= pathPoints.length) {
     return pathPoints[0];
-  }
-  else return pathPoints[currentIndex + 1];
+  } else
+    return pathPoints[currentIndex + 1];
 }
-
-function GetPreviousPoint(pathPoints: Vector2D[], currentIndex: number) {
-  if (currentIndex - 1 < 0) { return pathPoints[pathPoints.length - 1]; }
-  else return pathPoints[currentIndex - 1];
+function GetPreviousPoint(pathPoints, currentIndex) {
+  if (currentIndex - 1 < 0) {
+    return pathPoints[pathPoints.length - 1];
+  } else
+    return pathPoints[currentIndex - 1];
 }
-
-function CalculateSlope(p1: Vector2D, p2: Vector2D) {
-  let yVal = (p2.y - p1.y);
-  let xVal = (p2.x - p1.x);
+function CalculateSlope(p1, p2) {
+  let yVal = p2.y - p1.y;
+  let xVal = p2.x - p1.x;
   return yVal / xVal;
 }
-
-//Accepts a path of Vector2D's
-function BuildPath(pathPoints: Vector2D[], innerPadding = 50) {
+function BuildPath(pathPoints, innerPadding = 50) {
   let path;
-
-  //Programmatically determine the direction of the set of vectors in series
   const direction = -1;
-
   for (let i = 0; i < 3; i++) {
     const currentPoint = pathPoints[i];
     const nextPoint = GetNextPoint(pathPoints, i);
     const previousPoint = GetPreviousPoint(pathPoints, i);
-
     const firstSlope = CalculateSlope(previousPoint, currentPoint);
     const secondSlope = CalculateSlope(currentPoint, nextPoint);
-
-    //If the slopes are the same, the lines are parallel
     if (firstSlope == secondSlope) {
       return null;
     }
-
-    const firstDirection = (firstSlope < 0 || Object.is(firstSlope, -0)) ? -1 : 1;
-    const secondDirection = (secondSlope < 0 || Object.is(secondSlope, -0)) ? -1 : 1;
-
-    //In this case we only can have a horizontal, vertical or normal line
-    if ((firstSlope == 0 || secondSlope == 0)
-      && (!isFinite(firstSlope) || !isFinite(secondSlope))) {
-      const xPosition = currentPoint.x + (innerPadding * firstDirection);
-      const yPosition = currentPoint.y + (innerPadding * secondDirection);
+    const firstDirection = firstSlope < 0 || Object.is(firstSlope, -0) ? -1 : 1;
+    const secondDirection = secondSlope < 0 || Object.is(secondSlope, -0) ? -1 : 1;
+    if ((firstSlope == 0 || secondSlope == 0) && (!isFinite(firstSlope) || !isFinite(secondSlope))) {
+      const xPosition = currentPoint.x + innerPadding * firstDirection;
+      const yPosition = currentPoint.y + innerPadding * secondDirection;
     }
   }
   return path;
 }
-
-
 function BuildWidget() {
   const pathMain = BuildPath(mainPathPoints);
-  $('#goalMain').attr("d", pathMain!);
-  $('#goalMainBounds').attr("d", pathMain!);
+  $("#goalMain").attr("d", pathMain);
+  $("#goalMainBounds").attr("d", pathMain);
 }
-
 function PreviewChat() {
   let i = 0;
   const interval = setInterval(() => {
-
     let randomMessage = PREVIEW_CHAT_MESSAGES[i];
     CreateTestMessage(randomMessage);
     i++;
@@ -505,8 +447,7 @@ function PreviewChat() {
     }
   }, 250);
 }
-
-function CreateTestMessage(randomMessage: typeof PREVIEW_CHAT_MESSAGES[number]) {
+function CreateTestMessage(randomMessage) {
   const msgId = GenerateRandomHexId();
   const color = "#fff";
   const from = randomMessage.name;
@@ -514,14 +455,19 @@ function CreateTestMessage(randomMessage: typeof PREVIEW_CHAT_MESSAGES[number]) 
   const badges = BuildBadges([{ url: "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3" }]);
   const msgData = {
     emotes: PREVIEW_CHAT_EMOTES,
-    text: randomMessage.message,
-  }
+    text: randomMessage.message
+  };
   const message = buildMessage(msgData);
-  if (fieldData.chatStyle == 'bubbles') { addBubbleChatMessage(from, color, message, badges, userId, msgId); }
-  else { addChatMessage(from, color, message, badges, userId, msgId); }
+  if (fieldData.chatStyle == "bubbles") {
+    addBubbleChatMessage(from, color, message, badges, userId, msgId);
+  } else {
+    addChatMessage(from, color, message, badges, userId, msgId);
+  }
 }
-
 function GenerateRandomHexId() {
   const randomHex = Math.floor(Math.random() * 65535).toString(16);
-  return randomHex.padStart(8, '0');
+  return randomHex.padStart(8, "0");
 }
+export {
+  custom_default as default
+};
