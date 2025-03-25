@@ -7,7 +7,6 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
   outputFile: 'src/widget-registry.ts',
   fileExtensions: {
     js: ['.js'],
-    ts: ['.ts'],
     css: ['.css',],
     template: ['.html',],
     fields: ['.json',],
@@ -38,7 +37,7 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
           const assets: Assets = {};
           let config;
 
-          const fileFilter = ['tsconfig.json', 'custom-fields.d.ts'];
+          const fileFilter = ['tsconfig.json'];
           for (const file of moduleFiles) {
             const extension = path.extname(file);
 
@@ -46,7 +45,7 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
               if (validExtensions.includes(extension) && !fileFilter.includes(file)) {
                 const importPath = path.join('@/widgets', moduleName, file)
                   .replace(/\\/g, '/');
-                const newImport = generateImport({ filePath: importPath, type: assetType, raw: true });
+                const newImport = generateImport({ filePath: importPath, type: assetType, virtualImport: extension === '.ts' ? '?raw' : '?raw' });
                 assets[assetType] = `${newImport.name}`;
                 imports.push(newImport.statement);
                 break;
@@ -89,7 +88,7 @@ ${stringifyWidgets}
   };
 }
 
-function generateImport({ filePath, type, raw }: { filePath: string, type: string, raw?: boolean }) {
+function generateImport({ filePath, type, virtualImport } : { filePath: string, type: string, virtualImport?: string }) {
 
   const pathParts = filePath.split('/');
   const widgetName = pathParts[pathParts.length - 2] || 'unknown';
@@ -105,7 +104,7 @@ function generateImport({ filePath, type, raw }: { filePath: string, type: strin
   // Import statements need to be relevant to the output file location
 
   return {
-    statement: `import ${sanitizedWidgetName}_${type}_${sanitizedFileName} from '${filePath + (raw ? '?raw' : '')}';`,
+    statement: `import ${sanitizedWidgetName}_${type}_${sanitizedFileName} from '${filePath + (virtualImport ? virtualImport : '')}';`,
     name: `${sanitizedWidgetName}_${type}_${sanitizedFileName}`,
   };
 }
