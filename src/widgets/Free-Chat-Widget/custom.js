@@ -1,19 +1,13 @@
-let hideMessageTime;
-let hideCommands;
-let mutedUsers = [];
-let disableMessageAnimations;
-let fadeMessages;
 let messageID = "";
-let style;
+let fieldData;
+let mutedUsersArray = [];
 let minPadding = 5;
-let thickness = (borderThickness ?? 0) < minPadding ? minPadding : borderThickness ?? 0;
+let thickness;
 let shapeRoundness;
-let roundSetting;
 let widgetWidth;
 let widgetHeight;
 let paddingBorder;
 let wigdetPadding = 20;
-let previewMode = "true";
 const PREVIEW_CHAT_MESSAGES = [
   {
     name: "steviebiscuits",
@@ -158,15 +152,9 @@ async function GetData() {
 }
 window.addEventListener("onWidgetLoad", function(obj) {
   SetData();
-  let fieldData = obj.detail.fieldData;
-  hideMessageTime = fieldData.hideMessage;
-  hideCommands = fieldData.hideCommands;
-  mutedUsers = fieldData.mutedUsers.toLowerCase().replace(" ", "").split(",");
-  disableMessageAnimations = fieldData.messageAnimation;
-  fadeMessages = fieldData.fadeMessages;
-  style = fieldData.chatStyle;
-  roundSetting = fieldData.borderRoundness;
-  previewMode = fieldData.previewMode;
+  fieldData = { ...obj.detail.fieldData };
+  thickness = (fieldData.borderThickness ?? 0) < minPadding ? minPadding : fieldData.borderThickness ?? 0;
+  mutedUsersArray = fieldData.mutedUsers.toLowerCase().replace(" ", "").split(",");
   SetRoundness();
   InitializeGoal();
 });
@@ -191,13 +179,13 @@ window.addEventListener("onEventReceived", function(obj) {
   }
 });
 function BuildNewChatMessage(data) {
-  if (!(data.text.startsWith("!") && hideCommands === true) && !mutedUsers.includes(data.nick)) {
+  if (!(data.text.startsWith("!") && fieldData.hideCommands === true) && !mutedUsersArray.includes(data.nick)) {
     let color = data.displayColor !== "" ? data.displayColor : "#fff";
     let from = data.displayName;
     let message = buildMessage(data);
     ;
     let badges = BuildBadges(data.badges);
-    if (style == "bubbles") {
+    if (fieldData.chatStyle == "bubbles") {
       addBubbleChatMessage(from, color, message, badges, data.userId, data.msgId);
     } else {
       addChatMessage(from, color, message, badges, data.userId, data.msgId);
@@ -219,22 +207,22 @@ function BuildBadges(badges) {
   return formattedBadges;
 }
 function SetRoundness() {
-  if (roundSetting == "straight" && style == "bubbles") {
+  if (fieldData.borderRoundness == "straight" && fieldData.chatStyle == "bubbles") {
     shapeRoundness = 0;
     $("body").css("--roundness", shapeRoundness + "em");
-  } else if (roundSetting == "soft" && style == "bubbles") {
+  } else if (fieldData.borderRoundness == "soft" && fieldData.chatStyle == "bubbles") {
     shapeRoundness = 1;
     $("body").css("--roundness", shapeRoundness + "em");
-  } else if (roundSetting == "round" && style == "bubbles") {
+  } else if (fieldData.borderRoundness == "round" && fieldData.chatStyle == "bubbles") {
     shapeRoundness = 2;
     $("body").css("--roundness", shapeRoundness + "em");
-  } else if (roundSetting == "straight" && style == "box") {
+  } else if (fieldData.borderRoundness == "straight" && fieldData.chatStyle == "box") {
     shapeRoundness = 0;
     $("body").css("--roundness", shapeRoundness + "px");
-  } else if (roundSetting == "soft" && style == "box") {
+  } else if (fieldData.borderRoundness == "soft" && fieldData.chatStyle == "box") {
     shapeRoundness = 25;
     $("body").css("--roundness", shapeRoundness + "px");
-  } else if (roundSetting == "round" && style == "box") {
+  } else if (fieldData.borderRoundness == "round" && fieldData.chatStyle == "box") {
     shapeRoundness = 50;
     $("body").css("--roundness", shapeRoundness + "px");
   }
@@ -267,7 +255,7 @@ function addBubbleChatMessage(from, color, message, badges, userId, msgId) {
 	</div>  
 </div>`);
   $(newChatMsg).appendTo("#log");
-  if (disableMessageAnimations == false) {
+  if (fieldData.messageAnimation == false) {
     $(`.chatMsgWrap[data-id="${messageID}"] .bubble.meta`)[0].style.transform = "scale(0)";
     $(`.chatMsgWrap[data-id="${messageID}"] .message.bubble`)[0].style.transform = "scale(0)";
     anime({
@@ -284,12 +272,12 @@ function addBubbleChatMessage(from, color, message, badges, userId, msgId) {
       easing: "easeInOutQuad"
     });
   }
-  if (fadeMessages == true) {
+  if (fieldData.fadeMessages == true) {
     anime({
       targets: `.chatMsgWrap[data-id="${messageID}"]`,
       opacity: "0",
       duration: 500,
-      delay: hideMessageTime * 1e3,
+      delay: fieldData.hideMessage * 1e3,
       easing: "linear"
     });
   }
@@ -311,7 +299,7 @@ function addChatMessage(from, color, message, badges, userId, msgId) {
   <div class="seperator"></div>
 </div>`);
   $(newChatMsg).appendTo("#log");
-  if (disableMessageAnimations == false) {
+  if (fieldData.messageAnimation == false) {
     anime({
       targets: `.chatMsgWrap[data-id="${messageID}"]`,
       marginLeft: "0%",
@@ -319,12 +307,12 @@ function addChatMessage(from, color, message, badges, userId, msgId) {
       easing: "easeInOutQuad"
     });
   }
-  if (fadeMessages == true) {
+  if (fieldData.fadeMessages == true) {
     anime({
       targets: `.chatMsgWrap[data-id="${messageID}"]`,
       opacity: "0",
       duration: 500,
-      delay: hideMessageTime * 1e3,
+      delay: fieldData.hideMessage * 1e3,
       easing: "linear"
     });
   }
@@ -394,13 +382,13 @@ function InitializeGoal() {
   SetViewBox();
   SetGoalAngles();
   SetLog();
-  if (style != "bubbles") {
+  if (fieldData.chatStyle != "bubbles") {
     BuildWidget();
   }
   $.getScript(
     "https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"
   );
-  if (previewMode == true) {
+  if (fieldData.previewMode == "true") {
     PreviewChat();
   }
 }
@@ -433,8 +421,8 @@ function BuildPath(pathPoints, innerPadding = 50) {
     if (firstSlope == secondSlope) {
       return null;
     }
-    const firstDirection = firstSlope < 0 || firstSlope == -0 ? -1 : 1;
-    const secondDirection = secondSlope < 0 || secondSlope == -0 ? -1 : 1;
+    const firstDirection = firstSlope < 0 || Object.is(firstSlope, -0) ? -1 : 1;
+    const secondDirection = secondSlope < 0 || Object.is(secondSlope, -0) ? -1 : 1;
     if ((firstSlope == 0 || secondSlope == 0) && (!isFinite(firstSlope) || !isFinite(secondSlope))) {
       const xPosition = currentPoint.x + innerPadding * firstDirection;
       const yPosition = currentPoint.y + innerPadding * secondDirection;
@@ -469,7 +457,7 @@ function CreateTestMessage(randomMessage) {
     text: randomMessage.message
   };
   const message = buildMessage(msgData);
-  if (style == "bubbles") {
+  if (fieldData.chatStyle == "bubbles") {
     addBubbleChatMessage(from, color, message, badges, userId, msgId);
   } else {
     addChatMessage(from, color, message, badges, userId, msgId);

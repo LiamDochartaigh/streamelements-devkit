@@ -3,7 +3,7 @@
         <div class="sidebar">
             <div v-for="(group, index) in customFieldGroups" :key="index">
                 <span @click="ExpandSidebarGroup(`${group}Group${index + 1}`.replace(/\s+/g, ''))"><strong>{{ group
-                        }}</strong></span>
+                }}</strong></span>
                 <div class="custom-field-group"
                     :ref="el => customFieldsRefs[`${group}Group${index + 1}`.replace(/\s+/g, '')] = el"
                     style="display: none; padding: 0px 5px 0px 5px;">
@@ -25,47 +25,38 @@
             <div>
                 <button @click="BanRandomUser">Ban/Timeout Random User</button>
             </div>
+            <div>
+                <button @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' : 'Off'}` }}</button>
+            </div>
         </div>
         <div class="overlay-wrapper">
             <div id="overlay" class="overlay">
-                <div ref="iFrameContainer" class="widget"
-                    :style="{ width: widgetDimensions[0] + 'px', height: widgetDimensions[1] + 'px' }">
-                </div>
+                <WidgetPreview :key="widgetKey" ref="widgetPreview" :simulate="simulate" :fields="fieldsdata"></WidgetPreview>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import lodash from "lodash";
-
 import CustomField from "@/components/CustomFields/CustomField.vue";
-import seData from "../assets/StreamElementsData.json"
 import eventsData from "../assets/StreamEventsData.json"
-import SessionData from "../assets/SessionUpdateData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { v4 as uuidv4 } from 'uuid';
 import { widgets } from "@/widget-registry";
-import SE_API from "@/assets/SE_API?raw";
+import WidgetPreview from "@/components/WidgetPreview.vue";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
+const widgetPreview = ref<InstanceType<typeof WidgetPreview>>();
+const widgetKey = ref(0);
 
-const originalFieldsdata: IndexableType = JSON.parse(widget.assets.fields);
-const fieldsdata: IndexableType = JSON.parse(widget.assets.fields);
-const updatedCSS = ref(widget.assets.css);
-const updatedJS = ref(widget.assets.js ?? widget.assets.ts);
-const updatedHTML = ref(widget.assets.template);
-const updatedSeData: IndexableType = seData;
+const fieldsdata = ref<IndexableType>(JSON.parse(widget.assets.fields));
+const simulate = ref(false);
 const eventsDataTypes: IndexableType = eventsData;
-const iFrameContainer = ref();
-const timeoutId = ref<number | null>(null);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
 let chatMessageIds: string[] = [];
 let chatMessageUserIds: string[] = [];
-let chatCounter = 0;
 let preview_Messages_Counter = 0;
 
 const PREVIEW_CHAT_EMOTES = [
@@ -202,26 +193,16 @@ const PREVIEW_CHAT_MESSAGES = [
     }
 ];
 
-let sessionData: IndexableType = lodash.cloneDeep(SessionData);
-
 function FieldUpdated(event: any, fieldName: any) {
-    fieldsdata[fieldName].value = event;
-    ResetWidget();
+    fieldsdata.value[fieldName].value = event;
+    widgetKey.value++;
 }
 
 function EditorButtonClicked(clickEvent: any) {
     if (clickEvent == "hexeum_test_message") {
         const event = new CustomEvent('onEventReceived', { detail: eventsData.editorButtonClickEvent })
-        DispatchIframeEvent(event);
+        widgetPreview.value?.DispatchIframeEvent(event);
     }
-}
-
-function ResetWidget() {
-    if (timeoutId.value) {
-        clearTimeout(timeoutId.value);
-    }
-    sessionData = lodash.cloneDeep(SessionData);
-    InitializeWidget();
 }
 
 function ExpandSidebarGroup(refID: string) {
@@ -232,9 +213,9 @@ function ExpandSidebarGroup(refID: string) {
 
 function BuildSidebar() {
     const groups: string[] = [];
-    Object.keys(fieldsdata).forEach(currkey => {
-        if (groups.filter(group => group === fieldsdata[currkey].group.toString()).length === 0) {
-            groups.push(fieldsdata[currkey].group.toString());
+    Object.keys(fieldsdata.value).forEach(currkey => {
+        if (groups.filter(group => group === fieldsdata.value[currkey].group.toString()).length === 0) {
+            groups.push(fieldsdata.value[currkey].group.toString());
         }
     });
     customFieldGroups.value = groups;
@@ -242,153 +223,12 @@ function BuildSidebar() {
 
 function GetFieldsKeyByGroup(groupName: string) {
     let filteredObject: IndexableType = {};
-    Object.keys(fieldsdata).forEach(key => {
-        if (fieldsdata[key].group === groupName) {
-            filteredObject[key] = fieldsdata[key];
+    Object.keys(fieldsdata.value).forEach(key => {
+        if (fieldsdata.value[key].group === groupName) {
+            filteredObject[key] = fieldsdata.value[key];
         }
     });
     return Object.keys(filteredObject);
-}
-
-function ApplyTemplateToFile(fileString: string) {
-    let fieldsKeys = Object.keys(originalFieldsdata);
-    fieldsKeys.forEach(key => {
-        const pattern = new RegExp(`{{\\s*${key}\\s*}}`, 'g');
-        fileString = fileString.replace(pattern, fieldsdata[key].value);
-    });
-    fieldsKeys.forEach(key => {
-        const pattern = new RegExp(`{\\s*${key}\\s*}`, 'g');
-        fileString = fileString.replace(pattern, fieldsdata[key].value);
-    });
-    return fileString;
-}
-
-function WrapJSFile(fileString: string) {
-    return `(function() { ${fileString} })();`;
-}
-
-const widgetDimensions = computed(() => {
-    return [800, 800];
-});
-
-function InitializeWidget() {
-
-    let fieldsKeys = Object.keys(fieldsdata);
-    fieldsKeys.forEach(key => {
-        updatedSeData.fieldData[key] = fieldsdata[key].value;
-    });
-
-    updatedCSS.value = ApplyTemplateToFile(widget.assets.css);
-    updatedJS.value = ApplyTemplateToFile(widget.assets.js ?? widget.assets.ts);
-    updatedJS.value = WrapJSFile(updatedJS.value);
-    updatedHTML.value = ApplyTemplateToFile(widget.assets.template);
-    iFrameContainer.value.innerHTML = "";
-    const iframe = document.createElement('iframe');
-    iframe.srcdoc = updatedHTML.value;
-    iFrameContainer.value.appendChild(iframe);
-    iframe.classList.add("widget-iframe");
-
-    iframe.onload = () => {
-        const iFrameDocument = iframe.contentDocument;
-        if (iFrameDocument) {
-
-            const script = document.createElement('script');
-            script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-            script.type = 'text/javascript';
-
-            script.addEventListener("load", function () {
-                const scriptElement = iFrameDocument.createElement('script');
-                scriptElement.innerHTML = updatedJS.value;
-                scriptElement.id = "custom-widget-script";
-
-                const apiElement = iFrameDocument.createElement('script');
-                apiElement.innerHTML = SE_API;
-                apiElement.id = "custom-widget-api";
-
-                const styleElement = iFrameDocument.createElement('style');
-                styleElement.textContent = updatedCSS.value;
-                styleElement.id = "custom-widget-style";
-
-                iFrameDocument.head.appendChild(styleElement);
-                iFrameDocument.head.appendChild(scriptElement);
-                iFrameDocument.head.appendChild(apiElement);
-
-                iFrameDocument.body.style.height = widgetDimensions.value[1] + 'px';
-                iFrameDocument.body.style.overflow = 'hidden';
-
-                //LoadChatBox();
-                //LoadGoals();
-            });
-            iFrameDocument.head.appendChild(script);
-        }
-    }
-}
-
-function LoadGoals() {
-    const loadEvent = new CustomEvent('onWidgetLoad', { detail: updatedSeData });
-    DispatchIframeEvent(loadEvent);
-    SimulateGoals();
-}
-
-function LoadChatBox() {
-    const loadEvent = new CustomEvent('onWidgetLoad', { detail: updatedSeData });
-    DispatchIframeEvent(loadEvent);
-    //SimulateChat(true);
-}
-
-function SimulateGoals() {
-    const randomAmount = Math.floor(Math.random() * (2 - 1 + 1) + 1);
-    sessionData.session["follower-total"].count += randomAmount;
-    const randTime = Math.floor(Math.random() * (4500 - 1500 + 1) + 1500);
-
-    const updateEvent = new CustomEvent('onSessionUpdate', { detail: sessionData });
-    timeoutId.value = setTimeout(() => {
-
-        DispatchIframeEvent(updateEvent);
-        SimulateGoals();
-    }, randTime);
-}
-
-function SimulateChat(continuously: boolean = true) {
-    if (continuously) {
-
-        let eventData;
-        if (chatCounter < 4) {
-            eventData = GenerateRandomMessage();
-            chatCounter++;
-        }
-        else {
-            eventData = GenerateRandomEvent();
-            chatCounter = 0;
-        }
-
-        const messageEvent = new CustomEvent('onEventReceived', { detail: eventData });
-        const randTime = Math.floor(Math.random() * (4500 - 1500 + 1) + 1500);
-        timeoutId.value = setTimeout(() => {
-            DispatchIframeEvent(messageEvent);
-            SimulateChat(continuously)
-        }, randTime);
-    }
-    else {
-        for (let i = 0; i < 10; i++) {
-            let randTime;
-            if (i == 0) randTime = 1000;
-            else randTime = Math.floor(Math.random() * (500 - 150 + 1) + 150);
-
-            setTimeout(() => {
-                let eventData;
-                const randomNumber = Math.round(Math.random());
-                if (randomNumber == 0) {
-                    eventData = GenerateRandomMessage();
-                }
-                else {
-                    eventData = GenerateRandomEvent();
-                }
-                const event = new CustomEvent('onEventReceived', { detail: eventData });
-                DispatchIframeEvent(event);
-            }, randTime);
-        }
-    }
 }
 
 function GenerateRandomEvent() {
@@ -401,7 +241,7 @@ function GenerateRandomEvent() {
 function TriggerRandomEvent() {
     let eventData = GenerateRandomEvent();
     const event = new CustomEvent('onEventReceived', { detail: eventData });
-    DispatchIframeEvent(event);
+    widgetPreview.value?.DispatchIframeEvent(event);
 }
 
 function GenerateRandomMessage() {
@@ -428,7 +268,7 @@ function GenerateRandomMessage() {
 function TriggerRandomMessage() {
     let eventData = GenerateRandomMessage();
     const event = new CustomEvent('onEventReceived', { detail: eventData });
-    DispatchIframeEvent(event);
+    widgetPreview.value?.DispatchIframeEvent(event);
 }
 
 function BanRandomUser() {
@@ -436,7 +276,7 @@ function BanRandomUser() {
     const randomId = chatMessageUserIds[Math.floor(Math.random() * chatMessageUserIds.length)];
     eventData.event.userId = randomId;
     const event = new CustomEvent('onEventReceived', { detail: eventData });
-    DispatchIframeEvent(event);
+    widgetPreview.value?.DispatchIframeEvent(event);
 }
 
 function DeleteRandomMessage() {
@@ -445,60 +285,12 @@ function DeleteRandomMessage() {
     eventData.event.msgId = randomId;
     chatMessageIds.splice(chatMessageIds.indexOf(randomId), 1);
     const event = new CustomEvent('onEventReceived', { detail: eventData });
-    DispatchIframeEvent(event);
-}
-
-function DispatchIframeEvent(event: CustomEvent | MessageEvent) {
-    const iframe = iFrameContainer.value.querySelector('iframe') as HTMLIFrameElement;
-    const iframeWindow = iframe.contentWindow;
-    if (iframeWindow) {
-        iframeWindow.dispatchEvent(event);
-    }
-}
-
-function MessageHandler(event: MessageEvent<{
-    key: string;
-    request: string;
-    response: string;
-    value: string;
-}>): void {
-
-    const resolveEvent = (result: any) => new MessageEvent('message', {
-        data: {
-            listener: event.data.response,
-            event: undefined,
-            result: result
-        }
-    });
-
-    if (event.data.request == 'store_set') {
-        localStorage.setItem(event.data.key, event.data.value);
-        DispatchIframeEvent(resolveEvent({
-            key: event.data.key,
-            message: 'successfully updated key'
-        }));
-    }
-    else if (event.data.request == 'store_get') {
-        const data = localStorage.getItem(event.data.key);
-        DispatchIframeEvent(resolveEvent({
-            value: data
-        }));
-    }
+    widgetPreview.value?.DispatchIframeEvent(event);
 }
 
 onMounted(() => {
-    ResetWidget()
     BuildSidebar();
-
-    window.addEventListener('message', MessageHandler);
 });
-
-onBeforeUnmount(() => {
-    if (timeoutId.value) {
-        clearTimeout(timeoutId.value);
-    }
-    window.removeEventListener('message', MessageHandler);
-})
 </script>
 
 <style>

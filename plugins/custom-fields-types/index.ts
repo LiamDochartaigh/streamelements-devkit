@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Plugin } from 'vite';
 
-export default function widgetRegistry(options: any = {
+export default function genCustomFieldTypes(options: any = {
   modulesDir: 'src/widgets'
 }): Plugin {
   const { modulesDir } = options;
@@ -66,8 +66,7 @@ async function writeDeclarationFile(globalTypes: string[], propTypes: string[], 
   content = content.concat(
     `declare global {\n  interface CustomFields {\n    ${propTypes.join('\n    ')}\n  }`
   );
-  content = content.concat(`\n  type ButtonTypes = '${buttonTypes.join('\' | \'')}';`);
-  content = content.concat(`\n  ${globalTypes.join('\n  ')}\n }`);
+  content = content.concat(`\n  type ButtonTypes = '${buttonTypes.join('\' | \'')}'; \n}`);
   const outputFile = path.join(modulePath, 'custom-fields.d.ts');
   const outputDir = path.dirname(outputFile);
   await fs.mkdir(outputDir, { recursive: true });

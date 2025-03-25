@@ -20,5 +20,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Slider: typeof import('./components/CustomFields/Slider.vue')['default']
     Textfield: typeof import('./components/CustomFields/Textfield.vue')['default']
+    WidgetPreview: typeof import('./components/WidgetPreview.vue')['default']
   }
 }
