@@ -249,6 +249,7 @@ function InitializeWidget() {
 
                 iFrameDocument.head.appendChild(styleElement);
                 iFrameDocument.head.appendChild(scriptElement);
+                iFrameDocument.head.appendChild(apiElement);
 
                 iFrameDocument.body.style.height = widgetDimensions.value[1] + 'px';
                 iFrameDocument.body.style.overflow = 'hidden';
@@ -343,6 +344,7 @@ function GenerateRandomMessage() {
     chatMessageIds.push(randomID);
     let randomMessageData = { ...eventsData.chatMessage };
     randomMessageData.event.data.text = randomMessageText.message;
+    randomMessageData.event.renderedText = randomMessageText.message;
     randomMessageData.event.data.msgId = randomID;
     randomMessageData.event.data.emotes = PREVIEW_CHAT_EMOTES;
     randomMessageData.event.data.displayName = randomMessageText.name;

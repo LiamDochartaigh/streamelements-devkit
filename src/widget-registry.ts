@@ -10,12 +10,18 @@ import Celestial_Chat_Box_js_custom from '@/widgets/Celestial Chat Box/custom.js
 import Celestial_Chat_Box_fields_custom from '@/widgets/Celestial Chat Box/custom.json?raw';
 import Free_Chat_Widget_css_custom from '@/widgets/Free-Chat-Widget/custom.css?raw';
 import Free_Chat_Widget_template_custom from '@/widgets/Free-Chat-Widget/custom.html?raw';
+import Free_Chat_Widget_js_custom from '@/widgets/Free-Chat-Widget/custom.js?raw';
 import Free_Chat_Widget_fields_custom from '@/widgets/Free-Chat-Widget/custom.json?raw';
 import Free_Chat_Widget_ts_custom from '@/widgets/Free-Chat-Widget/custom.ts?raw';
 import Hacker_Chat_Box_css_custom from '@/widgets/Hacker Chat Box/custom.css?raw';
 import Hacker_Chat_Box_template_custom from '@/widgets/Hacker Chat Box/custom.html?raw';
+import Hacker_Chat_Box_js_custom from '@/widgets/Hacker Chat Box/custom.js?raw';
 import Hacker_Chat_Box_fields_custom from '@/widgets/Hacker Chat Box/custom.json?raw';
-import Hacker_Chat_Box_ts_custom from '@/widgets/Hacker Chat Box/custom.ts?raw';
+import Minesweeper_css_custom from '@/widgets/Minesweeper/custom.css?raw';
+import Minesweeper_template_custom from '@/widgets/Minesweeper/custom.html?raw';
+import Minesweeper_js_custom from '@/widgets/Minesweeper/custom.js?raw';
+import Minesweeper_fields_custom from '@/widgets/Minesweeper/custom.json?raw';
+import Minesweeper_ts_custom from '@/widgets/Minesweeper/custom.ts?raw';
 import Neon_Christmas_Chat_Box_css_custom from '@/widgets/Neon Christmas Chat Box/custom.css?raw';
 import Neon_Christmas_Chat_Box_template_custom from '@/widgets/Neon Christmas Chat Box/custom.html?raw';
 import Neon_Christmas_Chat_Box_js_custom from '@/widgets/Neon Christmas Chat Box/custom.js?raw';
@@ -57,6 +63,7 @@ export const widgets = [
   assets: {
     css: Free_Chat_Widget_css_custom,
     template: Free_Chat_Widget_template_custom,
+    js: Free_Chat_Widget_js_custom,
     fields: Free_Chat_Widget_fields_custom,
     ts: Free_Chat_Widget_ts_custom
   }
@@ -66,8 +73,18 @@ export const widgets = [
   assets: {
     css: Hacker_Chat_Box_css_custom,
     template: Hacker_Chat_Box_template_custom,
-    fields: Hacker_Chat_Box_fields_custom,
-    ts: Hacker_Chat_Box_ts_custom
+    js: Hacker_Chat_Box_js_custom,
+    fields: Hacker_Chat_Box_fields_custom
+  }
+},
+{
+  name: "Minesweeper",
+  assets: {
+    css: Minesweeper_css_custom,
+    template: Minesweeper_template_custom,
+    js: Minesweeper_js_custom,
+    fields: Minesweeper_fields_custom,
+    ts: Minesweeper_ts_custom
   }
 },
 {
