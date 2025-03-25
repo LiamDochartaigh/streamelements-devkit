@@ -12,11 +12,16 @@ import SessionData from "@/assets/SessionUpdateData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { v4 as uuidv4 } from 'uuid';
 import { widgets } from "@/widget-registry";
+import SE_API from "@/assets/SE_API?raw";
 
 const props = defineProps({
     fields: {
         type: Object as PropType<IndexableType>,
         required: true
+    },
+    simulate: {
+        type: Boolean as PropType<boolean>,
+        default: false
     }
 });
 
@@ -25,7 +30,7 @@ const widget = widgets.find(widget => widget.name === widgetName)!;
 
 const originalFieldsdata: IndexableType = lodash.cloneDeep(props.fields);
 const updatedCSS = ref(widget.assets.css);
-const updatedJS = ref(widget.assets.js ?? widget.assets.ts);
+const updatedJS = ref(widget.assets.js);
 const updatedHTML = ref(widget.assets.template);
 const updatedSeData: IndexableType = seData;
 const eventsDataTypes: IndexableType = eventsData;
@@ -209,7 +214,7 @@ function InitializeWidget() {
     });
 
     updatedCSS.value = ApplyTemplateToFile(widget.assets.css);
-    updatedJS.value = ApplyTemplateToFile(widget.assets.js ?? widget.assets.ts);
+    updatedJS.value = ApplyTemplateToFile(widget.assets.js);
     updatedJS.value = WrapJSFile(updatedJS.value);
     updatedHTML.value = ApplyTemplateToFile(widget.assets.template);
     iFrameContainer.value.innerHTML = "";
@@ -231,6 +236,10 @@ function InitializeWidget() {
                 scriptElement.innerHTML = updatedJS.value;
                 scriptElement.id = "custom-widget-script";
 
+                const apiElement = iFrameDocument.createElement('script');
+                apiElement.innerHTML = SE_API;
+                apiElement.id = "custom-widget-api";
+
                 const styleElement = iFrameDocument.createElement('style');
                 styleElement.textContent = updatedCSS.value;
                 styleElement.id = "custom-widget-style";
@@ -242,7 +251,7 @@ function InitializeWidget() {
                 iFrameDocument.body.style.overflow = 'hidden';
 
                 LoadChatBox();
-                LoadGoals();
+                //LoadGoals();
             });
             iFrameDocument.head.appendChild(script);
         }
@@ -258,7 +267,6 @@ function LoadGoals() {
 function LoadChatBox() {
     const loadEvent = new CustomEvent('onWidgetLoad', { detail: updatedSeData });
     DispatchIframeEvent(loadEvent);
-    SimulateChat(true);
 }
 
 function SimulateGoals() {
@@ -385,7 +393,10 @@ function MessageHandler(event: MessageEvent<{
 }
 
 onMounted(() => {
-    ResetWidget()
+    ResetWidget();
+    if(props.simulate){
+        SimulateChat(true);
+    }
     window.addEventListener('message', MessageHandler);
 });
 

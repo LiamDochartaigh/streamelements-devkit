@@ -25,10 +25,13 @@
             <div>
                 <button @click="BanRandomUser">Ban/Timeout Random User</button>
             </div>
+            <div>
+                <button @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' : 'Off'}` }}</button>
+            </div>
         </div>
         <div class="overlay-wrapper">
             <div id="overlay" class="overlay">
-                <WidgetPreview ref="widgetPreview" :fields="fieldsdata"></WidgetPreview>
+                <WidgetPreview :key="widgetKey" ref="widgetPreview" :simulate="simulate" :fields="fieldsdata"></WidgetPreview>
             </div>
         </div>
     </div>
@@ -45,8 +48,10 @@ import WidgetPreview from "@/components/WidgetPreview.vue";
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
 const widgetPreview = ref<InstanceType<typeof WidgetPreview>>();
+const widgetKey = ref(0);
 
 const fieldsdata = ref<IndexableType>(JSON.parse(widget.assets.fields));
+const simulate = ref(false);
 const eventsDataTypes: IndexableType = eventsData;
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
@@ -190,6 +195,7 @@ const PREVIEW_CHAT_MESSAGES = [
 
 function FieldUpdated(event: any, fieldName: any) {
     fieldsdata.value[fieldName].value = event;
+    widgetKey.value++;
 }
 
 function EditorButtonClicked(clickEvent: any) {

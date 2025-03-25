@@ -1,4 +1,3 @@
-var custom_default = {};
 let messageID = "";
 let fieldData;
 let mutedUsersArray = [];
@@ -468,6 +467,3 @@ function GenerateRandomHexId() {
   const randomHex = Math.floor(Math.random() * 65535).toString(16);
   return randomHex.padStart(8, "0");
 }
-export {
-  custom_default as default
-};

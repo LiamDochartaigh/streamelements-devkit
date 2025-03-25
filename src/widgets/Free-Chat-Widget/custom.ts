@@ -1,5 +1,3 @@
-export default {}
-
 let messageID = '';
 let fieldData: CustomFields;
 let mutedUsersArray: string[] = [];
