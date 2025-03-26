@@ -37,7 +37,7 @@
 import badges from '@/assets/globalTwitchBadges.json'
 import { Badge } from '@/types/widget-types';
 
-const dialog = ref(false); 
+const dialog = ref(false);
 
 const noBadgeSelected: typeof badges.data[number][] = [{
     set_id: 'no-badge-selected',

@@ -171,6 +171,7 @@ window.addEventListener("onSessionUpdate", function (obj) {
 });
 
 window.addEventListener('onEventReceived', function (obj) {
+
   if (obj.detail.listener === 'event:test') {
     console.log(obj.detail.event.value === 'hexeum_test_message');
   }
