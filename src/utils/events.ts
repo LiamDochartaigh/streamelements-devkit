@@ -2,6 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import eventsData from "../assets/StreamEventsData.json"
 import { type IndexableType } from '@/utility/CustomTypes';
+import { type EventTypes } from '@/types/widget-types';
 
 const eventsDataTypes: IndexableType = eventsData;
 let preview_Messages_Counter = 0;
@@ -153,6 +154,12 @@ export function GenerateRandomEvent() {
     return event;
 }
 
+export function GenerateEvent(type: EventTypes) {
+    const event = eventsDataTypes.alertEvents[type];
+    event.event._id = uuidv4();
+    return event;
+}
+
 export function GenerateDeleteMessageEvent() {
     const eventData = { ...eventsData.deleteMessage };
     const randomId = chatMessageIds[Math.floor(Math.random() * chatMessageIds.length)];
@@ -170,16 +177,20 @@ export function GenerateBanEvent() {
     return event;
 }
 
-export function GenerateRandomMessage() {
-    const randomMessageText = PREVIEW_CHAT_MESSAGES[preview_Messages_Counter];
+export function GenerateMessageEvent(opts: {
+    name: string;
+    msgTxt: string;
+    badges?: typeof eventsData.chatMessage.event.data.badges,
+}) {
     const randomID = uuidv4();
     chatMessageIds.push(randomID);
     let randomMessageData = { ...eventsData.chatMessage };
-    randomMessageData.event.data.text = randomMessageText.message;
-    randomMessageData.event.renderedText = randomMessageText.message;
+    randomMessageData.event.data.text = opts.msgTxt;
+    randomMessageData.event.data.badges = (opts.badges && opts.badges[0]) ? opts.badges : randomMessageData.event.data.badges;
+    randomMessageData.event.renderedText = opts.msgTxt;
     randomMessageData.event.data.msgId = randomID;
     randomMessageData.event.data.emotes = PREVIEW_CHAT_EMOTES;
-    randomMessageData.event.data.displayName = randomMessageText.name;
+    randomMessageData.event.data.displayName = opts.name;
     randomMessageData.event.data.userId = (Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000).toString();
     if (!chatMessageUserIds.includes(randomMessageData.event.data.userId)) {
         chatMessageUserIds.push(randomMessageData.event.data.userId);
@@ -190,4 +201,9 @@ export function GenerateRandomMessage() {
     }
 
     return randomMessageData;
+}
+
+export function GenerateRandomMessage() {
+    const randomMessageText = PREVIEW_CHAT_MESSAGES[preview_Messages_Counter];
+    return GenerateMessageEvent({ name: randomMessageText.name, msgTxt: randomMessageText.message });
 }

@@ -1,7 +1,7 @@
 {
     "alertEvents": {
         "follow": {
-            "listener": "follow-latest",
+            "listener": "follower-latest",
             "event": {
                 "amount": 1,
                 "avatar": "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg",

@@ -41,7 +41,9 @@ declare global {
                 providerId: string;
                 sessionTop: boolean;
                 sender?: string;
+                bulkGifted?: boolean;
                 gifted?: boolean;
+                tier?: '1000' | '2000' | '3000' | 'prime';
                 isCommunityGift?: boolean;
                 playedAsCommunityGift?: boolean;
                 type: "subscriber"

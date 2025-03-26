@@ -76,6 +76,8 @@
     "GenerateRandomEvent": true,
     "GenerateRandomMessage": true,
     "GenerateBanEvent": true,
-    "GenerateDeleteMessageEvent": true
+    "GenerateDeleteMessageEvent": true,
+    "GenerateEvent": true,
+    "GenerateMessageEvent": true
   }
 }
