@@ -31,7 +31,7 @@
                     <div style="position: relative; display: flex; flex-grow: 1;">
                         <div ref="textContent" class="text-input" contenteditable="true">
                         </div>
-                        <EmoteSelection @emoteSelected="EmoteAdded" style="position: absolute; right: 2px; top: 2px;" />
+                        <EmoteSelection @emoteSelected="EmoteAdded" style="position: absolute; right: 2px; top: 2px; align-self: anchor-center;" />
                     </div>
                 </div>
                 <div style="text-align: end; margin-top: 2px;">

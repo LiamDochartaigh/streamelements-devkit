@@ -1,13 +1,13 @@
 <template>
     <div>
-        <button @click="showDialog = true" class="open-dialog-btn">
-            <slot name="activator">Button</slot>
-        </button>
-        <div v-if="showDialog" class="dialog-overlay" @click.self="showDialog = false">
+        <slot :props="activatorProps" name="activator" class="open-dialog-btn">
+            <button v-bind="activatorProps">Default</button>
+        </slot>
+        <div v-if="modelValue" class="dialog-overlay" @click.self="modelValue = false">
             <div class="dialog-content">
                 <div class="dialog-header">
                     <h3>{{ title }}</h3>
-                    <button class="close-btn" @click="showDialog = false">&times;</button>
+                    <button class="close-btn" @click="modelValue = false">&times;</button>
                 </div>
                 <div class="dialog-body">
                     <slot></slot>
@@ -18,19 +18,24 @@
 </template>
 
 <script setup lang="ts">
+const modelValue = defineModel<boolean>()
 
-const showDialog = ref(false);
+const activatorProps = {
+    onclick: () => {
+        modelValue.value = true
+    },
+    class: 'open-dialog-btn',
+}
+
 const props = defineProps({
     title: {
         type: String,
         default: 'Dialog Title'
     }
 })
-const emit = defineEmits(['dialog-submit'])
-
 </script>
 
-<style scoped>
+<style>
 .dialog-overlay {
     position: fixed;
     top: 0;

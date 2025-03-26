@@ -1,13 +1,15 @@
 <template>
-    <Dialog :title="`Select Badge`">
-        <template #activator>
-            <div style="width: 20px">
-                <img style="width: 100%;" :src="props.badge.url" />
-            </div>
+    <Dialog v-model:model-value="dialog" :title="`Select Badge`">
+        <template #activator="{ props }">
+            <button v-bind="props">
+                <div style="width: 20px">
+                    <img style="width: 100%;" :src="badge.url" />
+                </div>
+            </button>
         </template>
 
         <div>
-            <button v-for="(badge, index) in badges.data" @click="selectBadge(index)">
+            <button style="cursor: pointer;" v-for="(badge, index) in badges.data" @click="selectBadge(index)">
                 <img :src="badge.versions[0].image_url_4x" />
             </button>
         </div>
@@ -18,6 +20,8 @@
 import badges from '@/assets/globalTwitchBadges.json'
 import { Badge } from '@/types/widget-types';
 import { PropType } from 'vue';
+
+const dialog = ref(false);
 
 const props = defineProps({
     badge: {
@@ -40,6 +44,7 @@ function selectBadge(index: number) {
         url: badgeSelected.versions[0].image_url_4x,
         version: badgeSelected.versions[0].id
     } as Badge);
+    dialog.value = false;
 }
 
 const emit = defineEmits<{

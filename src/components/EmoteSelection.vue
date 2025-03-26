@@ -1,7 +1,7 @@
 <template>
     <Dialog :title="`Select an Emote`">
-        <template #activator>
-            <div style="width: 20px">
+        <template #activator="{ props }">
+            <div v-bind="props" style="width: 20px">
                 <svg width="100%" height="100%" version="1.1" viewBox="0 0 20 20" x="0px" y="0px" role="presentation"
                     aria-hidden="true" focusable="false" class="ScIconSVG-sc-1q25cff-1 jpczqG">
                     <g>
@@ -17,7 +17,7 @@
         </template>
 
         <div>
-            <button v-for="emote in emotes" :key="emote.name" @click="selectEmote(emote.name)">
+            <button style="cursor: pointer;" v-for="emote in emotes" :key="emote.name" @click="selectEmote(emote.name)">
                 <img :srcset="emote.srcset" :src="emote.src" :alt="emote.name" />
             </button>
         </div>
