@@ -1,5 +1,6 @@
 {
   "globals": {
+    "ButtonClicked": true,
     "Component": true,
     "ComponentPublicInstance": true,
     "ComputedRef": true,
@@ -8,6 +9,10 @@
     "ExtractDefaultPropTypes": true,
     "ExtractPropTypes": true,
     "ExtractPublicPropTypes": true,
+    "GenerateBanEvent": true,
+    "GenerateDeleteMessageEvent": true,
+    "GenerateRandomEvent": true,
+    "GenerateRandomMessage": true,
     "InjectionKey": true,
     "MaybeRef": true,
     "MaybeRefOrGetter": true,
@@ -72,11 +77,6 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
-    "ButtonClicked": true,
-    "GenerateRandomEvent": true,
-    "GenerateRandomMessage": true,
-    "GenerateBanEvent": true,
-    "GenerateDeleteMessageEvent": true,
     "GenerateEvent": true,
     "GenerateMessageEvent": true
   }
