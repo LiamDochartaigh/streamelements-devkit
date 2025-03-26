@@ -171,11 +171,13 @@ window.addEventListener("onSessionUpdate", function (obj) {
 });
 
 window.addEventListener('onEventReceived', function (obj) {
+
   if (obj.detail.listener === 'event:test') {
     console.log(obj.detail.event.value === 'hexeum_test_message');
   }
   const listener = obj.detail.listener;
   if (listener == "message") {
+    console.log(obj.detail.event.data.displayColor); 
     let data = obj.detail.event.data;
     BuildNewChatMessage(data);
   } else if (listener == "delete-message") {

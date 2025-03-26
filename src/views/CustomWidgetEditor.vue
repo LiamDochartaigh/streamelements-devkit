@@ -24,29 +24,35 @@
                 </div>
             </div>
             <hr class="solid">
-            <div class="input-section">
-                <div><strong>Test Message</strong></div>
-                <div class="input-container" style="position: relative; display: flex;">
-                    <div style="position: relative; display: flex; flex-grow: 1;">
-                        <div ref="textContent" class="text-input" contenteditable="true">
-                        </div>
-                        <EmoteSelection @emoteSelected="EmoteAdded"
-                            style="position: absolute; right: 4px; align-self: anchor-center;" />
-                    </div>
-                </div>
-                <div style="display: flex; margin-top: 2px; justify-content: space-between;">
-                    <div style="display: flex; gap: 10px;">
-                        <div style="display: flex; flex-direction: column;">
-                            <div style="font-size: 0.6em">Badge 1</div>
-                            <BadgeSelection @badge-selected="badgeFirst = $event" :badge="badgeFirst?.type" />
-                        </div>
-                        <div style="display: flex; flex-direction: column;">
-                            <div style="font-size: 0.6em">Badge 2</div>
-                            <BadgeSelection @badge-selected="badgeSecond = $event"
-                                :badge="badgeSecond ? badgeSecond?.type : 'no-badge-selected'" />
+            <div style="padding: 10px;">
+                <div class="input-section">
+                    <div style="margin-bottom: 5px;"><strong>Test Message</strong></div>
+                    <div class="input-container" style="position: relative; display: flex;">
+                        <div style="position: relative; display: flex; flex-grow: 1;">
+                            <div ref="textContent" class="text-input" contenteditable="true">
+                            </div>
+                            <EmoteSelection @emoteSelected="EmoteAdded"
+                                style="position: absolute; right: 4px; align-self: anchor-center;" />
                         </div>
                     </div>
-                    <button class="button" @click="SendMessage">Send Message</button>
+                    <div style="display: flex; margin-top: 2px; justify-content: space-between;">
+                        <div style="display: flex; gap: 10px;">
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="font-size: 0.6em">Badge 1</div>
+                                <BadgeSelection @badge-selected="badgeFirst = $event" :badge="badgeFirst?.type" />
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="font-size: 0.6em">Badge 2</div>
+                                <BadgeSelection @badge-selected="badgeSecond = $event"
+                                    :badge="badgeSecond ? badgeSecond?.type : 'no-badge-selected'" />
+                            </div>
+                        </div>
+                        <button class="button" @click="SendMessage">Send Message</button>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <div>Username Display Color</div>
+                        <ColorPicker v-model="displayColor" />
+                    </div>
                 </div>
             </div>
             <div class="btn-group">
@@ -87,7 +93,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                    }}</button>
+                        }}</button>
                 </div>
             </div>
         </div>
@@ -123,6 +129,7 @@ const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
 const badgeFirst = ref<Badge>();
 const badgeSecond = ref<Badge>();
+const displayColor = ref('#502fb5');
 
 function FieldUpdated(event: any, fieldName: any) {
     fieldsdata.value[fieldName].value = event;
@@ -195,7 +202,8 @@ function SendMessage() {
     let eventData = GenerateMessageEvent({
         msgTxt: textContent.value!.innerHTML,
         name: 'test_user',
-        badges: badgesArr
+        badges: badgesArr,
+        displayColor: displayColor.value
     });
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
@@ -212,14 +220,29 @@ function DeleteRandomMessage() {
     widgetPreview.value?.DispatchIframeEvent(eventData);
 }
 
+function HandleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && document.activeElement === textContent.value) {
+        SendMessage();
+        event.preventDefault();
+    }
+}
+
 onMounted(() => {
     BuildSidebar();
+    document.addEventListener('keydown', HandleKeyDown);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('keydown', HandleKeyDown);
 });
 </script>
 
 <style>
 .input-section {
-    padding: 10px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .input-container {
