@@ -177,7 +177,6 @@ window.addEventListener('onEventReceived', function (obj) {
   }
   const listener = obj.detail.listener;
   if (listener == "message") {
-    console.log(obj.detail.event.data.displayColor); 
     let data = obj.detail.event.data;
     BuildNewChatMessage(data);
   } else if (listener == "delete-message") {
