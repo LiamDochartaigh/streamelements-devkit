@@ -81,5 +81,6 @@ const props = defineProps({
     cursor: pointer;
     background-color: transparent;
     aspect-ratio: 1/1;
+    padding: 0px;
 }
 </style>

@@ -27,14 +27,25 @@
             <div class="input-section">
                 <div><strong>Test Message</strong></div>
                 <div class="input-container" style="position: relative; display: flex;">
-                    <BadgeSelection @badge-selected="currBadge = $event" :badge="currBadge"/>
                     <div style="position: relative; display: flex; flex-grow: 1;">
                         <div ref="textContent" class="text-input" contenteditable="true">
                         </div>
-                        <EmoteSelection @emoteSelected="EmoteAdded" style="position: absolute; right: 2px; top: 2px; align-self: anchor-center;" />
+                        <EmoteSelection @emoteSelected="EmoteAdded"
+                            style="position: absolute; right: 4px; align-self: anchor-center;" />
                     </div>
                 </div>
-                <div style="text-align: end; margin-top: 2px;">
+                <div style="display: flex; margin-top: 2px; justify-content: space-between;">
+                    <div style="display: flex; gap: 10px;">
+                        <div style="display: flex; flex-direction: column;">
+                            <div style="font-size: 0.6em">Badge 1</div>
+                            <BadgeSelection @badge-selected="badgeFirst = $event" :badge="badgeFirst?.type" />
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <div style="font-size: 0.6em">Badge 2</div>
+                            <BadgeSelection @badge-selected="badgeSecond = $event"
+                                :badge="badgeSecond ? badgeSecond?.type : 'no-badge-selected'" />
+                        </div>
+                    </div>
                     <button class="button" @click="SendMessage">Send Message</button>
                 </div>
             </div>
@@ -98,6 +109,7 @@ import { EventTypes } from "@/types/widget-types";
 import EmoteSelection from "@/components/EmoteSelection.vue";
 import { Emote } from '@/types/widget-types';
 import BadgeSelection from "@/components/BadgeSelection.vue";
+import { Badge } from "@/types/widget-types";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
@@ -109,7 +121,8 @@ const fieldsdata = ref<IndexableType>(JSON.parse(widget.assets.fields));
 const simulate = ref(false);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
-const currBadge = ref();
+const badgeFirst = ref<Badge>();
+const badgeSecond = ref<Badge>();
 
 function FieldUpdated(event: any, fieldName: any) {
     fieldsdata.value[fieldName].value = event;
@@ -176,10 +189,13 @@ function SendMessage() {
     if (textContent.value?.innerHTML == '<br>'
         || textContent.value?.innerHTML == ''
     ) return;
+    const badgesArr = [];
+    if (badgeFirst.value && badgeFirst.value.type !== 'no-badge-selected') { badgesArr.push(badgeFirst.value); }
+    if (badgeSecond.value && badgeSecond.value.type !== 'no-badge-selected') { badgesArr.push(badgeSecond.value); }
     let eventData = GenerateMessageEvent({
         msgTxt: textContent.value!.innerHTML,
         name: 'test_user',
-        badges: [currBadge.value]
+        badges: badgesArr
     });
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
