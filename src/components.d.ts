@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BadgeSelection: typeof import('./components/BadgeSelection.vue')['default']
     Button: typeof import('./components/CustomFields/Button.vue')['default']
     Checkbox: typeof import('./components/CustomFields/Checkbox.vue')['default']
     ColorPicker: typeof import('./components/CustomFields/ColorPicker.vue')['default']

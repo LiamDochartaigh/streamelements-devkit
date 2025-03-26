@@ -24,12 +24,15 @@
                 </div>
             </div>
             <hr class="solid">
-            <div class="msg-input">
+            <div class="input-section">
                 <div><strong>Test Message</strong></div>
-                <div style="position: relative;">
-                    <div ref="textContent" class="text-input" contenteditable="true">
+                <div class="input-container" style="position: relative; display: flex;">
+                    <BadgeSelection @badge-selected="currBadge = $event" :badge="currBadge"/>
+                    <div style="position: relative; display: flex; flex-grow: 1;">
+                        <div ref="textContent" class="text-input" contenteditable="true">
+                        </div>
+                        <EmoteSelection @emoteSelected="EmoteAdded" style="position: absolute; right: 2px; top: 2px;" />
                     </div>
-                    <EmoteSelection @emoteSelected="EmoteAdded" style="position: absolute; right: 2px; top: 2px;" />
                 </div>
                 <div style="text-align: end; margin-top: 2px;">
                     <button class="button" @click="SendMessage">Send Message</button>
@@ -94,6 +97,7 @@ import { type IndexableType } from '@/utility/CustomTypes';
 import { EventTypes } from "@/types/widget-types";
 import EmoteSelection from "@/components/EmoteSelection.vue";
 import { Emote } from '@/types/widget-types';
+import BadgeSelection from "@/components/BadgeSelection.vue";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
@@ -105,6 +109,7 @@ const fieldsdata = ref<IndexableType>(JSON.parse(widget.assets.fields));
 const simulate = ref(false);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
+const currBadge = ref();
 
 function FieldUpdated(event: any, fieldName: any) {
     fieldsdata.value[fieldName].value = event;
@@ -171,7 +176,11 @@ function SendMessage() {
     if (textContent.value?.innerHTML == '<br>'
         || textContent.value?.innerHTML == ''
     ) return;
-    let eventData = GenerateMessageEvent('test_user', textContent.value!.innerHTML);
+    let eventData = GenerateMessageEvent({
+        msgTxt: textContent.value!.innerHTML,
+        name: 'test_user',
+        badges: [currBadge.value]
+    });
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
     textContent.value!.innerText = '';
@@ -193,11 +202,18 @@ onMounted(() => {
 </script>
 
 <style>
-.msg-input {
+.input-section {
     padding: 10px;
 }
 
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .text-input {
+    width: 100%;
     padding: 10px;
     background-color: white;
     border: 2px #ff62db solid;

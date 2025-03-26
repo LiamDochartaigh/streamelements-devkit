@@ -31,7 +31,6 @@ import { Emote } from '@/types/widget-types';
 const typedEmotes: { [key: string]: Emote } = emotes;
 
 function selectEmote(emoteName: string) {
-    const test = typedEmotes[emoteName];
     emit('emoteSelected', typedEmotes[emoteName])
 }
 

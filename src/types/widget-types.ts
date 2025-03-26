@@ -12,3 +12,10 @@ export interface Emote {
     src: string;
     srcset: string;
 }
+
+export interface Badge {
+    type: string;
+    version: string;
+    url: string;
+    description: string;
+}

@@ -177,15 +177,20 @@ export function GenerateBanEvent() {
     return event;
 }
 
-export function GenerateMessageEvent(name: string, msgTxt: string) {
+export function GenerateMessageEvent(opts: {
+    name: string;
+    msgTxt: string;
+    badges?: typeof eventsData.chatMessage.event.data.badges,
+}) {
     const randomID = uuidv4();
     chatMessageIds.push(randomID);
     let randomMessageData = { ...eventsData.chatMessage };
-    randomMessageData.event.data.text = msgTxt;
-    randomMessageData.event.renderedText = msgTxt;
+    randomMessageData.event.data.text = opts.msgTxt;
+    randomMessageData.event.data.badges = (opts.badges && opts.badges[0]) ? opts.badges : randomMessageData.event.data.badges;
+    randomMessageData.event.renderedText = opts.msgTxt;
     randomMessageData.event.data.msgId = randomID;
     randomMessageData.event.data.emotes = PREVIEW_CHAT_EMOTES;
-    randomMessageData.event.data.displayName = name;
+    randomMessageData.event.data.displayName = opts.name;
     randomMessageData.event.data.userId = (Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000).toString();
     if (!chatMessageUserIds.includes(randomMessageData.event.data.userId)) {
         chatMessageUserIds.push(randomMessageData.event.data.userId);
@@ -200,5 +205,5 @@ export function GenerateMessageEvent(name: string, msgTxt: string) {
 
 export function GenerateRandomMessage() {
     const randomMessageText = PREVIEW_CHAT_MESSAGES[preview_Messages_Counter];
-    return GenerateMessageEvent(randomMessageText.name, randomMessageText.message);
+    return GenerateMessageEvent({ name: randomMessageText.name, msgTxt: randomMessageText.message });
 }
