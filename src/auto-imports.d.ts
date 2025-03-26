@@ -10,6 +10,8 @@ declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const GenerateBanEvent: typeof import('./utils/events')['GenerateBanEvent']
   const GenerateDeleteMessageEvent: typeof import('./utils/events')['GenerateDeleteMessageEvent']
+  const GenerateEvent: typeof import('./utils/events')['GenerateEvent']
+  const GenerateMessageEvent: typeof import('./utils/events')['GenerateMessageEvent']
   const GenerateRandomEvent: typeof import('./utils/events')['GenerateRandomEvent']
   const GenerateRandomMessage: typeof import('./utils/events')['GenerateRandomMessage']
   const computed: typeof import('vue')['computed']
@@ -86,6 +88,8 @@ declare module 'vue' {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly GenerateBanEvent: UnwrapRef<typeof import('./utils/events')['GenerateBanEvent']>
     readonly GenerateDeleteMessageEvent: UnwrapRef<typeof import('./utils/events')['GenerateDeleteMessageEvent']>
+    readonly GenerateEvent: UnwrapRef<typeof import('./utils/events')['GenerateEvent']>
+    readonly GenerateMessageEvent: UnwrapRef<typeof import('./utils/events')['GenerateMessageEvent']>
     readonly GenerateRandomEvent: UnwrapRef<typeof import('./utils/events')['GenerateRandomEvent']>
     readonly GenerateRandomMessage: UnwrapRef<typeof import('./utils/events')['GenerateRandomMessage']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>

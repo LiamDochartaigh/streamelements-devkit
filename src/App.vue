@@ -4,18 +4,20 @@ import { RouterView } from 'vue-router'
 
 <template>
   <RouterView />
-  </template>
+</template>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Courier+New&display=swap');
 
-html, body{
-  position: relative;
+html,
+body {
   height: 100%;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
-  }
+  position: relative;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  margin: 0;
+}
 
-#app{
+#app {
   height: 100%;
 }
 </style>
