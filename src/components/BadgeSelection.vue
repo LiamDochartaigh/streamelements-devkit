@@ -37,7 +37,7 @@
 import badges from '@/assets/globalTwitchBadges.json'
 import { Badge } from '@/types/widget-types';
 
-const dialog = ref(false);
+const dialog = ref(false); 
 
 const noBadgeSelected: typeof badges.data[number][] = [{
     set_id: 'no-badge-selected',
@@ -63,7 +63,6 @@ const props = defineProps({
 });
 
 const fetchedBadge = computed(() => {
-    console.log(props.badge);
     const fetched = customBadges.value.find(badge => badge.set_id === props.badge);
     const mapFn = (badge: typeof badges.data[number]) => {
         return {
@@ -73,8 +72,7 @@ const fetchedBadge = computed(() => {
             version: badge.versions[0].id
         } as Badge
     }
-    console.log(fetched);
-    if (!fetched) return mapFn(noBadgeSelected);
+    if (!fetched) return mapFn(noBadgeSelected[0]);
     return mapFn(fetched);
 });
 
