@@ -40,14 +40,15 @@ declare global {
                 originalEventName: "subscriber-latest"
                 providerId: string;
                 sessionTop: boolean;
+                type: "subscriber"
+                _id: string;
                 sender?: string;
                 bulkGifted?: boolean;
                 gifted?: boolean;
+                message?: string;
                 tier?: '1000' | '2000' | '3000' | 'prime';
                 isCommunityGift?: boolean;
                 playedAsCommunityGift?: boolean;
-                type: "subscriber"
-                _id: string;
             }
         } | {
             listener: 'tip-latest';
@@ -59,7 +60,8 @@ declare global {
                 originalEventName: "tip-latest"
                 providerId: string;
                 sessionTop: boolean;
-                type: "tip"
+                type: "tip";
+                message?: string;
                 _id: string;
             }
         } | {
@@ -69,7 +71,7 @@ declare global {
                 avatar: string;
                 displayName: string;
                 providerId: string;
-                message: string;
+                message?: string;
                 name: string;
                 _id: string;
                 sessionTop: boolean;
