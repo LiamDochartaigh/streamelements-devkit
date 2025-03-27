@@ -207,7 +207,7 @@ export function GenerateMessageEvent(opts: {
     chatMessageIds.push(randomID);
     let randomMessageData = { ...eventsData.chatMessage };
     randomMessageData.event.data.text = opts.msgTxt;
-    randomMessageData.event.data.badges = (opts.badges && opts.badges[0]) ? opts.badges : randomMessageData.event.data.badges;
+    randomMessageData.event.data.badges = opts.badges ? opts.badges : randomMessageData.event.data.badges;
     randomMessageData.event.renderedText = opts.renderedText;
     randomMessageData.event.data.msgId = randomID;
     randomMessageData.event.data.emotes = PREVIEW_CHAT_EMOTES;

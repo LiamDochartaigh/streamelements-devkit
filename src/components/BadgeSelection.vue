@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import badges from '@/assets/globalTwitchBadges.json'
-import { Badge } from '@/types/widget-types';
+import { type Badge } from '@/types/widget-types';
 
 const dialog = ref(false);
 
