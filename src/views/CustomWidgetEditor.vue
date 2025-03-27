@@ -93,7 +93,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                        }}</button>
+                    }}</button>
                 </div>
             </div>
         </div>
@@ -201,6 +201,7 @@ function SendMessage() {
     if (badgeSecond.value && badgeSecond.value.type !== 'no-badge-selected') { badgesArr.push(badgeSecond.value); }
     let eventData = GenerateMessageEvent({
         msgTxt: textContent.value!.innerHTML,
+        renderedText: textContent.value!.innerHTML,
         name: 'test_user',
         badges: badgesArr,
         displayColor: displayColor.value
