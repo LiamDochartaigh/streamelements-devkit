@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@types/animejs':
+        specifier: ^3.1.13
+        version: 3.1.13
       '@types/lodash':
         specifier: ^4.14.200
         version: 4.17.16
@@ -327,6 +330,9 @@ packages:
 
   '@tsconfig/node18@18.2.4':
     resolution: {integrity: sha512-5xxU8vVs9/FNcvm3gE07fPbn9tl6tqGGWA9tSlwsUEkBxtRnTsNmwrV8gasZ9F/EobaSv9+nu8AxUKccw77JpQ==}
+
+  '@types/animejs@3.1.13':
+    resolution: {integrity: sha512-yWg9l1z7CAv/TKpty4/vupEh24jDGUZXv4r26StRkpUPQm04ztJaftgpto8vwdFs8SiTq6XfaPKCSI+wjzNMvQ==}
 
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
@@ -1740,6 +1746,8 @@ snapshots:
   '@rushstack/eslint-patch@1.10.5': {}
 
   '@tsconfig/node18@18.2.4': {}
+
+  '@types/animejs@3.1.13': {}
 
   '@types/eslint-scope@3.7.7':
     dependencies:

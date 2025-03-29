@@ -12,6 +12,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@types/animejs": "^3.1.13",
     "@types/lodash": "^4.14.200",
     "jquery": "^3.7.1",
     "loadash": "^1.0.0",

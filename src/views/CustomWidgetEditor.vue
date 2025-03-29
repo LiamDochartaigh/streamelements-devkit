@@ -51,7 +51,7 @@
                     </div>
                     <div style="margin-top: 10px;">
                         <div>Username Display Color</div>
-                        <ColorPicker v-model="displayColor" />
+                        <LD-ColorPicker v-model="displayColor" />
                     </div>
                 </div>
             </div>
@@ -204,7 +204,8 @@ function SendMessage() {
         renderedText: textContent.value!.innerHTML,
         name: 'test_user',
         badges: badgesArr,
-        displayColor: displayColor.value
+        displayColor: displayColor.value,
+        userId: '12345678'
     });
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
