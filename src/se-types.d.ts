@@ -618,7 +618,7 @@ declare global {
         };
     }
 
-    const SE_API: StreamElements_API;
+    const SE_API: SE_GLOBAL.SE_API;
     type MessageConfig = {
         'counter_get': {
             data: { key: string };
@@ -669,22 +669,29 @@ declare global {
             response: never;
         };
     };
-    interface StreamElements_API {
-        responses: {
-            [key: string]: { resolve: (value: any) => void, reject: (reason?: any) => void }
-        };
-        sendMessage: <M extends keyof MessageConfig>(message: M, data?: MessageConfig[M]['data']) => MessageConfig[M]['response'];
-        counters: {
-            get: (key: string) => MessageConfig['counter_get']['response'];
+
+    namespace SE_GLOBAL {
+        interface SE_API {
+            responses: {
+                [key: string]: { resolve: (value: any) => void, reject: (reason?: any) => void }
+            };
+            sendMessage: <M extends keyof MessageConfig>(message: M, data?: MessageConfig[M]['data']) => MessageConfig[M]['response'];
+            counters: {
+                get: (key: string) => MessageConfig['counter_get']['response'];
+            }
+            store: {
+                get: (key: string) => MessageConfig['store_get']['response'];
+                set: (key: string, value: any) => MessageConfig['store_set']['response'];
+            },
+            resumeQueue: () => MessageConfig['resume_queue']['response'];
+            sanitize: (message: string) => MessageConfig['sanitize']['response'];
+            cheerFilter: (message: string) => MessageConfig['cheer_filter']['response'];
+            setField: <Key extends keyof CustomFields>(key: Key, value: CustomFields[Key], reload: boolean = false) => MessageConfig['set_field']['response'];
+            getOverlayStatus: () => MessageConfig['overlay_status']['response'];
         }
-        store: {
-            get: (key: string) => MessageConfig['store_get']['response'];
-            set: (key: string, value: any) => MessageConfig['store_set']['response'];
-        },
-        resumeQueue: () => MessageConfig['resume_queue']['response'];
-        sanitize: (message: string) => MessageConfig['sanitize']['response'];
-        cheerFilter: (message: string) => MessageConfig['cheer_filter']['response'];
-        setField: <Key extends keyof CustomFields>(key: Key, value: CustomFields[Key], reload: boolean = false) => MessageConfig['set_field']['response'];
-        getOverlayStatus: () => MessageConfig['overlay_status']['response'];
     }
+
+    namespace SE_Secure_API {
+
+    };
 }

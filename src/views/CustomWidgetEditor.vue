@@ -67,6 +67,9 @@
                     <button class="button" @click="GenEventByType('dono')">Donation Event</button>
                 </div>
                 <div>
+                    <button class="button" @click="GenEventByType('cheer')">Cheer Event</button>
+                </div>
+                <div>
                     <button class="button" @click="GenEventByType('donoMessage')">Donation Message Event</button>
                 </div>
                 <div>
