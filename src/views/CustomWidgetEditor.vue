@@ -102,7 +102,7 @@
         </div>
         <div class="overlay-wrapper">
             <div id="overlay" class="overlay">
-                <WidgetPreview :key="widgetKey" ref="widgetPreview" :simulate="simulate" :fields="fieldsdata">
+                <WidgetPreview @field-updated="FieldUpdated($event.value, $event.key)" :key="widgetKey" ref="widgetPreview" :simulate="simulate" :fields="fieldsdata">
                 </WidgetPreview>
             </div>
         </div>

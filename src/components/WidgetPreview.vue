@@ -223,6 +223,12 @@ function MessageHandler(event: MessageEvent<{
             value: data
         }));
     }
+    else if (event.data.request == 'set_field'){
+        emit('fieldUpdated', {
+            key: event.data.key,
+            value: event.data.value
+        });
+    }
 }
 
 onMounted(() => {
@@ -239,6 +245,14 @@ onBeforeUnmount(() => {
     }
     window.removeEventListener('message', MessageHandler);
 })
+
+
+const emit = defineEmits<{
+    fieldUpdated: [{
+        key: string;
+        value: string;
+    }]
+}>()
 
 defineExpose({
     DispatchIframeEvent,
