@@ -1,6 +1,5 @@
 <template>
 <div>
-    <div>{{  fieldData?.label}}</div>
     <button @click="ButtonClicked">{{ fieldData?.label }}</button>
 </div>
 </template>
