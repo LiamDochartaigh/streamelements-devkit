@@ -9,10 +9,13 @@ const props = defineProps({
     fieldData: Object
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['btnClick']);
 
 function ButtonClicked(){
-    emit('click', props.fieldData?.value);
+    emit('btnClick', {
+        value: props.fieldData?.value,
+        label: props.fieldData?.label
+    });
 }
 </script>
 
