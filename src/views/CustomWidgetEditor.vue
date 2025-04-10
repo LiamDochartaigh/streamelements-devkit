@@ -96,7 +96,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                    }}</button>
+                        }}</button>
                 </div>
             </div>
         </div>
@@ -151,10 +151,8 @@ function GenEventByType(type: EventTypes) {
 }
 
 function EditorButtonClicked(clickEvent: any) {
-    if (clickEvent == "hexeum_test_message") {
-        const event = new CustomEvent('onEventReceived', { detail: ButtonClicked() });
-        widgetPreview.value?.DispatchIframeEvent(event);
-    }
+    const event = new CustomEvent('onEventReceived', { detail: ButtonClicked() });
+    widgetPreview.value?.DispatchIframeEvent(event);
 }
 
 function ExpandSidebarGroup(refID: string) {
