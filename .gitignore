@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 /src/widgets/*
 !/src/widgets/Free-Chat-Widget
+/src/widget-registry.ts
 .DS_Store
 dist
 dist-ssr

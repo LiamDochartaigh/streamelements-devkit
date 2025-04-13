@@ -117,7 +117,10 @@ declare global {
                     isAction: boolean;
                     msgId: string;
                     nick: string;
-                    tags: { [key: string]: string };
+                    tags: { 
+                        badges?: string;
+                        [key: string]: string
+                    };
                     text: string;
                     time: number;
                     userId: string;
