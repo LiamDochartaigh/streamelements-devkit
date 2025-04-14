@@ -202,7 +202,8 @@ export function GenerateMessageEvent(opts: {
     renderedText: string;
     badges?: typeof eventsData.chatMessage.event.data.badges,
     displayColor?: string,
-    userId?: string
+    userId?: string,
+    channel?: string
 }) {
     const randomID = uuidv4();
     chatMessageIds.push(randomID);
@@ -213,6 +214,8 @@ export function GenerateMessageEvent(opts: {
     randomMessageData.event.data.msgId = randomID;
     randomMessageData.event.data.emotes = PREVIEW_CHAT_EMOTES;
     randomMessageData.event.data.displayName = opts.name;
+    randomMessageData.event.data.channel = opts.channel || 'test_channel';
+    randomMessageData.event.data.nick = opts.name;
     randomMessageData.event.data.displayColor = opts.displayColor || "#FFFFFF";
     randomMessageData.event.data.userId = opts.userId ? opts.userId : (Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000).toString();
     if (!chatMessageUserIds.includes(randomMessageData.event.data.userId)) {
@@ -222,7 +225,6 @@ export function GenerateMessageEvent(opts: {
     if (preview_Messages_Counter > PREVIEW_CHAT_MESSAGES.length - 1) {
         preview_Messages_Counter = 0;
     }
-
     return randomMessageData;
 }
 

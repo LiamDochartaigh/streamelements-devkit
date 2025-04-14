@@ -35,6 +35,10 @@
                                 style="position: absolute; right: 4px; align-self: anchor-center;" />
                         </div>
                     </div>
+                    <div>
+                        <div>Send Msg as Broadcaster</div>
+                        <input type="checkbox" v-model="msgAsBroadcaster" />
+                    </div>
                     <div style="display: flex; margin-top: 2px; justify-content: space-between;">
                         <div style="display: flex; gap: 10px;">
                             <div style="display: flex; flex-direction: column;">
@@ -133,6 +137,7 @@ const customFieldsRefs = ref<IndexableType>({});
 const badgeFirst = ref<Badge>();
 const badgeSecond = ref<Badge>();
 const displayColor = ref('#502fb5');
+const msgAsBroadcaster = ref(false);
 
 function FieldUpdated(event: any, fieldName: any) {
     fieldsdata.value[fieldName].value = event;
@@ -203,10 +208,12 @@ function SendMessage() {
     const badgesArr = [];
     if (badgeFirst.value && badgeFirst.value.type !== 'no-badge-selected') { badgesArr.push(badgeFirst.value); }
     if (badgeSecond.value && badgeSecond.value.type !== 'no-badge-selected') { badgesArr.push(badgeSecond.value); }
+    
     let eventData = GenerateMessageEvent({
         msgTxt: textContent.value!.innerHTML,
         renderedText: textContent.value!.innerHTML,
         name: 'test_user',
+        channel: msgAsBroadcaster.value ? 'test_user' : 'test_channel',
         badges: badgesArr,
         displayColor: displayColor.value,
         userId: '12345678'
