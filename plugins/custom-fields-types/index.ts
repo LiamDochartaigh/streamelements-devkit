@@ -23,7 +23,7 @@ export default function genCustomFieldTypes(options: any = {
         const moduleName = folder.name;
         const modulePath = path.join(modulesFolderPath, moduleName);
         const moduleFiles = await fs.readdir(modulePath);
-
+        
         let globalTypes: string[] = [];
         let propTypes: string[] = [];
         let buttonTypes: string[] = [];
@@ -42,7 +42,7 @@ export default function genCustomFieldTypes(options: any = {
       }
       console.log(`Custom Field types generated for ${widgets} widgets`);
     } catch (error) {
-      console.error('Error generating custom field types:', error);
+      console.error(`Error generating custom field types `, error);
     }
   }
   return {

@@ -3,29 +3,33 @@
         <div class="color-inputs">
             <div class="hex-input">
                 <label for="hex">Hex</label>
-                <input type="text" id="hex" :value="modelValue" @input="updateColor($event.target.value)"
+                <input type="text" id="hex" :value="modelValue" @input="updateColor($event)"
                     placeholder="#RRGGBB" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" />
             </div>
             <div class="color-selector">
                 <label for="color-input">Color</label>
-                <input type="color" id="color-input" :value="modelValue" @input="updateColor($event.target.value)" />
+                <input type="color" id="color-input" :value="modelValue" @input="updateColor($event)" />
             </div>
         </div>
-        <div class="preset-colors">
+        <div v-if="mode === 'full'" class="preset-colors">
             <button v-for="(color, index) in presetColors" :key="index" class="preset-color"
-                :style="{ backgroundColor: color }" @click="updateColor(color)" :title="color"></button>
+                :style="{ backgroundColor: color }" @click="emit('update:modelValue', color)" :title="color"></button>
         </div>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
     modelValue: {
         type: String,
         default: '#000000'
     },
+    mode: {
+        type: String as PropType<'compact' | 'full'>,
+        default: 'full'
+    },
     presetColors: {
-        type: Array,
+        type: Array as PropType<string[]>,
         default: () => [
             '#F44336', '#E91E63', '#9C27B0', '#673AB7',
             '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4',
@@ -39,13 +43,14 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const updateColor = (color) => {
+const updateColor = (event: Event) => {
+    const color = (event.target as HTMLInputElement).value;
     emit('update:modelValue', color);
 };
 
 onMounted(() => {
     if (!props.modelValue) {
-        updateColor('#000000');
+        emit('update:modelValue', '#000000');
     }
 });
 </script>

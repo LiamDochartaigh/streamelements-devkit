@@ -1,22 +1,28 @@
 <template>
-<div>
-    <div>{{  fieldData?.label}}</div>
-    <input type="text" :value="props.fieldData?.value" @input="ColorChanged" />
-</div>
+    <div>
+        <div>{{ fieldData?.label }}</div>
+        <LD-ColorPicker mode="compact" v-model:modelValue="props.fieldData.value"
+            @update:modelValue="emit('input', $event)" />
+    </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
-    fieldData: Object
+    fieldData: {
+        type: Object as PropType<{
+            label: string;
+            value: string;
+        }>,
+        required: true
+    }
 });
 
 const emit = defineEmits(['input']);
 
-function ColorChanged(event: Event){
+function ColorChanged(event: Event) {
     const target = event.target as HTMLInputElement;
     emit('input', target.value);
 }
 </script>
 
-<style>
-</style>
+<style></style>
