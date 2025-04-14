@@ -15,7 +15,7 @@ const emit = defineEmits(['input']);
 
 function NumberChanged(event: Event) {
     const target = event.target as HTMLInputElement;
-    emit('input', target.value);
+    emit('input', +target.value);
 }
 </script>
 
