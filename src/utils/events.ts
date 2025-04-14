@@ -175,7 +175,7 @@ export function GenerateRandomEvent() {
 
 export function GenerateEvent(type: EventTypes) {
     const event = eventsDataTypes.alertEvents[type];
-    const randomIndex = Math.floor(Math.random() * chatMessageIds.length);
+    const randomIndex = Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length);
     event.event.name = PREVIEW_CHAT_MESSAGES[randomIndex].name;
     event.event.displayName = PREVIEW_CHAT_MESSAGES[randomIndex].name;
     event.event._id = uuidv4();
