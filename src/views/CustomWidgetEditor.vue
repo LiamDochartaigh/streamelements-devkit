@@ -43,7 +43,8 @@
                         <div style="display: flex; gap: 10px;">
                             <div style="display: flex; flex-direction: column;">
                                 <div style="font-size: 0.6em">Badge 1</div>
-                                <BadgeSelection @badge-selected="devKitCache.firstBadge = $event" :badge="devKitCache.firstBadge?.type" />
+                                <BadgeSelection @badge-selected="devKitCache.firstBadge = $event"
+                                    :badge="devKitCache.firstBadge?.type" />
                             </div>
                             <div style="display: flex; flex-direction: column;">
                                 <div style="font-size: 0.6em">Badge 2</div>
@@ -100,13 +101,14 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                        }}</button>
+                    }}</button>
                 </div>
             </div>
         </div>
         <div class="overlay-wrapper">
             <div id="overlay" class="overlay">
-                <WidgetPreview @field-updated="FieldUpdated($event.value, $event.key)" :key="widgetKey" ref="widgetPreview" :simulate="simulate" :fields="fieldsdata">
+                <WidgetPreview @field-updated="FieldUpdated($event.value, $event.key)" :key="widgetKey"
+                    ref="widgetPreview" :simulate="simulate" :fields="fieldsdata">
                 </WidgetPreview>
             </div>
         </div>
@@ -153,7 +155,7 @@ function GenEventByType(type: EventTypes) {
 }
 
 function EditorButtonClicked(clickEvent: any) {
-   const eventData = ButtonClicked();
+    const eventData = ButtonClicked();
     eventData.event.value = clickEvent.value;
     eventData.event.field = clickEvent.label;
     const event = new CustomEvent('onEventReceived', { detail: eventData });
@@ -205,7 +207,7 @@ function SendMessage() {
     const badgesArr = [];
     if (devKitCache.value.firstBadge && devKitCache.value.firstBadge.type !== 'no-badge-selected') { badgesArr.push(devKitCache.value.firstBadge); }
     if (devKitCache.value.secondBadge && devKitCache.value.secondBadge.type !== 'no-badge-selected') { badgesArr.push(devKitCache.value.secondBadge); }
-    
+
     let eventData = GenerateMessageEvent({
         msgTxt: textContent.value!.innerHTML,
         renderedText: textContent.value!.innerHTML,
