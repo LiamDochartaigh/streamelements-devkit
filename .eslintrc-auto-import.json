@@ -78,6 +78,7 @@
     "watchPostEffect": true,
     "watchSyncEffect": true,
     "GenerateEvent": true,
-    "GenerateMessageEvent": true
+    "GenerateMessageEvent": true,
+    "useDevKitCache": true
   }
 }

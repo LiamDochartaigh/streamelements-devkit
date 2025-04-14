@@ -37,25 +37,25 @@
                     </div>
                     <div>
                         <div>Send Msg as Broadcaster</div>
-                        <input type="checkbox" v-model="msgAsBroadcaster" />
+                        <input type="checkbox" v-model="devKitCache.sendMsgAsBroadcaster" />
                     </div>
                     <div style="display: flex; margin-top: 2px; justify-content: space-between;">
                         <div style="display: flex; gap: 10px;">
                             <div style="display: flex; flex-direction: column;">
                                 <div style="font-size: 0.6em">Badge 1</div>
-                                <BadgeSelection @badge-selected="badgeFirst = $event" :badge="badgeFirst?.type" />
+                                <BadgeSelection @badge-selected="devKitCache.firstBadge = $event" :badge="devKitCache.firstBadge?.type" />
                             </div>
                             <div style="display: flex; flex-direction: column;">
                                 <div style="font-size: 0.6em">Badge 2</div>
-                                <BadgeSelection @badge-selected="badgeSecond = $event"
-                                    :badge="badgeSecond ? badgeSecond?.type : 'no-badge-selected'" />
+                                <BadgeSelection @badge-selected="devKitCache.secondBadge = $event"
+                                    :badge="devKitCache.secondBadge ? devKitCache.secondBadge?.type : 'no-badge-selected'" />
                             </div>
                         </div>
                         <button class="button" @click="SendMessage">Send Message</button>
                     </div>
                     <div style="margin-top: 10px;">
                         <div>Username Display Color</div>
-                        <LD-ColorPicker v-model="displayColor" />
+                        <LD-ColorPicker v-model="devKitCache.displayColor" />
                     </div>
                 </div>
             </div>
@@ -134,10 +134,7 @@ const fieldsdata = ref<IndexableType>(JSON.parse(widget.assets.fields));
 const simulate = ref(false);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
-const badgeFirst = ref<Badge>();
-const badgeSecond = ref<Badge>();
-const displayColor = ref('#502fb5');
-const msgAsBroadcaster = ref(false);
+const devKitCache = useDevKitCache();
 
 function FieldUpdated(event: any, fieldName: any) {
     fieldsdata.value[fieldName].value = event;
@@ -206,16 +203,16 @@ function SendMessage() {
         || textContent.value?.innerHTML == ''
     ) return;
     const badgesArr = [];
-    if (badgeFirst.value && badgeFirst.value.type !== 'no-badge-selected') { badgesArr.push(badgeFirst.value); }
-    if (badgeSecond.value && badgeSecond.value.type !== 'no-badge-selected') { badgesArr.push(badgeSecond.value); }
+    if (devKitCache.value.firstBadge && devKitCache.value.firstBadge.type !== 'no-badge-selected') { badgesArr.push(devKitCache.value.firstBadge); }
+    if (devKitCache.value.secondBadge && devKitCache.value.secondBadge.type !== 'no-badge-selected') { badgesArr.push(devKitCache.value.secondBadge); }
     
     let eventData = GenerateMessageEvent({
         msgTxt: textContent.value!.innerHTML,
         renderedText: textContent.value!.innerHTML,
         name: 'test_user',
-        channel: msgAsBroadcaster.value ? 'test_user' : 'test_channel',
+        channel: devKitCache.value.sendMsgAsBroadcaster ? 'test_user' : 'test_channel',
         badges: badgesArr,
-        displayColor: displayColor.value,
+        displayColor: devKitCache.value.displayColor,
         userId: '12345678'
     });
     const event = new CustomEvent('onEventReceived', { detail: eventData });
