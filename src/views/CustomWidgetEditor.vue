@@ -124,7 +124,6 @@ import { EventTypes } from "@/types/widget-types";
 import EmoteSelection from "@/components/EmoteSelection.vue";
 import { Emote } from '@/types/widget-types';
 import BadgeSelection from "@/components/BadgeSelection.vue";
-import { Badge } from "@/types/widget-types";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
