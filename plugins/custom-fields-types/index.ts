@@ -81,9 +81,12 @@ async function writeConfigFile(modulePath: string) {
     "compilerOptions": {
       "composite": true,
       "allowJs": true,
+      "target": "ES2024",
       "esModuleInterop": true,
+      "moduleResolution": "node16",
+      "module": "Node16",
       "resolveJsonModule": true,
-      "strict": true,
+      "strict": true
     }
   }
   const tsconfigFile = path.join(modulePath, 'tsconfig.json');

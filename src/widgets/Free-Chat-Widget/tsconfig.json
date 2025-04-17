@@ -6,7 +6,10 @@
   "compilerOptions": {
     "composite": true,
     "allowJs": true,
+    "target": "ES2024",
     "esModuleInterop": true,
+    "moduleResolution": "node16",
+    "module": "Node16",
     "resolveJsonModule": true,
     "strict": true
   }
