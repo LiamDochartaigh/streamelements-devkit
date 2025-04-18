@@ -393,11 +393,11 @@ export function GenerateMessageEvent(opts: {
 }
 
 export function GenerateChannelPointRedeem(opts: {
-    name: string,
     redemption: string,
     amount: number,
 }) {
 
+    const name = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;
     return {
         listener: "event",
         event: {
@@ -408,8 +408,8 @@ export function GenerateChannelPointRedeem(opts: {
             createdAt: "2025-04-18T07:39:09.704Z",
             data: {
                 amount: opts.amount,
-                username: opts.name,
-                displayName: opts.name,
+                username: name,
+                displayName: name,
                 providerId: "135181000",
                 redemption: opts.redemption,
                 quantity: 0,

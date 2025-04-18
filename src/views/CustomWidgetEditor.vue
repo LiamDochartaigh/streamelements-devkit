@@ -103,7 +103,6 @@
                 <div>
                     <button class="button" @click="GenEventByType(GenerateChannelPointRedeem({
                         amount: 1000,
-                        name: 'test_user',
                         redemption: 'Test Redeem',
                     }))">Channel Point Redeem</button>
                 </div>
