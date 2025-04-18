@@ -1,10 +1,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import eventsData from "../assets/StreamEventsData.json"
-import { type IndexableType } from '@/utility/CustomTypes';
-import { type EventTypes } from '@/types/widget-types';
+import { type WidgetEvents } from '@/se-types';
 
-const eventsDataTypes: IndexableType = eventsData;
 let preview_Messages_Counter = 0;
 let chatMessageIds: string[] = [];
 let chatMessageUserIds: string[] = [];
@@ -162,73 +159,269 @@ const PREVIEW_CHAT_MESSAGES = [
     },
 ];
 
-export function ButtonClicked() {
-    return eventsData.editorButtonClickEvent;
+export function ButtonClicked(field: string, value: string) {
+    return {
+        listener: "event:test",
+        event: {
+            listener: "widget-button",
+            field: field,
+            value: value,
+        }
+    };
 }
 
 export function GenerateRandomEvent() {
-    const eventKeys = Object.keys(eventsData.alertEvents);
-    const event = eventsDataTypes.alertEvents[eventKeys[Math.floor(Math.random() * eventKeys.length)]];
-    event.event._id = uuidv4();
-    return event;
+    const events: WidgetEvents['listener'][] = ['follower-latest', 'subscriber-latest', 'cheer-latest', 'tip-latest', 'raid-latest'];
+    const event = events[Math.floor(Math.random() * events.length)];
+    const eventData = GenerateEvent(event);
+    return eventData;
 }
 
-export function GenerateEvent(type: EventTypes) {
-    const event = eventsDataTypes.alertEvents[type];
-    const randomIndex = Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length);
-    event.event.name = PREVIEW_CHAT_MESSAGES[randomIndex].name;
-    event.event.displayName = PREVIEW_CHAT_MESSAGES[randomIndex].name;
-    event.event._id = uuidv4();
+export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
+    gifted?: boolean,
+    bulkGifted?: boolean,
+    isCommunityGift?: boolean,
+    tier?: (WidgetEvents & { listener: 'subscriber-latest' })['event']['tier'],
+    message?: string,
+}) {
+    const name = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;
+    const sender = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;
+    const avatar = "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg";
+    const providerId = "135181000";
+    const sessionTop = false;
+    const randomBitAmounts = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+    const randomDollarAmounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const randomIndex = randomBitAmounts[Math.floor(Math.random() * randomBitAmounts.length)];
+
+    let event: WidgetEvents = {} as WidgetEvents;
+
+    if (type === 'follower-latest') {
+        event = {
+            listener: 'follower-latest',
+            event: {
+                _id: uuidv4(),
+                avatar: avatar,
+                displayName: name,
+                name: name,
+                originalEventName: 'follower-latest',
+                providerId: providerId,
+                sessionTop: sessionTop,
+                type: 'follower'
+            }
+        }
+    }
+    else if (type === 'subscriber-latest') {
+        event = {
+            listener: 'subscriber-latest',
+            event: {
+                _id: uuidv4(),
+                amount: opts?.bulkGifted ? 10 : 1,
+                displayName: name,
+                name: name,
+                message: opts?.message || "",
+                type: 'subscriber',
+                tier: opts?.tier,
+                sessionTop: sessionTop,
+                originalEventName: 'subscriber-latest',
+                providerId: providerId,
+                avatar: avatar,
+                ...(opts?.bulkGifted ? {
+                    bulkGifted: true,
+                    avatar: '',
+                    sessionTop: false,
+                    sender: name,
+                } : opts?.gifted ? {
+                    sender: sender,
+                    gifted: true,
+                    ...(opts.isCommunityGift ? {
+                        isCommunityGift: true,
+                        playedAsCommunityGift: false,
+                    } : {})
+                } : {})
+            }
+        }
+    }
+    else if (type === 'cheer-latest') {
+        event = {
+            listener: 'cheer-latest',
+            event: {
+                _id: uuidv4(),
+                amount: randomBitAmounts[randomIndex],
+                avatar: avatar,
+                displayName: name,
+                name: name,
+                message: opts?.message || "",
+                originalEventName: 'cheer-latest',
+                providerId: providerId,
+                sessionTop: sessionTop,
+                type: 'cheer',
+            }
+        }
+    }
+    else if (type === 'tip-latest') {
+        event = {
+            listener: 'tip-latest',
+            event: {
+                _id: uuidv4(),
+                amount: randomDollarAmounts[randomIndex],
+                avatar: avatar,
+                displayName: name,
+                name: name,
+                message: opts?.message || "",
+                originalEventName: 'tip-latest',
+                providerId: providerId,
+                sessionTop: sessionTop,
+                type: 'tip',
+            }
+        }
+    }
+    else if (type === 'raid-latest') {
+        event = {
+            listener: 'raid-latest',
+            event: {
+                _id: uuidv4(),
+                amount: 200,
+                avatar: avatar,
+                displayName: name,
+                name: name,
+                originalEventName: 'raid-latest',
+                providerId: providerId,
+                sessionTop: sessionTop,
+                type: 'raid',
+            }
+        }
+    }
     return event;
 }
 
 export function GenerateDeleteMessageEvent() {
-    const eventData = { ...eventsData.deleteMessage };
     const randomId = chatMessageIds[Math.floor(Math.random() * chatMessageIds.length)];
-    eventData.event.msgId = randomId;
+    const eventData = {
+        listener: "delete-message",
+        event: {
+            msgId: randomId
+        }
+    }
     chatMessageIds.splice(chatMessageIds.indexOf(randomId), 1);
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     return event;
 }
 
 export function GenerateBanEvent() {
-    const eventData = { ...eventsData.deleteMessages };
     const randomId = chatMessageUserIds[Math.floor(Math.random() * chatMessageUserIds.length)];
-    eventData.event.userId = randomId;
+    const eventData = {
+        listener: "delete-messages",
+        event: {
+            userId: randomId
+        }
+    };
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     return event;
 }
+
+
 
 export function GenerateMessageEvent(opts: {
     name: string;
     msgTxt: string;
     renderedText: string;
-    badges?: typeof eventsData.chatMessage.event.data.badges,
+    badges?: (WidgetEvents & { listener: 'message' })['event']['data']['badges'],
     displayColor?: string,
     userId?: string,
     channel?: string
 }) {
+
+
     const randomID = uuidv4();
+
+    const chatMessage: (WidgetEvents & { listener: 'message' }) = {
+        listener: "message",
+        event: {
+            service: "twitch",
+            data: {
+                time: 1698339405912,
+                tags: {
+                    "badge-info": "",
+                    badges: "broadcaster/1,no_video/1",
+                    "client-nonce": "e9f7e38996c0063fa9a8e2f8fc8c5bc2",
+                    color: "",
+                    "display-name": "hexeum_gfx",
+                    emotes: "",
+                    "first-msg": "0",
+                    flags: "",
+                    id: "49e016c7-c47b-4679-9cf0-83e27a48dd8d",
+                    mod: "0",
+                    "returning-chatter": "0",
+                    "room-id": "135181000",
+                    subscriber: "0",
+                    "tmi-sent-ts": "1698339405295",
+                    turbo: "0",
+                    "user-id": "135181000",
+                    "user-type": ""
+                },
+                nick: opts.name,
+                userId: opts.userId || (Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000).toString(),
+                displayName: opts.name,
+                displayColor: opts.displayColor || "#FFFFFF",
+                badges: opts.badges || [
+                    {
+                        type: "moderator",
+                        version: "1",
+                        url: "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+                        description: "Moderator"
+                    }
+                ],
+                channel: opts.channel || 'test_channel',
+                text: opts.msgTxt,
+                isAction: false,
+                emotes: PREVIEW_CHAT_EMOTES,
+                msgId: randomID,
+            },
+            renderedText: opts.renderedText
+        }
+    };
+
     chatMessageIds.push(randomID);
-    let randomMessageData = { ...eventsData.chatMessage };
-    randomMessageData.event.data.text = opts.msgTxt;
-    randomMessageData.event.data.badges = opts.badges ? opts.badges : randomMessageData.event.data.badges;
-    randomMessageData.event.renderedText = opts.renderedText;
-    randomMessageData.event.data.msgId = randomID;
-    randomMessageData.event.data.emotes = PREVIEW_CHAT_EMOTES;
-    randomMessageData.event.data.displayName = opts.name;
-    randomMessageData.event.data.channel = opts.channel || 'test_channel';
-    randomMessageData.event.data.nick = opts.name;
-    randomMessageData.event.data.displayColor = opts.displayColor || "#FFFFFF";
-    randomMessageData.event.data.userId = opts.userId ? opts.userId : (Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000).toString();
-    if (!chatMessageUserIds.includes(randomMessageData.event.data.userId)) {
-        chatMessageUserIds.push(randomMessageData.event.data.userId);
+    if (!chatMessageUserIds.includes(chatMessage.event.data.userId)) {
+        chatMessageUserIds.push(chatMessage.event.data.userId);
     }
     preview_Messages_Counter++;
     if (preview_Messages_Counter > PREVIEW_CHAT_MESSAGES.length - 1) {
         preview_Messages_Counter = 0;
     }
-    return randomMessageData;
+    return chatMessage;
+}
+
+export function GenerateChannelPointRedeem(opts: {
+    name: string,
+    redemption: string,
+    amount: number,
+}) {
+
+    return {
+        listener: "event",
+        event: {
+            type: "channelPointsRedemption",
+            provider: "twitch",
+            channel: "68020094ae0629c42e670e42",
+            flagged: false,
+            createdAt: "2025-04-18T07:39:09.704Z",
+            data: {
+                amount: opts.amount,
+                username: opts.name,
+                displayName: opts.name,
+                providerId: "135181000",
+                redemption: opts.redemption,
+                quantity: 0,
+                avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/0f1e5ffe-9737-47fa-ad2a-ea9faba6f626-profile_image-300x300.png"
+            },
+            _id: "6802019dbd5d8c18ea237b77",
+            expiresAt: "2025-05-16T07:39:09.709Z",
+            updatedAt: "2025-04-18T07:39:09.704Z",
+            activityId: "6802019dbd5d8c18ea237b77",
+            sessionEventsCount: 1
+        }
+    } as (WidgetEvents & { listener: 'event' }) & { event: { type: 'channelPointsRedemption' } };
 }
 
 export function GenerateRandomMessage() {

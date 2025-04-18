@@ -66,28 +66,46 @@
                     <button class="button" @click="DeleteRandomMessage">Delete Random Message</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType('follow')">Follow Event</button>
+                    <button class="button" @click="GenEventByType(GenerateEvent('follower-latest'))">Follow
+                        Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType('dono')">Donation Event</button>
+                    <button class="button" @click="GenEventByType(GenerateEvent('tip-latest'))">Donation Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType('cheer')">Cheer Event</button>
+                    <button class="button" @click="GenEventByType(GenerateEvent('cheer-latest'))">Cheer Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType('donoMessage')">Donation Message Event</button>
+                    <button class="button" @click="GenEventByType(GenerateEvent('tip-latest', {
+                        message: 'This is a test message!'
+                    }))">Donation Message Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType('giftedSub')">Gifted Sub Event</button>
+                    <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                        gifted: true,
+                        tier: '2000',
+                    }))">Gifted Sub Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType('raid')">Raid Event</button>
+                    <button class="button" @click="GenEventByType(GenerateEvent('raid-latest'))">Raid Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType('subMessage')">Sub w/ Message Event</button>
+                    <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                        message: 'This is a test sub!'
+                    }))">Sub w/ Message Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType('subscriber')">Sub Event</button>
+                    <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                        message: 'This is a test sub!',
+                        tier: '1000',
+                    }))">Sub Event</button>
+                </div>
+                <div>
+                    <button class="button" @click="GenEventByType(GenerateChannelPointRedeem({
+                        amount: 1000,
+                        name: 'test_user',
+                        redemption: 'Test Redeem',
+                    }))">Channel Point Redeem</button>
                 </div>
                 <div>
                     <button class="button" @click="TriggerRandomEvent">Random Event</button>
@@ -101,7 +119,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                    }}</button>
+                        }}</button>
                 </div>
             </div>
         </div>
@@ -120,10 +138,11 @@ import CustomField from "@/components/CustomFields/CustomField.vue";
 import { widgets } from "@/widget-registry";
 import WidgetPreview from "@/components/WidgetPreview.vue";
 import { type IndexableType } from '@/utility/CustomTypes';
-import { EventTypes } from "@/types/widget-types";
 import EmoteSelection from "@/components/EmoteSelection.vue";
 import { Emote } from '@/types/widget-types';
 import BadgeSelection from "@/components/BadgeSelection.vue";
+import { WidgetEvents } from "@/se-types";
+import { GenerateChannelPointRedeem, GenerateEvent } from "@/utils/events";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
@@ -147,16 +166,13 @@ function EmoteAdded(emote: Emote) {
     textContent.value!.innerHTML += (emoteTemplate);
 }
 
-function GenEventByType(type: EventTypes) {
-    const eventData = GenerateEvent(type);
+function GenEventByType(eventData: WidgetEvents) {
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
 }
 
 function EditorButtonClicked(clickEvent: any) {
-    const eventData = ButtonClicked();
-    eventData.event.value = clickEvent.value;
-    eventData.event.field = clickEvent.label;
+    const eventData = ButtonClicked(clickEvent.label, clickEvent.label);
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
 }
