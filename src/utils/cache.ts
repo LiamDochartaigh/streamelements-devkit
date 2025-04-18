@@ -3,7 +3,12 @@ import { type DevKitCache } from "@/types/cache-types";
 export function useDevKitCache() {
     const cacheString = localStorage.getItem('devkit-cache');
     const initialCache: DevKitCache = cacheString ? JSON.parse(cacheString) : {
-        firstBadge: {},
+        firstBadge: {
+            description: '',
+            type: 'no-badge-selected',
+            url: '',
+            version: '1.0.0',
+        },
         secondBadge: {
             description: '',
             type: 'no-badge-selected',
@@ -12,6 +17,7 @@ export function useDevKitCache() {
         },
         displayColor: '#502fb5',
         sendMsgAsBroadcaster: false,
+        channelPointRewards: []
     } as DevKitCache;
     const cacheRef = ref<DevKitCache>(initialCache);
 

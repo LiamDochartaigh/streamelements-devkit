@@ -9,6 +9,7 @@ declare global {
   const ButtonClicked: typeof import('./utils/events')['ButtonClicked']
   const EffectScope: typeof import('vue')['EffectScope']
   const GenerateBanEvent: typeof import('./utils/events')['GenerateBanEvent']
+  const GenerateChannelPointRedeem: typeof import('./utils/events')['GenerateChannelPointRedeem']
   const GenerateDeleteMessageEvent: typeof import('./utils/events')['GenerateDeleteMessageEvent']
   const GenerateEvent: typeof import('./utils/events')['GenerateEvent']
   const GenerateMessageEvent: typeof import('./utils/events')['GenerateMessageEvent']
@@ -88,6 +89,7 @@ declare module 'vue' {
     readonly ButtonClicked: UnwrapRef<typeof import('./utils/events')['ButtonClicked']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly GenerateBanEvent: UnwrapRef<typeof import('./utils/events')['GenerateBanEvent']>
+    readonly GenerateChannelPointRedeem: UnwrapRef<typeof import('./utils/events')['GenerateChannelPointRedeem']>
     readonly GenerateDeleteMessageEvent: UnwrapRef<typeof import('./utils/events')['GenerateDeleteMessageEvent']>
     readonly GenerateEvent: UnwrapRef<typeof import('./utils/events')['GenerateEvent']>
     readonly GenerateMessageEvent: UnwrapRef<typeof import('./utils/events')['GenerateMessageEvent']>

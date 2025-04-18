@@ -60,6 +60,31 @@
                     </div>
                 </div>
             </div>
+            <div style="padding: 10px;">
+                <div class="input-section">
+                    <div style="margin-bottom: 5px;"><strong>Add Channel Point Reward</strong></div>
+                    <div style="display: flex; gap: 10px; flex-direction: column;">
+                        <input v-model="rewardForm.name" type="text" placeholder="Reward Name" />
+                        <input v-model="rewardForm.cost" type="text" placeholder="Reward Cost" />
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <button @click="AddChannelPointReward">Add New Reward</button>
+                    </div>
+                    <div v-for="(item, index) in devKitCache.channelPointRewards" style="margin-top: 10px; display: flex; gap:10px; align-items: center;">
+                        <div class="channel-point-reward" @click="GenEventByType(GenerateChannelPointRedeem({
+                            amount: item.cost,
+                            redemption: item.name,
+                        }))">
+                            <div>{{ item.name }}</div>
+                            <div>{{ item.cost }}</div>
+                        </div>
+                        <div>
+                            <button @click="devKitCache.channelPointRewards.splice(index, 1)" style="padding: 15px"><i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="btn-group">
                 <div><strong>Test Events</strong></div>
                 <div>
@@ -118,7 +143,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                        }}</button>
+                    }}</button>
                 </div>
             </div>
         </div>
@@ -154,6 +179,18 @@ const simulate = ref(false);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
 const devKitCache = useDevKitCache();
+const rewardForm = ref({
+    name: '',
+    cost: 0
+});
+
+function AddChannelPointReward() {
+    if (devKitCache.value.channelPointRewards.length >= 3) return;
+    devKitCache.value.channelPointRewards.push({
+        name: rewardForm.value.name,
+        cost: rewardForm.value.cost
+    });
+}
 
 function FieldUpdated(event: any, fieldName: any) {
     fieldsdata.value[fieldName].value = event;
@@ -268,6 +305,17 @@ onUnmounted(() => {
     padding: 16px;
     border-radius: 8px;
     background-color: #f5f5f5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.channel-point-reward {
+    padding: 16px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: #95c1d3;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 

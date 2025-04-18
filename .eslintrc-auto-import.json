@@ -79,6 +79,7 @@
     "watchSyncEffect": true,
     "GenerateEvent": true,
     "GenerateMessageEvent": true,
-    "useDevKitCache": true
+    "useDevKitCache": true,
+    "GenerateChannelPointRedeem": true
   }
 }
