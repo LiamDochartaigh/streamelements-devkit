@@ -64,13 +64,20 @@
                 <div class="input-section">
                     <div style="margin-bottom: 5px;"><strong>Add Channel Point Reward</strong></div>
                     <div style="display: flex; gap: 10px; flex-direction: column;">
-                        <input v-model="rewardForm.name" type="text" placeholder="Reward Name" />
-                        <input v-model="rewardForm.cost" type="text" placeholder="Reward Cost" />
+                        <div>
+                            <div>Reward Name</div>
+                            <input v-model="rewardForm.name" type="text" placeholder="Enter Name" />
+                        </div>
+                        <div>
+                            <div>Reward Cost</div>
+                            <input v-model="rewardForm.cost" type="text" placeholder="0" />
+                        </div>
                     </div>
                     <div style="margin-top: 10px;">
                         <button @click="AddChannelPointReward">Add New Reward</button>
                     </div>
-                    <div v-for="(item, index) in devKitCache.channelPointRewards" style="margin-top: 10px; display: flex; gap:10px; align-items: center;">
+                    <div v-for="(item, index) in devKitCache.channelPointRewards"
+                        style="margin-top: 10px; display: flex; gap:10px; align-items: center;">
                         <div class="channel-point-reward" @click="GenEventByType(GenerateChannelPointRedeem({
                             amount: item.cost,
                             redemption: item.name,
@@ -79,7 +86,8 @@
                             <div>{{ item.cost }}</div>
                         </div>
                         <div>
-                            <button @click="devKitCache.channelPointRewards.splice(index, 1)" style="padding: 15px"><i class="fa-solid fa-trash"></i>
+                            <button @click="devKitCache.channelPointRewards.splice(index, 1)" style="padding: 15px"><i
+                                    class="fa-solid fa-trash"></i>
                             </button>
                         </div>
                     </div>
