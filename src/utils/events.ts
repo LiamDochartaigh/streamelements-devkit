@@ -326,6 +326,7 @@ export function GenerateMessageEvent(opts: {
     msgTxt: string;
     renderedText: string;
     badges?: (WidgetEvents & { listener: 'message' })['event']['data']['badges'],
+    tags?: Partial<(WidgetEvents & { listener: 'message' })['event']['data']['tags']>,
     displayColor?: string,
     userId?: string,
     channel?: string
@@ -333,6 +334,7 @@ export function GenerateMessageEvent(opts: {
 
 
     const randomID = uuidv4();
+    const badgeTags = opts.badges?.map(badge => `${badge.type}/${badge.version}`) || [];
 
     const chatMessage: (WidgetEvents & { listener: 'message' }) = {
         listener: "message",
@@ -342,18 +344,18 @@ export function GenerateMessageEvent(opts: {
                 time: 1698339405912,
                 tags: {
                     "badge-info": "",
-                    badges: "broadcaster/1,no_video/1",
+                    badges: badgeTags.join(",") || "moderator/1",
                     "client-nonce": "e9f7e38996c0063fa9a8e2f8fc8c5bc2",
                     color: "",
-                    "display-name": "hexeum_gfx",
+                    "display-name": opts.name,
                     emotes: "",
                     "first-msg": "0",
                     flags: "",
                     id: "49e016c7-c47b-4679-9cf0-83e27a48dd8d",
-                    mod: "0",
+                    mod: opts.tags?.mod || "0",
                     "returning-chatter": "0",
                     "room-id": "135181000",
-                    subscriber: "0",
+                    subscriber: opts.tags?.subscriber || "0",
                     "tmi-sent-ts": "1698339405295",
                     turbo: "0",
                     "user-id": "135181000",

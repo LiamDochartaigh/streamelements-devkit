@@ -39,6 +39,14 @@
                         <div>Send Msg as Broadcaster</div>
                         <input type="checkbox" v-model="devKitCache.sendMsgAsBroadcaster" />
                     </div>
+                    <div>
+                        <div>Send Msg as Subscriber</div>
+                        <input type="checkbox" v-model="devKitCache.sendMsgAsSubscriber" />
+                    </div>
+                    <div>
+                        <div>Send Msg as Moderator</div>
+                        <input type="checkbox" v-model="devKitCache.sendMsgAsModerator" />
+                    </div>
                     <div style="display: flex; margin-top: 2px; justify-content: space-between;">
                         <div style="display: flex; gap: 10px;">
                             <div style="display: flex; flex-direction: column;">
@@ -273,6 +281,10 @@ function SendMessage() {
         name: 'test_user',
         channel: devKitCache.value.sendMsgAsBroadcaster ? 'test_user' : 'test_channel',
         badges: badgesArr,
+        tags: {
+            mod: devKitCache.value.sendMsgAsModerator ? '1' : '0',
+            subscriber: devKitCache.value.sendMsgAsSubscriber ? '1' : '0',
+        },
         displayColor: devKitCache.value.displayColor,
         userId: '12345678'
     });

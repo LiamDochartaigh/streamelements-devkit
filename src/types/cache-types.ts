@@ -5,6 +5,8 @@ export interface DevKitCache {
     secondBadge: Badge;
     displayColor: string;
     sendMsgAsBroadcaster: boolean;
+    sendMsgAsModerator: boolean;
+    sendMsgAsSubscriber: boolean;
     channelPointRewards: {
         name: string;
         cost: number;
