@@ -1,10 +1,9 @@
-import type { event } from "jquery";
-import type { extend } from "lodash";
 import type CustomField from "./components/CustomFields/CustomField.vue";
 
 export { };
 
 declare global {
+
     interface Window {
         addEventListener(type: 'onWidgetLoad', listener: (event: CustomEvent<WidgetLoadEvent>) => void): void;
         addEventListener(type: 'onEventReceived', listener: (event: CustomEvent<WidgetEvents>) => void): void;

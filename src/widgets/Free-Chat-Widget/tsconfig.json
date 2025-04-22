@@ -1,7 +1,8 @@
 {
   "include": [
     "./**/*.ts",
-    "../../se-types.d.ts"
+    "../../se-types.d.ts",
+    "../_utils/utils.d.ts"
   ],
   "compilerOptions": {
     "composite": true,

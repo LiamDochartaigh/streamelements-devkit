@@ -7,6 +7,7 @@ import vue from '@vitejs/plugin-vue'
 import widgetRegistry from './plugins/widget-registry'
 import customFields from './plugins/custom-fields-types'
 import customTransformer from './plugins/custom-transformer'
+import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,7 +34,7 @@ export default defineConfig({
     Components({
       dts: 'src/components.d.ts',
       dirs: ['src/layouts', 'src/components'],
-    }),
+    })
   ],
   logLevel: 'info',
   resolve: {

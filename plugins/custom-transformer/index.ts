@@ -36,11 +36,15 @@ async function transform(modulesDir: string) {
         const modulePath = path.join(folderPath, moduleName);
         const moduleFiles = await fs.readdir(modulePath);
 
-        const fileFilter = ['tsconfig.json', 'custom-fields.d.ts'];
+        const extensionFilter = ['.js', '.json'];
+        const customFilter = ['.d.ts'];
         for (const file of moduleFiles) {
             const extension = path.extname(file);
+            
+            if(extensionFilter.includes(extension) || 
+            customFilter.some(filter => file.includes(filter))) continue;
 
-            if (fileExtensions.includes(extension) && !fileFilter.includes(file)) {
+            if (fileExtensions.includes(extension)) {
                 const tsFile = await fs.readFile(path.join(modulePath, file), 'utf-8');
                 //const customFields = await fs.readFile(path.join(modulePath, 'custom-fields.d.ts'), 'utf-8');
                 //const sourceFile = ts.createSourceFile('custom-fields-source', customFields, ts.ScriptTarget.Latest, true);
@@ -48,7 +52,7 @@ async function transform(modulesDir: string) {
 
                 const transformed = await transformWithEsbuild(tsFile, file, {
                     target: 'esNext',
-                    format: 'esm',
+                    format: 'iife',
                     loader: 'ts',
                 });
                 await fs.writeFile(path.join(modulePath, file.replace('.ts', '.js')), transformed.code);

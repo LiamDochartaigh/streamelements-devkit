@@ -21,6 +21,7 @@
     "unplugin-auto-import": "^19.1.1",
     "unplugin-vue-components": "^28.4.1",
     "uuid": "^9.0.1",
+    "vite-plugin-dts": "^4.5.3",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },

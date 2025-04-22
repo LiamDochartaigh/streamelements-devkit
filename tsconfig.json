@@ -9,13 +9,18 @@
     }
   ],
   "compilerOptions": {
+    "lib": ["ES2022", "dom"],
     "allowJs": true,
-    "lib": ["es6", "dom", "es2016"],
+    "target": "ES2022",
     "esModuleInterop": true,
+    "moduleResolution": "node16",
+    "module": "Node16",
     "resolveJsonModule": true,
     "outDir": "./dist",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
     "types": [
       "vite/client",

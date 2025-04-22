@@ -4,6 +4,8 @@
   "exclude": ["src/**/__tests__/*", "src/widgets/*" ],
   "compilerOptions": {
     "composite": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

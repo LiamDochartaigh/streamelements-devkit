@@ -6,7 +6,7 @@ export default function genCustomFieldTypes(options: any = {
   modulesDir: 'src/widgets'
 }): Plugin {
   const { modulesDir } = options;
-  const folderFilter = ['.git'];
+  const folderFilter = ['.git', '_utils'];
   const fileFilter = ['tsconfig.json'];
   const genTypes = async () => {
     try {
@@ -23,7 +23,7 @@ export default function genCustomFieldTypes(options: any = {
         const moduleName = folder.name;
         const modulePath = path.join(modulesFolderPath, moduleName);
         const moduleFiles = await fs.readdir(modulePath);
-        
+
         let globalTypes: string[] = [];
         let propTypes: string[] = [];
         let buttonTypes: string[] = [];
@@ -76,7 +76,7 @@ async function writeDeclarationFile(globalTypes: string[], propTypes: string[], 
 async function writeConfigFile(modulePath: string) {
   const tsconfigContent = {
     "include": [
-      "./**/*.ts", "../../se-types.d.ts"
+      "./**/*.ts", "../../se-types.d.ts", "../_utils/utils.d.ts"
     ],
     "compilerOptions": {
       "composite": true,
