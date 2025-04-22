@@ -191,7 +191,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
     const sessionTop = false;
     const randomBitAmounts = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
     const randomDollarAmounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const randomIndex = randomBitAmounts[Math.floor(Math.random() * randomBitAmounts.length)];
+    const randomIndex = Math.floor(Math.random() * randomBitAmounts.length);
 
     let event: WidgetEvents = {} as WidgetEvents;
 
