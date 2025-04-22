@@ -124,6 +124,11 @@ export type WidgetEvents =
                 nick: string;
                 tags: {
                     badges?: string;
+                    subscriber?: string;
+                    mod?: string;
+                    "returning-chatter"?: string;
+                    "first-msg"?: string;
+                    turbo?: string;
                     [key: string]: string
                 };
                 text: string;
