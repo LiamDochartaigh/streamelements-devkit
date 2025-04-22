@@ -24,7 +24,7 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
         const modules: string[] = [];
         const imports: string[] = [];
 
-        const folderFilter = ['.git']
+        const folderFilter = ['.git', '_utils'];
 
         // Turn folders into modules
         for (const folder of moduleFolders) {         
