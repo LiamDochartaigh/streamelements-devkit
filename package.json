@@ -15,7 +15,7 @@
     "@types/animejs": "^3.1.13",
     "@types/lodash": "^4.14.200",
     "jquery": "^3.7.1",
-    "loadash": "^1.0.0",
+    "lodash": "^4.17.21",
     "pinia": "^2.1.7",
     "uninstall": "^0.0.0",
     "unplugin-auto-import": "^19.1.1",
