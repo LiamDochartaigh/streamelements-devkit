@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+/public/
 /src/widgets/*
 !/src/widgets/Free-Chat-Widget
 /src/widget-registry.ts
