@@ -19,6 +19,7 @@ export function useDevKitCache() {
         sendMsgAsBroadcaster: false,
         sendMsgAsSubscriber: false,
         sendMsgAsModerator: false,
+        bgColor: '#FFFFFF',
         channelPointRewards: []
     } as DevKitCache;
     const cacheRef = ref<DevKitCache>(initialCache);

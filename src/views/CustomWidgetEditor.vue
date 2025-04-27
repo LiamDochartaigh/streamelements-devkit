@@ -1,5 +1,5 @@
 <template>
-    <div class="widget-editor">
+    <div class="widget-editor" :style="{ backgroundColor: devKitCache.bgColor }">
         <div class="sidebar">
             <div class="custom-fields">
                 <div class="custom-field" v-for="(group, index) in customFieldGroups" :key="index">
@@ -63,7 +63,6 @@
                         <button class="button" @click="SendMessage">Send Message</button>
                     </div>
                     <div style="margin-top: 10px;">
-                        <div>Username Display Color</div>
                         <LD-ColorPicker v-model="devKitCache.displayColor" />
                     </div>
                 </div>
@@ -162,6 +161,15 @@
                     }}</button>
                 </div>
             </div>
+            <div style="padding: 10px;">
+                <div class="input-section">
+                    <div><strong>Editor Settings</strong></div>
+                    <div>Editor Background Color</div>
+                    <LD-ColorPicker :mode="'compact'" v-model="devKitCache.bgColor" />
+                </div>
+                <div>
+                </div>
+            </div>
         </div>
         <div class="overlay-wrapper">
             <div id="overlay" class="overlay">
@@ -183,6 +191,7 @@ import { Emote } from '@/types/widget-types';
 import BadgeSelection from "@/components/BadgeSelection.vue";
 import { WidgetEvents } from "@/se-types";
 import { GenerateChannelPointRedeem, GenerateEvent } from "@/utils/events";
+import { compact } from "lodash";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;

@@ -63,7 +63,7 @@ function WrapJSFile(fileString: string) {
 }
 
 const widgetDimensions = computed(() => {
-    return [800, 800];
+    return [800, 1000];
 });
 
 function InitializeWidget() {

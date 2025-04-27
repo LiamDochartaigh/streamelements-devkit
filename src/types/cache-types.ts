@@ -4,6 +4,7 @@ export interface DevKitCache {
     firstBadge: Badge;
     secondBadge: Badge;
     displayColor: string;
+    bgColor: string;
     sendMsgAsBroadcaster: boolean;
     sendMsgAsModerator: boolean;
     sendMsgAsSubscriber: boolean;
