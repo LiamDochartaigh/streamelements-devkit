@@ -18,6 +18,7 @@
                         style="display: none; padding: 10px;">
                         <div v-for="(field) in GetFieldsKeyByGroup(group)">
                             <CustomField :type="fieldsdata[field].type" :fieldData="fieldsdata[field]"
+                            :fieldIndex="field"
                                 @input="FieldUpdated($event, field)" @btnClick="EditorButtonClicked" />
                         </div>
                     </div>
@@ -233,7 +234,7 @@ function GenEventByType(eventData: WidgetEvents) {
 }
 
 function EditorButtonClicked(clickEvent: any) {
-    const eventData = ButtonClicked(clickEvent.label, clickEvent.label);
+    const eventData = ButtonClicked(clickEvent.field, clickEvent.value);
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
 }

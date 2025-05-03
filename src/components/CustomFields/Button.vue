@@ -6,7 +6,8 @@
 
 <script setup lang="ts">
 const props = defineProps({
-    fieldData: Object
+    fieldData: Object,
+    fieldIndex: String,
 });
 
 const emit = defineEmits(['btnClick']);
@@ -14,7 +15,7 @@ const emit = defineEmits(['btnClick']);
 function ButtonClicked(){
     emit('btnClick', {
         value: props.fieldData?.value,
-        label: props.fieldData?.label
+        field: props.fieldIndex
     });
 }
 </script>
