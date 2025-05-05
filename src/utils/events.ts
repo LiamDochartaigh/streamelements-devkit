@@ -177,6 +177,18 @@ export function GenerateRandomEvent() {
     return eventData;
 }
 
+export function GenerateKVStoreEvent(key: string, value: string) {
+    return {
+        listener: 'kvstore:update',
+        event: {
+            data: {
+                key: key,
+                value: value
+            }
+        }
+    } as {} as WidgetEvents
+}
+
 export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
     gifted?: boolean,
     bulkGifted?: boolean,

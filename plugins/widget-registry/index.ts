@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { Assets, WidgetRegistryOptions } from './types';
+import { Plugin } from 'vite';
 
 export default function widgetRegistry(options: WidgetRegistryOptions = {
   modulesDir: 'src/widgets',
@@ -11,7 +12,7 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
     template: ['.html',],
     fields: ['.json',],
   }
-}) {
+}) : Plugin {
   const { modulesDir, outputFile, fileExtensions } = options;
   return {
     name: 'widget-registry',
@@ -68,6 +69,7 @@ export default function widgetRegistry(options: WidgetRegistryOptions = {
         const content = `// Auto-generated module registry
 
 ${imports.join('\n')}
+
 
 export const widgets = [
 ${stringifyWidgets}

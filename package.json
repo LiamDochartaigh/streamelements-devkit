@@ -17,6 +17,8 @@
     "jquery": "^3.7.1",
     "lodash": "^4.17.21",
     "pinia": "^2.1.7",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "uninstall": "^0.0.0",
     "unplugin-auto-import": "^19.1.1",
     "unplugin-vue-components": "^28.4.1",

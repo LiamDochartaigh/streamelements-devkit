@@ -9,8 +9,14 @@ import lodash from "lodash";
 import seData from "@/assets/StreamElementsData.json";
 import SessionData from "@/assets/SessionUpdateData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
-import { widgets } from "@/widget-registry";
+import { widgets } from "../widget-registry";
 import SE_API from "@/assets/SE_API?raw";
+import { io } from "socket.io-client";
+
+
+const socket = io(`http://localhost:${import.meta.env.VITE_SOCKET_PORT}`, {
+    autoConnect: false,
+});
 
 const props = defineProps({
     fields: {
@@ -27,9 +33,9 @@ const widgetName = useRouter().currentRoute.value.query.name as string;
 const widget = widgets.find(widget => widget.name === widgetName)!;
 
 const originalFieldsdata: IndexableType = lodash.cloneDeep(props.fields);
-const updatedCSS = ref(widget.assets.css);
-const updatedJS = ref(widget.assets.js);
-const updatedHTML = ref(widget.assets.template);
+const updatedCSS = ref('');
+const updatedJS = ref('');
+const updatedHTML = ref('');
 const updatedSeData: IndexableType = seData;
 const iFrameContainer = ref();
 const timeoutId = ref<number | null>(null);
@@ -216,6 +222,10 @@ function MessageHandler(event: MessageEvent<{
             key: event.data.key,
             message: 'successfully updated key'
         }));
+        socket.emit("kvstore:update", {
+            key: event.data.key,
+            value: event.data.value
+        });
     }
     else if (event.data.request == 'store_get') {
         const data = localStorage.getItem(event.data.key);
@@ -223,20 +233,41 @@ function MessageHandler(event: MessageEvent<{
             value: data
         }));
     }
-    else if (event.data.request == 'set_field'){
+    else if (event.data.request == 'set_field') {
         emit('fieldUpdated', {
             key: event.data.key,
             value: event.data.value
         });
     }
+    else if (event.data.request == 'btnClick') {
+        socket.emit('btnClick', event.data);
+    }
 }
 
 onMounted(() => {
     ResetWidget();
-    if(props.simulate){
+    if (props.simulate) {
         SimulateChat(true);
     }
+    
     window.addEventListener('message', MessageHandler);
+
+    socket.on("kvstore:update", (data) => {
+        const event = new CustomEvent('onEventReceived', { detail: GenerateKVStoreEvent('customWidget.' + data.key, data.value) });
+        DispatchIframeEvent(event);
+    });
+
+    socket.on("btnClick", (data) => {
+        const event = new CustomEvent('onEventReceived', { detail: data.data });
+        DispatchIframeEvent(event);
+    });
+
+    socket.on("connect_error", (err) => {
+        console.log(err);
+    });
+
+    console.log("Connecting to socket server...");
+    socket.connect();
 });
 
 onBeforeUnmount(() => {
@@ -244,8 +275,11 @@ onBeforeUnmount(() => {
         clearTimeout(timeoutId.value);
     }
     window.removeEventListener('message', MessageHandler);
+    console.log("Disconnecting socket server...");
+    socket.disconnect()
+    socket.off();
+    socket.removeAllListeners();
 })
-
 
 const emit = defineEmits<{
     fieldUpdated: [{
@@ -257,7 +291,6 @@ const emit = defineEmits<{
 defineExpose({
     DispatchIframeEvent,
 });
-
 </script>
 
 <style>

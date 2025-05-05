@@ -7,15 +7,16 @@ import vue from '@vitejs/plugin-vue'
 import widgetRegistry from './plugins/widget-registry'
 import customFields from './plugins/custom-fields-types'
 import customTransformer from './plugins/custom-transformer'
-import dts from 'vite-plugin-dts'
+import socketIOServer from './plugins/vite-socket-io'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     customFields(),
-    customTransformer(),
     widgetRegistry(),
+    customTransformer(),
+    socketIOServer(),
     AutoImport({
       imports: [
         'vue',
@@ -41,5 +42,5 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  },
+  }
 })

@@ -18,11 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import router from '../router/index';
 import { widgets } from '@/widget-registry';
+import { useRouter } from 'vue-router'
 
 const step = ref(0);
 const widget = ref<typeof widgets[number]>();
+const router = useRouter();
 
 function ChooseWidget($event: typeof widgets[number]) {
   step.value = 1;

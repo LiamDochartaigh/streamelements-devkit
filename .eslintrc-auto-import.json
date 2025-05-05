@@ -80,6 +80,7 @@
     "GenerateEvent": true,
     "GenerateMessageEvent": true,
     "useDevKitCache": true,
-    "GenerateChannelPointRedeem": true
+    "GenerateChannelPointRedeem": true,
+    "GenerateKVStoreEvent": true
   }
 }
