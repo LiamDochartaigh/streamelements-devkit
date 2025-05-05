@@ -11,6 +11,11 @@ import SessionData from "@/assets/SessionUpdateData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { widgets } from "@/widget-registry";
 import SE_API from "@/assets/SE_API?raw";
+import { io } from "socket.io-client";
+
+const socket = io(`http://localhost:${import.meta.env.VITE_SOCKET_PORT}`, {
+    autoConnect: false,
+});
 
 const props = defineProps({
     fields: {
@@ -223,7 +228,7 @@ function MessageHandler(event: MessageEvent<{
             value: data
         }));
     }
-    else if (event.data.request == 'set_field'){
+    else if (event.data.request == 'set_field') {
         emit('fieldUpdated', {
             key: event.data.key,
             value: event.data.value
@@ -233,10 +238,23 @@ function MessageHandler(event: MessageEvent<{
 
 onMounted(() => {
     ResetWidget();
-    if(props.simulate){
+    if (props.simulate) {
         SimulateChat(true);
     }
     window.addEventListener('message', MessageHandler);
+
+    socket.on("connect", () => {
+        console.log(socket.id);
+    });
+
+    socket.on("disconnect", (reason) => {
+        console.log(reason);
+    });
+
+    socket.on("connect_error", (err) => {
+        console.log(err);
+    });
+    socket.connect();
 });
 
 onBeforeUnmount(() => {
@@ -244,6 +262,7 @@ onBeforeUnmount(() => {
         clearTimeout(timeoutId.value);
     }
     window.removeEventListener('message', MessageHandler);
+    socket.disconnect();
 })
 
 

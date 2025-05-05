@@ -24,6 +24,7 @@ import { widgets } from '@/widget-registry';
 const step = ref(0);
 const widget = ref<typeof widgets[number]>();
 
+
 function ChooseWidget($event: typeof widgets[number]) {
   step.value = 1;
   widget.value = $event;
