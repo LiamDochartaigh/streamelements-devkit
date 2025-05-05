@@ -197,11 +197,9 @@ const widgetName = useRouter().currentRoute.value.query.name as string;
 
 if (import.meta.hot) {
     import.meta.hot.accept(['../widget-registry'], ([newModule]) => {
-        console.log("Reloading WidgetPreview.vue");
     });
 
     import.meta.hot.dispose((data) => {
-        console.log("Disposing WidgetPreview.vue");
         console.log(data);
     });
 }
