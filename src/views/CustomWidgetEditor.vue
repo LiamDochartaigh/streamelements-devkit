@@ -18,8 +18,8 @@
                         style="display: none; padding: 10px;">
                         <div v-for="(field) in GetFieldsKeyByGroup(group)">
                             <CustomField :type="fieldsdata[field].type" :fieldData="fieldsdata[field]"
-                            :fieldIndex="field"
-                                @input="FieldUpdated($event, field)" @btnClick="EditorButtonClicked" />
+                                :fieldIndex="field" @input="FieldUpdated($event, field)"
+                                @btnClick="EditorButtonClicked" />
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                    }}</button>
+                        }}</button>
                 </div>
             </div>
             <div style="padding: 10px;">
@@ -192,15 +192,26 @@ import { Emote } from '@/types/widget-types';
 import BadgeSelection from "@/components/BadgeSelection.vue";
 import { WidgetEvents } from "@/se-types";
 import { GenerateChannelPointRedeem, GenerateEvent } from "@/utils/events";
-import { compact } from "lodash";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
-const widget = widgets.find(widget => widget.name === widgetName)!;
+
+if (import.meta.hot) {
+    import.meta.hot.accept(['../widget-registry'], ([newModule]) => {
+        console.log("Reloading WidgetPreview.vue");
+    });
+
+    import.meta.hot.dispose((data) => {
+        console.log("Disposing WidgetPreview.vue");
+        console.log(data);
+    });
+}
+
+const widget = ref(widgets.find(widget => widget.name === widgetName)!);
 const widgetPreview = ref<InstanceType<typeof WidgetPreview>>();
 const widgetKey = ref(0);
 const textContent = ref<HTMLDivElement>();
 
-const fieldsdata = ref<IndexableType>(JSON.parse(widget.assets.fields));
+const fieldsdata = ref<IndexableType>(JSON.parse(widget.value.assets.fields));
 const simulate = ref(false);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
@@ -235,8 +246,10 @@ function GenEventByType(eventData: WidgetEvents) {
 
 function EditorButtonClicked(clickEvent: any) {
     const eventData = ButtonClicked(clickEvent.field, clickEvent.value);
-    const event = new CustomEvent('onEventReceived', { detail: eventData });
-    widgetPreview.value?.DispatchIframeEvent(event);
+    parent.postMessage({
+        request: 'btnClick',
+        data: eventData
+    }, '*');
 }
 
 function ExpandSidebarGroup(refID: string) {

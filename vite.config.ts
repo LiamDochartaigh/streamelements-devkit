@@ -14,8 +14,8 @@ export default defineConfig({
   plugins: [
     vue(),
     customFields(),
-    customTransformer(),
     widgetRegistry(),
+    customTransformer(),
     socketIOServer(),
     AutoImport({
       imports: [

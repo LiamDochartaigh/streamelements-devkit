@@ -12,6 +12,7 @@ declare global {
   const GenerateChannelPointRedeem: typeof import('./utils/events')['GenerateChannelPointRedeem']
   const GenerateDeleteMessageEvent: typeof import('./utils/events')['GenerateDeleteMessageEvent']
   const GenerateEvent: typeof import('./utils/events')['GenerateEvent']
+  const GenerateKVStoreEvent: typeof import('./utils/events')['GenerateKVStoreEvent']
   const GenerateMessageEvent: typeof import('./utils/events')['GenerateMessageEvent']
   const GenerateRandomEvent: typeof import('./utils/events')['GenerateRandomEvent']
   const GenerateRandomMessage: typeof import('./utils/events')['GenerateRandomMessage']
@@ -92,6 +93,7 @@ declare module 'vue' {
     readonly GenerateChannelPointRedeem: UnwrapRef<typeof import('./utils/events')['GenerateChannelPointRedeem']>
     readonly GenerateDeleteMessageEvent: UnwrapRef<typeof import('./utils/events')['GenerateDeleteMessageEvent']>
     readonly GenerateEvent: UnwrapRef<typeof import('./utils/events')['GenerateEvent']>
+    readonly GenerateKVStoreEvent: UnwrapRef<typeof import('./utils/events')['GenerateKVStoreEvent']>
     readonly GenerateMessageEvent: UnwrapRef<typeof import('./utils/events')['GenerateMessageEvent']>
     readonly GenerateRandomEvent: UnwrapRef<typeof import('./utils/events')['GenerateRandomEvent']>
     readonly GenerateRandomMessage: UnwrapRef<typeof import('./utils/events')['GenerateRandomMessage']>

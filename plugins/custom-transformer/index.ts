@@ -9,74 +9,37 @@ export default function customTransformer(options: any = {
     const { modulesDir } = options;
     return {
         name: 'custom-transformer',
-        enforce: 'post',
-        buildStart() {
-            transform(modulesDir);
+        async buildStart() {
+            const widgetEntries = await fs.readdir(modulesDir, { withFileTypes: true });
+            widgetEntries
+            .filter(entry => entry.isDirectory() && entry.name !== '.git')
+            .map(async entry => {
+                const files = await fs.readdir(path.join(modulesDir, entry.name));
+                files.filter(file => file.endsWith('.ts') && !file.includes('.d.ts'))
+                .map(async file => {
+                    const filePath = path.posix.join(modulesDir, entry.name, file);
+                    await transform(modulesDir, filePath);
+                })
+
+            });
         },
-        handleHotUpdate({ file }) {
-            if (path.dirname(file).includes(modulesDir)
-                && !file.includes('custom-fields.d.ts')
-                && path.extname(file) === '.ts')
-                transform(modulesDir);
-        }
-    };
-}
-
-async function transform(modulesDir: string) {
-    const folderPath = path.resolve(modulesDir);
-    const moduleFolders = await fs.readdir(folderPath, { withFileTypes: true });
-
-    const fileExtensions = ['.ts'];
-
-    // Turn folders into modules
-    for (const folder of moduleFolders) {
-        if (!folder.isDirectory()) continue;
-
-        const moduleName = folder.name;
-        const modulePath = path.join(folderPath, moduleName);
-        const moduleFiles = await fs.readdir(modulePath);
-
-        const extensionFilter = ['.js', '.json'];
-        const customFilter = ['.d.ts'];
-        for (const file of moduleFiles) {
-            const extension = path.extname(file);
-            
-            if(extensionFilter.includes(extension) || 
-            customFilter.some(filter => file.includes(filter))) continue;
-
-            if (fileExtensions.includes(extension)) {
-                const tsFile = await fs.readFile(path.join(modulePath, file), 'utf-8');
-                //const customFields = await fs.readFile(path.join(modulePath, 'custom-fields.d.ts'), 'utf-8');
-                //const sourceFile = ts.createSourceFile('custom-fields-source', customFields, ts.ScriptTarget.Latest, true);
-                //const fieldNames = parseCustomFieldsFromSource(sourceFile);
-
-                const transformed = await transformWithEsbuild(tsFile, file, {
-                    target: 'esNext',
-                    format: 'iife',
-                    loader: 'ts',
-                });
-                await fs.writeFile(path.join(modulePath, file.replace('.ts', '.js')), transformed.code);
-            }
+        async handleHotUpdate({ file, server, modules }) {
+            transform(modulesDir, file);
         }
     }
 }
 
-function parseCustomFieldsFromSource(sourceFile: ts.SourceFile) {
-    const findFields = (node: ts.Node, syntaxMatch: ts.SyntaxKind) => {
-        let matchingNodes: ts.Node[] = [];
-        node.forEachChild(childNode => {
-            if (childNode.kind === syntaxMatch) {
-                matchingNodes.push(childNode);
-            }
-            else if (childNode.getChildCount() > 0) {
-                matchingNodes = matchingNodes.concat(findFields(childNode, syntaxMatch));
-            }
+async function transform(modulesDir: string, file: string) {
+    if (path.dirname(file).includes(modulesDir)
+        && !file.includes('custom-fields.d.ts')
+        && path.extname(file) === '.ts') {
+        console.log('Transforming File', file);
+        const tsFile = await fs.readFile(file, 'utf-8');
+        const transformed = await transformWithEsbuild(tsFile, file, {
+            target: 'esNext',
+            format: 'iife',
+            loader: 'ts',
         });
-        return matchingNodes;
+        await fs.writeFile(file.replace('.ts', '.js'), transformed.code);
     }
-    const matchingFields = findFields(sourceFile, ts.SyntaxKind.VariableDeclaration)
-        .map(field => {
-            return field.getChildren().find(child => child.kind === ts.SyntaxKind.Identifier)?.getText();
-        });
-    return matchingFields;
 }
