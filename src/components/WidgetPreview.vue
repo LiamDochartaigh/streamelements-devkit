@@ -1,6 +1,6 @@
 <template>
     <div ref="iFrameContainer" class="widget"
-        :style="{ width: widgetDimensions[0] + 'px', height: widgetDimensions[1] + 'px' }">
+        :style="{ width: devKitCache.widgetDimensions.width + 'px', height: devKitCache.widgetDimensions.height + 'px' }">
     </div>
 </template>
 
@@ -13,6 +13,11 @@ import { widgets } from "../widget-registry";
 import SE_API from "@/assets/SE_API?raw";
 import { io } from "socket.io-client";
 
+const devKitCache = useDevKitCache();
+
+watch(() => devKitCache.value.widgetDimensions, () => {
+    ResetWidget();
+});
 
 const socket = io(`http://localhost:${import.meta.env.VITE_SOCKET_PORT}`, {
     autoConnect: false,
@@ -68,10 +73,6 @@ function WrapJSFile(fileString: string) {
     return `(function() { ${fileString} })();`;
 }
 
-const widgetDimensions = computed(() => {
-    return [800, 1000];
-});
-
 function InitializeWidget() {
 
     let fieldsKeys = Object.keys(props.fields);
@@ -114,7 +115,7 @@ function InitializeWidget() {
                 iFrameDocument.head.appendChild(scriptElement);
                 iFrameDocument.head.appendChild(apiElement);
 
-                iFrameDocument.body.style.height = widgetDimensions.value[1] + 'px';
+                iFrameDocument.body.style.height = devKitCache.value.widgetDimensions.height + 'px';
                 iFrameDocument.body.style.overflow = 'hidden';
 
                 LoadChatBox();
@@ -299,19 +300,6 @@ defineExpose({
     position: relative;
 }
 
-.sidebar {
-    min-width: 200px;
-    height: 100%;
-    background-color: #dbdbdb;
-}
-
-.widget-editor {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    display: flex;
-}
-
 .widget-iframe {
     width: 100%;
     height: 100%;
@@ -322,24 +310,5 @@ defineExpose({
     margin: 0;
     padding: 0;
     vertical-align: baseline;
-}
-
-.overlay {
-    width: 1920px;
-    height: 1080px;
-    transform: scale(0.59537);
-    left: 0;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    transform-origin: top left;
-}
-
-.overlay-wrapper {
-    position: relative;
-}
-
-.custom-field-group {
-    margin-bottom: 10px;
 }
 </style>

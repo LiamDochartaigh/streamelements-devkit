@@ -5,6 +5,10 @@ export interface DevKitCache {
     secondBadge: Badge;
     displayColor: string;
     bgColor: string;
+    widgetDimensions: {
+        width: number;
+        height: number;
+    };
     sendMsgAsBroadcaster: boolean;
     sendMsgAsModerator: boolean;
     sendMsgAsSubscriber: boolean;
@@ -12,4 +16,5 @@ export interface DevKitCache {
         name: string;
         cost: number;
     }[];
+    [string: string]: any;
 }

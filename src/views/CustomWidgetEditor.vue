@@ -159,7 +159,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                        }}</button>
+                    }}</button>
                 </div>
             </div>
             <div style="padding: 10px;">
@@ -167,6 +167,11 @@
                     <div><strong>Editor Settings</strong></div>
                     <div>Editor Background Color</div>
                     <LD-ColorPicker :mode="'compact'" v-model="devKitCache.bgColor" />
+                    <div>Widget Dimensions</div>
+                    <div style="display: flex; gap: 10px;">
+                        <input class="widget-dimensions-input" type="number" v-model="devKitCache.widgetDimensions.width" placeholder="800" />
+                        <input class="widget-dimensions-input" type="number" v-model="devKitCache.widgetDimensions.height" placeholder="1000" />
+                    </div>
                 </div>
                 <div>
                 </div>
@@ -214,6 +219,7 @@ const simulate = ref(false);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
 const devKitCache = useDevKitCache();
+
 const rewardForm = ref({
     name: '',
     cost: 0
@@ -342,6 +348,12 @@ onUnmounted(() => {
 </script>
 
 <style>
+
+.widget-dimensions-input {
+    display: flex;
+    max-width: 7em;
+}
+
 .input-section {
     padding: 16px;
     border-radius: 8px;
@@ -383,10 +395,6 @@ onUnmounted(() => {
     gap: 0.4em;
 }
 
-.widget {
-    position: relative;
-}
-
 .custom-field-header {
     cursor: pointer;
     background-color: #bdbdbd;
@@ -409,18 +417,6 @@ onUnmounted(() => {
     display: flex;
 }
 
-.widget-iframe {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    margin: 0;
-    padding: 0;
-    vertical-align: baseline;
-}
-
 .overlay {
     width: 1920px;
     height: 1080px;
@@ -434,6 +430,10 @@ onUnmounted(() => {
 
 .overlay-wrapper {
     position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .button {
