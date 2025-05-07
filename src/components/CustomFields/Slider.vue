@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>{{ fieldData?.label }}</div>
-        <input type="range" :min="props.fieldData?.min" :max="props.fieldData?.max" :value="props.fieldData?.value"
+        <input type="range" :min="props.fieldData?.min" :max="props.fieldData?.max" :value="props.fieldData?.value"  :step="props.fieldData?.steps || 1"
             @input="NumberChanged" />
     </div>
 </template>
