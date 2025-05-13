@@ -230,6 +230,9 @@ function MessageHandler(event: MessageEvent<{
     }
     else if (event.data.request == 'store_get') {
         const data = localStorage.getItem(event.data.key);
+        if (!data) {
+            console.error(`storeKey is not defined`);
+        }
         DispatchIframeEvent(resolveEvent({
             value: data
         }));
@@ -250,7 +253,7 @@ onMounted(() => {
     if (props.simulate) {
         SimulateChat(true);
     }
-    
+
     window.addEventListener('message', MessageHandler);
 
     socket.on("kvstore:update", (data) => {
