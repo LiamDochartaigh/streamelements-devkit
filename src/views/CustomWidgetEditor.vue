@@ -37,6 +37,10 @@
                         </div>
                     </div>
                     <div>
+                        <div>Display Name</div>
+                        <input type="text" v-model="devKitCache.displayName" />
+                    </div>
+                    <div>
                         <div>Send Msg as Broadcaster</div>
                         <input type="checkbox" v-model="devKitCache.sendMsgAsBroadcaster" />
                     </div>
@@ -159,7 +163,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                    }}</button>
+                        }}</button>
                 </div>
             </div>
             <div style="padding: 10px;">
@@ -169,8 +173,10 @@
                     <LD-ColorPicker :mode="'compact'" v-model="devKitCache.bgColor" />
                     <div>Widget Dimensions</div>
                     <div style="display: flex; gap: 10px;">
-                        <input class="widget-dimensions-input" type="number" v-model="devKitCache.widgetDimensions.width" placeholder="800" />
-                        <input class="widget-dimensions-input" type="number" v-model="devKitCache.widgetDimensions.height" placeholder="1000" />
+                        <input class="widget-dimensions-input" type="number"
+                            v-model="devKitCache.widgetDimensions.width" placeholder="800" />
+                        <input class="widget-dimensions-input" type="number"
+                            v-model="devKitCache.widgetDimensions.height" placeholder="1000" />
                     </div>
                 </div>
                 <div>
@@ -205,7 +211,6 @@ if (import.meta.hot) {
     });
 
     import.meta.hot.dispose((data) => {
-        console.log(data);
     });
 }
 
@@ -305,8 +310,8 @@ function SendMessage() {
     let eventData = GenerateMessageEvent({
         msgTxt: textContent.value!.innerHTML,
         renderedText: textContent.value!.innerHTML,
-        name: 'test_user',
-        channel: devKitCache.value.sendMsgAsBroadcaster ? 'test_user' : 'test_channel',
+        name: devKitCache.value.displayName,
+        channel: devKitCache.value.sendMsgAsBroadcaster ? devKitCache.value.displayName : 'test_channel',
         badges: badgesArr,
         tags: {
             mod: devKitCache.value.sendMsgAsModerator ? '1' : '0',

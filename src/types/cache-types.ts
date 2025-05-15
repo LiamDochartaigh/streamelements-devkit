@@ -9,6 +9,7 @@ export interface DevKitCache {
         width: number;
         height: number;
     };
+    displayName: string;
     sendMsgAsBroadcaster: boolean;
     sendMsgAsModerator: boolean;
     sendMsgAsSubscriber: boolean;
