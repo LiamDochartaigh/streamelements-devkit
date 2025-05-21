@@ -111,7 +111,10 @@ function parseFieldTypes(customFields: string) {
     else if (parsed[key].type === 'textfield'
       || parsed[key].type === 'text'
       || parsed[key].type === 'colorpicker'
-      || parsed[key].type === 'googleFont') {
+      || parsed[key].type === 'googleFont'
+      || parsed[key].type === 'image-input'
+      || parsed[key].type === 'audio-input'
+      || parsed[key].type === 'video-input') {
       parsedTypes.push(`const ${key}: string;`);
       parsedProps.push(`${key}: string;`);
     }
