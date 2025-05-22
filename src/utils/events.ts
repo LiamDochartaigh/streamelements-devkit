@@ -195,8 +195,10 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
     isCommunityGift?: boolean,
     tier?: (WidgetEvents & { listener: 'subscriber-latest' })['event']['tier'],
     message?: string,
+    name?: string,
 }) {
-    const name = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;
+
+    const name = opts?.name ? opts.name : randomDisplayName();
     const sender = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;
     const avatar = "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg";
     const providerId = "135181000";
@@ -331,10 +333,8 @@ export function GenerateBanEvent() {
     return event;
 }
 
-
-
 export function GenerateMessageEvent(opts: {
-    name: string;
+    name?: string;
     msgTxt: string;
     renderedText: string;
     badges?: (WidgetEvents & { listener: 'message' })['event']['data']['badges'],
@@ -347,6 +347,7 @@ export function GenerateMessageEvent(opts: {
 
     const randomID = uuidv4();
     const badgeTags = opts.badges?.map(badge => `${badge.type}/${badge.version}`) || [];
+    const name = opts.name || randomDisplayName();
 
     const chatMessage: (WidgetEvents & { listener: 'message' }) = {
         listener: "message",
@@ -359,7 +360,7 @@ export function GenerateMessageEvent(opts: {
                     badges: badgeTags.join(",") || "moderator/1",
                     "client-nonce": "e9f7e38996c0063fa9a8e2f8fc8c5bc2",
                     color: "",
-                    "display-name": opts.name,
+                    "display-name": name,
                     emotes: "",
                     "first-msg": "0",
                     flags: "",
@@ -373,9 +374,9 @@ export function GenerateMessageEvent(opts: {
                     "user-id": "135181000",
                     "user-type": ""
                 },
-                nick: opts.name,
+                nick: name,
                 userId: opts.userId || (Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000).toString(),
-                displayName: opts.name,
+                displayName: name,
                 displayColor: opts.displayColor || "#FFFFFF",
                 badges: opts.badges || [
                     {
@@ -385,7 +386,7 @@ export function GenerateMessageEvent(opts: {
                         description: "Moderator"
                     }
                 ],
-                channel: opts.channel || 'test_channel',
+                channel: opts.channel || name,
                 text: opts.msgTxt,
                 isAction: false,
                 emotes: PREVIEW_CHAT_EMOTES,
@@ -406,12 +407,17 @@ export function GenerateMessageEvent(opts: {
     return chatMessage;
 }
 
+function randomDisplayName() {
+    return PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;   
+}
+
 export function GenerateChannelPointRedeem(opts: {
     redemption: string,
     amount: number,
+    name?: string,
 }) {
 
-    const name = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;
+    const name = opts?.name ? opts.name : randomDisplayName();
     return {
         listener: "event",
         event: {

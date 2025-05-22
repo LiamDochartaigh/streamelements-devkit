@@ -93,6 +93,7 @@
                         <div class="channel-point-reward" @click="GenEventByType(GenerateChannelPointRedeem({
                             amount: item.cost,
                             redemption: item.name,
+                            name: displayName,
                         }))">
                             <div>{{ item.name }}</div>
                             <div>{{ item.cost }}</div>
@@ -111,44 +112,55 @@
                     <button class="button" @click="DeleteRandomMessage">Delete Random Message</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType(GenerateEvent('follower-latest'))">Follow
+                    <button class="button"
+                        @click="GenEventByType(GenerateEvent('follower-latest', { name: displayName }))">Follow
                         Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType(GenerateEvent('tip-latest'))">Donation Event</button>
+                    <button class="button"
+                        @click="GenEventByType(GenerateEvent('tip-latest', { name: displayName }))">Donation
+                        Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType(GenerateEvent('cheer-latest'))">Cheer Event</button>
+                    <button class="button"
+                        @click="GenEventByType(GenerateEvent('cheer-latest', { name: displayName }))">Cheer
+                        Event</button>
                 </div>
                 <div>
                     <button class="button" @click="GenEventByType(GenerateEvent('tip-latest', {
-                        message: 'This is a test message!'
+                        message: 'This is a test message!',
+                        name: displayName
                     }))">Donation Message Event</button>
                 </div>
                 <div>
                     <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                         gifted: true,
                         tier: '2000',
+                        name: displayName,
                     }))">Gifted Sub Event</button>
                 </div>
                 <div>
-                    <button class="button" @click="GenEventByType(GenerateEvent('raid-latest'))">Raid Event</button>
+                    <button class="button"
+                        @click="GenEventByType(GenerateEvent('raid-latest', { name: displayName }))">Raid Event</button>
                 </div>
                 <div>
                     <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
-                        message: 'This is a test sub!'
+                        message: 'This is a test sub!',
+                        name: displayName,
                     }))">Sub w/ Message Event</button>
                 </div>
                 <div>
                     <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                         message: 'This is a test sub!',
                         tier: '1000',
+                        name: displayName,
                     }))">Sub Event</button>
                 </div>
                 <div>
                     <button class="button" @click="GenEventByType(GenerateChannelPointRedeem({
                         amount: 1000,
                         redemption: 'Test Redeem',
+                        name: displayName,
                     }))">Channel Point Redeem</button>
                 </div>
                 <div>
@@ -224,6 +236,10 @@ const simulate = ref(false);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
 const devKitCache = useDevKitCache();
+
+const displayName = computed(() => {
+    return devKitCache.value.displayName.length === 0 ? undefined : devKitCache.value.displayName;
+});
 
 const rewardForm = ref({
     name: '',
@@ -310,8 +326,8 @@ function SendMessage() {
     let eventData = GenerateMessageEvent({
         msgTxt: textContent.value!.innerHTML,
         renderedText: textContent.value!.innerHTML,
-        name: devKitCache.value.displayName,
-        channel: devKitCache.value.sendMsgAsBroadcaster ? devKitCache.value.displayName : 'test_channel',
+        name: displayName.value,
+        channel: devKitCache.value.sendMsgAsBroadcaster ? displayName.value : 'test_channel',
         badges: badgesArr,
         tags: {
             mod: devKitCache.value.sendMsgAsModerator ? '1' : '0',
