@@ -30,7 +30,9 @@
                     <div style="margin-bottom: 5px;"><strong>Test Message</strong></div>
                     <div class="input-container" style="position: relative; display: flex;">
                         <div style="position: relative; display: flex; flex-grow: 1;">
-                            <div ref="textContent" class="text-input" contenteditable="true">
+                            <div ref="textContent" class="text-input" contenteditable="true"
+                                @focus="recentMessagePos = devKitCache.recentMessages.length"
+                                @blur="recentMessagePos = devKitCache.recentMessages.length">
                             </div>
                             <EmoteSelection @emoteSelected="EmoteAdded"
                                 style="position: absolute; right: 4px; align-self: anchor-center;" />
@@ -175,7 +177,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                        }}</button>
+                    }}</button>
                 </div>
             </div>
             <div style="padding: 10px;">
@@ -230,6 +232,7 @@ const widget = ref(widgets.find(widget => widget.name === widgetName)!);
 const widgetPreview = ref<InstanceType<typeof WidgetPreview>>();
 const widgetKey = ref(0);
 const textContent = ref<HTMLDivElement>();
+const recentMessagePos = ref(0);
 
 const fieldsdata = ref<IndexableType>(JSON.parse(widget.value.assets.fields));
 const simulate = ref(false);
@@ -338,7 +341,12 @@ function SendMessage() {
     });
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
+    devKitCache.value.recentMessages.push(textContent.value!.innerHTML);
+    if (devKitCache.value.recentMessages.length > 20) {
+        devKitCache.value.recentMessages.shift();
+    }
     textContent.value!.innerText = '';
+    recentMessagePos.value = devKitCache.value.recentMessages.length;
 }
 
 function BanRandomUser() {
@@ -354,6 +362,30 @@ function DeleteRandomMessage() {
 function HandleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter' && document.activeElement === textContent.value) {
         SendMessage();
+        event.preventDefault();
+    }
+    else if (event.key === 'ArrowUp' && document.activeElement === textContent.value) {
+
+        recentMessagePos.value--;
+        if (recentMessagePos.value - 1 < 0) {
+            recentMessagePos.value = devKitCache.value.recentMessages.length;
+        }
+
+        const recentText = devKitCache.value.recentMessages[recentMessagePos.value];
+        textContent.value.innerHTML = recentText;
+
+        event.preventDefault();
+    }
+    else if (event.key === 'ArrowDown' && document.activeElement === textContent.value) {
+
+        if (recentMessagePos.value + 1 <= devKitCache.value.recentMessages.length - 1) {
+            recentMessagePos.value++;
+            const recentText = devKitCache.value.recentMessages[recentMessagePos.value];
+            textContent.value.innerHTML = recentText;
+        }
+        else {
+            textContent.value.innerHTML = '';
+        }
         event.preventDefault();
     }
 }

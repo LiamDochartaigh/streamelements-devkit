@@ -15,7 +15,7 @@ export default function socketIOServer(): Plugin {
 
     function openServer() {
         console.log("Starting Socket.IO server...");
-        io = new Server(3000, {
+        io = new Server(+process.env.VITE_SOCKET_PORT! || 3001, {
             cors: {
                 origin: "*",
             }

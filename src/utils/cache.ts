@@ -23,7 +23,8 @@ let cache = ref<DevKitCache>({
     sendMsgAsSubscriber: false,
     sendMsgAsModerator: false,
     bgColor: '#FFFFFF',
-    channelPointRewards: []
+    channelPointRewards: [],
+    recentMessages: []
 });
 
 export function useDevKitCache() {

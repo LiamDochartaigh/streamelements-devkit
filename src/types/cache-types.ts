@@ -18,4 +18,5 @@ export interface DevKitCache {
         cost: number;
     }[];
     [string: string]: any;
+    recentMessages: string[];
 }
