@@ -177,7 +177,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                    }}</button>
+                        }}</button>
                 </div>
             </div>
             <div style="padding: 10px;">
@@ -341,10 +341,15 @@ function SendMessage() {
     });
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
-    devKitCache.value.recentMessages.push(textContent.value!.innerHTML);
-    if (devKitCache.value.recentMessages.length > 20) {
-        devKitCache.value.recentMessages.shift();
+
+    // Only push a new recent message if different from the last message
+    if (devKitCache.value.recentMessages[devKitCache.value.recentMessages.length - 1] !== textContent.value?.innerHTML) {
+        devKitCache.value.recentMessages.push(textContent.value!.innerHTML);
+        if (devKitCache.value.recentMessages.length > 20) {
+            devKitCache.value.recentMessages.shift();
+        }
     }
+
     textContent.value!.innerText = '';
     recentMessagePos.value = devKitCache.value.recentMessages.length;
 }
