@@ -75,8 +75,8 @@
             "amount": 0
         },
         "subscriber-alltime-gifter": {
-            "amount": 0,
-            "name": ""
+            "amount": 20,
+            "name": "answessie"
         },
         "host-latest": {
             "name": "",
@@ -133,8 +133,8 @@
             "amount": 0
         },
         "cheer-monthly-top-donator": {
-            "name": "",
-            "amount": 0
+            "name": "grandflashmaster",
+            "amount": 100
         },
         "cheer-alltime-top-donator": {
             "name": "",
@@ -154,23 +154,23 @@
             "amount": 38.9
         },
         "tip-monthly-top-donation": {
-            "name": "we",
-            "amount": 38.9
+            "name": "angeroow",
+            "amount": 50
         },
         "tip-alltime-top-donation": {
             "name": "we",
             "amount": 38.9
         },
         "tip-session-top-donator": {
-            "name": "",
-            "amount": 0
+            "name": "angeroow",
+            "amount": 50
         },
         "tip-weekly-top-donator": {
             "name": "we",
             "amount": 155.6
         },
         "tip-monthly-top-donator": {
-            "name": "we",
+            "name": "deadliestace93",
             "amount": 155.6
         },
         "tip-alltime-top-donator": {

@@ -42,11 +42,14 @@ const updatedCSS = ref('');
 const updatedJS = ref('');
 const updatedHTML = ref('');
 const updatedSeData: IndexableType = seData;
+updatedSeData.session.data = SessionData.session;
 const iFrameContainer = ref();
 const timeoutId = ref<number | null>(null);
 let chatCounter = 0;
 
 let sessionData: IndexableType = lodash.cloneDeep(SessionData);
+
+console.log(updatedSeData);
 
 function ResetWidget() {
     if (timeoutId.value) {
