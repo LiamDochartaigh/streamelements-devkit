@@ -49,8 +49,6 @@ let chatCounter = 0;
 
 let sessionData: IndexableType = lodash.cloneDeep(SessionData);
 
-console.log(updatedSeData);
-
 function ResetWidget() {
     if (timeoutId.value) {
         clearTimeout(timeoutId.value);
