@@ -110,7 +110,7 @@ const PREVIEW_CHAT_MESSAGES = [
     {
         name: "steviebiscuits",
         message: "I always find the best music from this stream. CatBag",
-        renderedText: "I always find the best music from this stream. <img src=\"https://cdn.frankerfacez.com/emote/25927/1\" />"
+        renderedText: "I always find the best music from this stream. <img src=\"https://cdn.frankerfacez.com/emote/25927/1\"  class=\"emote\" />"
     },
     {
         name: "johndoe123",
@@ -343,7 +343,6 @@ export function GenerateMessageEvent(opts: {
     userId?: string,
     channel?: string
 }) {
-
 
     const randomID = uuidv4();
     const badgeTags = opts.badges?.map(badge => `${badge.type}/${badge.version}`) || [];
