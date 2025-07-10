@@ -19,4 +19,31 @@ export interface DevKitCache {
     }[];
     [string: string]: any;
     recentMessages: string[];
+    session: {
+        "follower-goal": {
+            amount: number;
+        },
+        "follower-total": {
+            count: number;
+        },
+        "subscriber-goal": {
+            amount: number;
+        },
+        "subscriber-total": {
+            count: number;
+        },
+        "cheer-goal": {
+            amount: number;
+        },
+        "cheer-total": {
+            amount: number;
+        },
+        "tip-total": {
+            amount: number;
+        },
+        "tip-goal": {
+            amount: number;
+        }
+        [key: string]: any;
+    }
 }

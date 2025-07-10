@@ -5,6 +5,7 @@ import { type WidgetEvents } from '@/se-types';
 let preview_Messages_Counter = 0;
 let chatMessageIds: string[] = [];
 let chatMessageUserIds: string[] = [];
+let devKitCache = useDevKitCache();
 
 const PREVIEW_CHAT_EMOTES = [
     {
@@ -223,6 +224,8 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
                 type: 'follower'
             }
         }
+        devKitCache.value.session['follower-goal'].amount += 1;
+        devKitCache.value.session['follower-total'].count += 1;
     }
     else if (type === 'subscriber-latest') {
         event = {
@@ -254,6 +257,8 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
                 } : {})
             }
         }
+        devKitCache.value.session['subscriber-goal'].amount += 1;
+        devKitCache.value.session['subscriber-total'].count += 1;
     }
     else if (type === 'cheer-latest') {
         event = {
@@ -271,6 +276,8 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
                 type: 'cheer',
             }
         }
+        devKitCache.value.session['cheer-goal'].amount += randomBitAmounts[randomIndex];
+        devKitCache.value.session['cheer-total'].amount += randomBitAmounts[randomIndex];
     }
     else if (type === 'tip-latest') {
         event = {
@@ -288,6 +295,8 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
                 type: 'tip',
             }
         }
+        devKitCache.value.session['tip-goal'].amount += randomDollarAmounts[randomIndex];
+        devKitCache.value.session['tip-total'].amount += randomDollarAmounts[randomIndex];
     }
     else if (type === 'raid-latest') {
         event = {

@@ -1,4 +1,5 @@
 import { type DevKitCache } from "@/types/cache-types";
+import SessionData from "@/assets/SessionUpdateData.json";
 
 let cache = ref<DevKitCache>({
     firstBadge: {
@@ -24,7 +25,8 @@ let cache = ref<DevKitCache>({
     sendMsgAsModerator: false,
     bgColor: '#FFFFFF',
     channelPointRewards: [],
-    recentMessages: []
+    recentMessages: [],
+    session: SessionData.session
 });
 
 export function useDevKitCache() {

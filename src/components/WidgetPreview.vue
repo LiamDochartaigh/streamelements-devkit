@@ -7,7 +7,6 @@
 <script setup lang="ts">
 import lodash from "lodash";
 import seData from "@/assets/StreamElementsData.json";
-import SessionData from "@/assets/SessionUpdateData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { widgets } from "../widget-registry";
 import SE_API from "@/assets/SE_API?raw";
@@ -42,18 +41,20 @@ const updatedCSS = ref('');
 const updatedJS = ref('');
 const updatedHTML = ref('');
 const updatedSeData: IndexableType = seData;
-updatedSeData.session.data = SessionData.session;
+updatedSeData.session.data = devKitCache.value.session;
 const iFrameContainer = ref();
 const timeoutId = ref<number | null>(null);
 let chatCounter = 0;
 
-let sessionData: IndexableType = lodash.cloneDeep(SessionData);
+watch(devKitCache.value.session, (newValue, oldValue) => {
+    const updateEvent = new CustomEvent('onSessionUpdate', { detail: devKitCache.value });
+    DispatchIframeEvent(updateEvent);
+});
 
 function ResetWidget() {
     if (timeoutId.value) {
         clearTimeout(timeoutId.value);
     }
-    sessionData = lodash.cloneDeep(SessionData);
     InitializeWidget();
 }
 
@@ -130,7 +131,7 @@ function InitializeWidget() {
 function LoadGoals() {
     const loadEvent = new CustomEvent('onWidgetLoad', { detail: updatedSeData });
     DispatchIframeEvent(loadEvent);
-    SimulateGoals();
+    //SimulateGoals();
 }
 
 function LoadChatBox() {
@@ -138,17 +139,14 @@ function LoadChatBox() {
     DispatchIframeEvent(loadEvent);
 }
 
-function SimulateGoals() {
-    const randomAmount = Math.floor(Math.random() * (2 - 1 + 1) + 1);
-    sessionData.session["follower-total"].count += randomAmount;
-    const randTime = Math.floor(Math.random() * (4500 - 1500 + 1) + 1500);
-
-    const updateEvent = new CustomEvent('onSessionUpdate', { detail: sessionData });
-    timeoutId.value = setTimeout(() => {
-        DispatchIframeEvent(updateEvent);
-        SimulateGoals();
-    }, randTime);
-}
+// function SimulateGoals() {
+//     const randomAmount = Math.floor(Math.random() * (2 - 1 + 1) + 1);
+//     const randTime = Math.floor(Math.random() * (4500 - 1500 + 1) + 1500);
+//     timeoutId.value = setTimeout(() => {
+//         DispatchIframeEvent(updateEvent);
+//         SimulateGoals();
+//     }, randTime);
+// }
 
 function SimulateChat(continuously: boolean = true) {
     if (continuously) {
