@@ -14,6 +14,9 @@ importers:
       '@types/lodash':
         specifier: ^4.14.200
         version: 4.17.16
+      '@types/matter-js':
+        specifier: ^0.19.8
+        version: 0.19.8
       jquery:
         specifier: ^3.7.1
         version: 3.7.1
@@ -404,6 +407,9 @@ packages:
 
   '@types/lodash@4.17.16':
     resolution: {integrity: sha512-HX7Em5NYQAXKW+1T+FiuG27NGwzJfCX3s1GjOa7ujxZa52kjJLOr4FUxT+giF6Tgxv1e+/czV/iTtBw27WTU9g==}
+
+  '@types/matter-js@0.19.8':
+    resolution: {integrity: sha512-W2ZWG58Lijv/4v768NgpeyFqqiOyslmAU7qqM1Lhz4XBoUgGtZtPz4CjcOKYtqHIak14dvPldslQhltqLTWwsw==}
 
   '@types/node@18.19.79':
     resolution: {integrity: sha512-90K8Oayimbctc5zTPHPfZloc/lGVs7f3phUAAMcTgEPtg8kKquGZDERC8K4vkBYkQQh48msiYUslYtxTWvqcAg==}
@@ -2110,6 +2116,8 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/lodash@4.17.16': {}
+
+  '@types/matter-js@0.19.8': {}
 
   '@types/node@18.19.79':
     dependencies:

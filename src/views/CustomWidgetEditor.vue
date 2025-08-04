@@ -177,12 +177,15 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                        }}</button>
+                    }}</button>
                 </div>
             </div>
             <div style="padding: 10px;">
                 <div class="input-section">
                     <div><strong>Editor Settings</strong></div>
+                    <div>
+                        <button class="button" @click="ResetSessionData">Reset Session Data</button>
+                    </div>
                     <div>Editor Background Color</div>
                     <LD-ColorPicker :mode="'compact'" v-model="devKitCache.bgColor" />
                     <div>Widget Dimensions</div>
@@ -217,6 +220,7 @@ import { Emote } from '@/types/widget-types';
 import BadgeSelection from "@/components/BadgeSelection.vue";
 import { WidgetEvents } from "@/se-types";
 import { GenerateChannelPointRedeem, GenerateEvent } from "@/utils/events";
+import SessionData from "@/assets/SessionUpdateData.json";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 
@@ -248,6 +252,13 @@ const rewardForm = ref({
     name: '',
     cost: 0
 });
+
+
+function ResetSessionData() {
+    devKitCache.value.session = {
+        ...SessionData.session
+    }
+}
 
 function AddChannelPointReward() {
     if (devKitCache.value.channelPointRewards.length >= 3) return;
