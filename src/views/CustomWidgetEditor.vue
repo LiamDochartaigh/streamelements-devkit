@@ -177,7 +177,7 @@
                 <div>
                     <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
                         'Off'}`
-                    }}</button>
+                        }}</button>
                 </div>
             </div>
             <div style="padding: 10px;">
@@ -185,6 +185,9 @@
                     <div><strong>Editor Settings</strong></div>
                     <div>
                         <button class="button" @click="ResetSessionData">Reset Session Data</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="CopyPreviewURL">Copy Preview URL</button>
                     </div>
                     <div>Editor Background Color</div>
                     <LD-ColorPicker :mode="'compact'" v-model="devKitCache.bgColor" />
@@ -253,6 +256,9 @@ const rewardForm = ref({
     cost: 0
 });
 
+function CopyPreviewURL() {
+    navigator.clipboard.writeText(`${window.location.origin}/preview-widget?name=${widgetName}&width=${devKitCache.value.widgetDimensions.width}&height=${devKitCache.value.widgetDimensions.height}`)
+}
 
 function ResetSessionData() {
     devKitCache.value.session = {

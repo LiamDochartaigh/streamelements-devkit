@@ -1,6 +1,6 @@
 <template>
     <div ref="iFrameContainer" class="widget"
-        :style="{ width: devKitCache.widgetDimensions.width + 'px', height: devKitCache.widgetDimensions.height + 'px' }">
+        :style="{ width: routeWidth + 'px', height: routeHeight + 'px' }">
     </div>
 </template>
 
@@ -11,8 +11,26 @@ import { type IndexableType } from '@/utility/CustomTypes';
 import { widgets } from "../widget-registry";
 import SE_API from "@/assets/SE_API?raw";
 import { io } from "socket.io-client";
+import { useRoute } from "vue-router";
 
 const devKitCache = useDevKitCache();
+const route = useRoute();
+
+const routeWidth = computed(() => {
+    if(route.query.width) {
+        return route.query.width;
+    }
+    else return devKitCache.value.widgetDimensions.width;
+})
+
+const routeHeight = computed(() => {
+    if(route.query.height) {
+        return route.query.height
+    }
+    else {
+        return devKitCache.value.widgetDimensions.height
+    }
+})
 
 watch(() => devKitCache.value.widgetDimensions, () => {
     ResetWidget();
