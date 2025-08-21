@@ -1,5 +1,5 @@
 <template>
-    <div class="custom-select">
+    <div class="custom-select" ref="selectRef">
         <div class="selected-value" @click="toggleDropdown">
             <slot name="selection" :item="value"></slot>
         </div>
@@ -14,8 +14,9 @@
 <script setup lang="ts" generic="T">
 import { PropType } from 'vue';
 
-const isOpen = ref(false)
-const dropdown = ref(null)
+const isOpen = ref(false);
+const dropdown = ref(null);
+const selectRef = ref<HTMLElement | null>(null);
 
 const props = defineProps({
     options: {
@@ -27,12 +28,16 @@ const props = defineProps({
 });
 
 const toggleDropdown = () => {
-    console.log("M")
     isOpen.value = !isOpen.value
 }
 
+const handleClickOutside = (event: Event) => {
+    if (selectRef.value && !selectRef.value.contains(event.target as Node)) {
+        isOpen.value = false
+    }
+}
+
 const selectOption = (option: T) => {
-    console.log("UUH")
     isOpen.value = false;
     emit('update', option);
 }
@@ -45,6 +50,14 @@ const emit = defineEmits<{
 const handleScroll = (event: Event) => {
     emit('scroll', event);
 }
+
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <style>
