@@ -1,13 +1,17 @@
 <template>
     <div>
         <div>{{ fieldData?.label }}</div>
-        <select :value="props.fieldData?.value" @change="TextChanged" @scroll="handleScroll">
-            <template v-for="font in googleFonts">
-                <option :value="font.family">
-                    <span :style="{ fontFamily: `${font.family}, ${font.category}` }">{{ font.family }}</span>
-                </option>
+        <custom-dropdown @update="TextChanged" :value="currFont" :options="googleFonts" @scroll="handleScroll">
+            <template #selection="{ item }">
+                <div :style="{ fontFamily: `${item?.family}, ${item?.category}` }">{{
+                    item?.family || 'Choose an option' }}</div>
             </template>
-        </select>
+            <template #item="{ item }">
+                <span :style="{ fontFamily: `${item.family}, ${item.category}` }">
+                    {{ item.family }}
+                </span>
+            </template>
+        </custom-dropdown>
     </div>
 </template>
 
@@ -15,22 +19,19 @@
 import fonts from "@/assets/fonts.json";
 import WebFont from 'webfontloader';
 
-interface GoogleFont {
-    family: string;
-    category: string;
-    variants: string[];
-}
-
 const props = defineProps({
     fieldData: Object
 });
 
 const googleFonts: GoogleFont[] = fonts.map((font) => ({ family: font.family, category: font.category, variants: font.variants }));
+const currFont = computed(() => {
+    return googleFonts.find(font => font.family === props.fieldData?.value);
+})
+
 const primaryFonts: string[] = fonts.slice(0, 20).map(fontObject => {
     let variants = fontObject.variants.map(variant => variant === 'regular' ? '400' : variant);
     return `${fontObject.family}:${variants.join(',')}`;
 });
-
 let fontsLoaded = primaryFonts.length;
 
 function LoadPrimaryFonts() {
@@ -81,14 +82,15 @@ const handleScroll = (event: Event) => {
 };
 
 onMounted(() => {
+    console.log(props.fieldData);
     LoadPrimaryFonts();
 })
 
 const emit = defineEmits(['input']);
 
-function TextChanged(event: Event) {
-    const target = event.target as HTMLInputElement;
-    emit('input', target.value);
+function TextChanged(font: GoogleFont) {
+    LoadFont(font.family);
+    emit('input', font.family);
 }
 </script>
 

@@ -12,6 +12,7 @@ declare module 'vue' {
     Button: typeof import('./components/CustomFields/Button.vue')['default']
     Checkbox: typeof import('./components/CustomFields/Checkbox.vue')['default']
     ColorPicker: typeof import('./components/CustomFields/ColorPicker.vue')['default']
+    CustomDropdown: typeof import('./components/CustomDropdown.vue')['default']
     CustomField: typeof import('./components/CustomFields/CustomField.vue')['default']
     Dialog: typeof import('./components/Dialog.vue')['default']
     Dropdown: typeof import('./components/CustomFields/Dropdown.vue')['default']
