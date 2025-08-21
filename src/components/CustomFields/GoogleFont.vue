@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>{{ fieldData?.label }}</div>
-        <select :value="props.fieldData?.value" @change="TextChanged">
+        <select :value="props.fieldData?.value" @change="TextChanged" @scroll="handleScroll">
             <template v-for="font in googleFonts">
                 <option :value="font.family">
                     <span :style="{ fontFamily: `${font.family}, ${font.category}` }">{{ font.family }}</span>
@@ -26,20 +26,12 @@ const props = defineProps({
 });
 
 const googleFonts: GoogleFont[] = fonts.map((font) => ({ family: font.family, category: font.category, variants: font.variants }));
-let dropdownMenuEl: HTMLElement | null = null;
-
 const primaryFonts: string[] = fonts.slice(0, 20).map(fontObject => {
     let variants = fontObject.variants.map(variant => variant === 'regular' ? '400' : variant);
     return `${fontObject.family}:${variants.join(',')}`;
 });
 
 let fontsLoaded = primaryFonts.length;
-
-function GetFont(fontFamily: string) {
-    return googleFonts.filter(font => {
-        return font.family === fontFamily;
-    })[0];
-}
 
 function LoadPrimaryFonts() {
     WebFont.load({
@@ -87,31 +79,6 @@ const handleScroll = (event: Event) => {
         fontsLoaded += fontsToLoad;
     }
 };
-
-// function dropDownToggle(open: boolean) {
-//     if (open) {
-//         nextTick(() => {
-//             const menuId: string = (() => {
-//                 const selectEl = fontDropdown.value?.$el as HTMLElement;
-//                 const ariaOwnsEl = selectEl.querySelector('.v-input__control')?.querySelector('[aria-owns]') as HTMLElement | null;
-//                 if (ariaOwnsEl) return ariaOwnsEl.getAttribute('aria-owns')!;
-//                 else return '';
-//             })();
-//             dropdownMenuEl = document.querySelector(`#${menuId}`)?.querySelector('.v-list') as HTMLElement | null;
-//             if (dropdownMenuEl) {
-//                 dropdownMenuEl.addEventListener('scroll', handleScroll);
-//             }
-//         })
-//     }
-//     else {
-//         dropdownMenuEl?.removeEventListener('scroll', handleScroll);
-//     }
-// }
-
-
-onUnmounted(() => {
-    dropdownMenuEl?.removeEventListener('scroll', handleScroll);
-})
 
 onMounted(() => {
     LoadPrimaryFonts();
