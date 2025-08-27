@@ -1,205 +1,218 @@
 <template>
     <div class="widget-editor" :style="{ backgroundColor: devKitCache.bgColor }">
         <div class="sidebar">
-            <div class="custom-fields">
-                <div class="custom-field" v-for="(group, index) in customFieldGroups" :key="index">
-                    <div class="custom-field-header"
-                        @click="ExpandSidebarGroup(`${group}Group${index + 1}`.replace(/\s+/g, ''))">
-                        <svg width="10px" style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512">
-                            <path
-                                d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
-                        </svg>
-                        <span>
-                            <strong style="text-decoration: underline;">{{ group }}</strong>
-                        </span>
-                    </div>
-                    <div :ref="el => customFieldsRefs[`${group}Group${index + 1}`.replace(/\s+/g, '')] = el"
-                        style="display: none; padding: 10px;">
-                        <div v-for="(field) in GetFieldsKeyByGroup(group)">
-                            <CustomField :type="fieldsdata[field].type" :fieldData="fieldsdata[field]"
-                                :fieldIndex="field" @input="FieldUpdated($event, field)"
-                                @btnClick="EditorButtonClicked" />
+            <div class="sidebar-content" v-if="sidebarOpen">
+                <div class="custom-fields">
+                    <div class="custom-field" v-for="(group, index) in customFieldGroups" :key="index">
+                        <div class="custom-field-header"
+                            @click="ExpandSidebarGroup(`${group}Group${index + 1}`.replace(/\s+/g, ''))">
+                            <svg width="10px" style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512">
+                                <path
+                                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                            </svg>
+                            <span>
+                                <strong style="text-decoration: underline;">{{ group }}</strong>
+                            </span>
+                        </div>
+                        <div :ref="el => customFieldsRefs[`${group}Group${index + 1}`.replace(/\s+/g, '')] = el"
+                            style="display: none; padding: 10px;">
+                            <div v-for="(field) in GetFieldsKeyByGroup(group)">
+                                <CustomField :type="fieldsdata[field].type" :fieldData="fieldsdata[field]"
+                                    :fieldIndex="field" @input="FieldUpdated($event, field)"
+                                    @btnClick="EditorButtonClicked" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <hr class="solid">
-            <div style="padding: 10px;">
-                <div class="input-section">
-                    <div style="margin-bottom: 5px;"><strong>Test Message</strong></div>
-                    <div class="input-container" style="position: relative; display: flex;">
-                        <div style="position: relative; display: flex; flex-grow: 1;">
-                            <div ref="textContent" class="text-input" contenteditable="true"
-                                @focus="recentMessagePos = devKitCache.recentMessages.length"
-                                @blur="recentMessagePos = devKitCache.recentMessages.length">
-                            </div>
-                            <EmoteSelection @emoteSelected="EmoteAdded"
-                                style="position: absolute; right: 4px; align-self: anchor-center;" />
-                        </div>
-                    </div>
-                    <div>
-                        <div>Display Name</div>
-                        <input type="text" v-model="devKitCache.displayName" />
-                    </div>
-                    <div>
-                        <div>Send Msg as Broadcaster</div>
-                        <input type="checkbox" v-model="devKitCache.sendMsgAsBroadcaster" />
-                    </div>
-                    <div>
-                        <div>Send Msg as Subscriber</div>
-                        <input type="checkbox" v-model="devKitCache.sendMsgAsSubscriber" />
-                    </div>
-                    <div>
-                        <div>Send Msg as Moderator</div>
-                        <input type="checkbox" v-model="devKitCache.sendMsgAsModerator" />
-                    </div>
-                    <div style="display: flex; margin-top: 2px; justify-content: space-between;">
-                        <div style="display: flex; gap: 10px;">
-                            <div style="display: flex; flex-direction: column;">
-                                <div style="font-size: 0.6em">Badge 1</div>
-                                <BadgeSelection @badge-selected="devKitCache.firstBadge = $event"
-                                    :badge="devKitCache.firstBadge?.type" />
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <div style="font-size: 0.6em">Badge 2</div>
-                                <BadgeSelection @badge-selected="devKitCache.secondBadge = $event"
-                                    :badge="devKitCache.secondBadge ? devKitCache.secondBadge?.type : 'no-badge-selected'" />
+                <hr class="solid">
+                <div style="padding: 10px;">
+                    <div class="input-section">
+                        <div style="margin-bottom: 5px;"><strong>Test Message</strong></div>
+                        <div class="input-container" style="position: relative; display: flex;">
+                            <div style="position: relative; display: flex; flex-grow: 1;">
+                                <div ref="textContent" class="text-input" contenteditable="true"
+                                    @focus="recentMessagePos = devKitCache.recentMessages.length"
+                                    @blur="recentMessagePos = devKitCache.recentMessages.length">
+                                </div>
+                                <EmoteSelection @emoteSelected="EmoteAdded"
+                                    style="position: absolute; right: 4px; align-self: anchor-center;" />
                             </div>
                         </div>
-                        <button class="button" @click="SendMessage">Send Message</button>
-                    </div>
-                    <div style="margin-top: 10px;">
-                        <LD-ColorPicker v-model="devKitCache.displayColor" />
+                        <div>
+                            <div>Display Name</div>
+                            <input type="text" v-model="devKitCache.displayName" />
+                        </div>
+                        <div>
+                            <div>Send Msg as Broadcaster</div>
+                            <input type="checkbox" v-model="devKitCache.sendMsgAsBroadcaster" />
+                        </div>
+                        <div>
+                            <div>Send Msg as Subscriber</div>
+                            <input type="checkbox" v-model="devKitCache.sendMsgAsSubscriber" />
+                        </div>
+                        <div>
+                            <div>Send Msg as Moderator</div>
+                            <input type="checkbox" v-model="devKitCache.sendMsgAsModerator" />
+                        </div>
+                        <div style="display: flex; margin-top: 2px; justify-content: space-between;">
+                            <div style="display: flex; gap: 10px;">
+                                <div style="display: flex; flex-direction: column;">
+                                    <div style="font-size: 0.6em">Badge 1</div>
+                                    <BadgeSelection @badge-selected="devKitCache.firstBadge = $event"
+                                        :badge="devKitCache.firstBadge?.type" />
+                                </div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <div style="font-size: 0.6em">Badge 2</div>
+                                    <BadgeSelection @badge-selected="devKitCache.secondBadge = $event"
+                                        :badge="devKitCache.secondBadge ? devKitCache.secondBadge?.type : 'no-badge-selected'" />
+                                </div>
+                            </div>
+                            <button class="button" @click="SendMessage">Send Message</button>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <LD-ColorPicker v-model="devKitCache.displayColor" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div style="padding: 10px;">
-                <div class="input-section">
-                    <div style="margin-bottom: 5px;"><strong>Add Channel Point Reward</strong></div>
-                    <div style="display: flex; gap: 10px; flex-direction: column;">
-                        <div>
-                            <div>Reward Name</div>
-                            <input v-model="rewardForm.name" type="text" placeholder="Enter Name" />
+                <div style="padding: 10px;">
+                    <div class="input-section">
+                        <div style="margin-bottom: 5px;"><strong>Add Channel Point Reward</strong></div>
+                        <div style="display: flex; gap: 10px; flex-direction: column;">
+                            <div>
+                                <div>Reward Name</div>
+                                <input v-model="rewardForm.name" type="text" placeholder="Enter Name" />
+                            </div>
+                            <div>
+                                <div>Reward Cost</div>
+                                <input v-model="rewardForm.cost" type="text" placeholder="0" />
+                            </div>
                         </div>
-                        <div>
-                            <div>Reward Cost</div>
-                            <input v-model="rewardForm.cost" type="text" placeholder="0" />
+                        <div style="margin-top: 10px;">
+                            <button @click="AddChannelPointReward">Add New Reward</button>
+                        </div>
+                        <div v-for="(item, index) in devKitCache.channelPointRewards"
+                            style="margin-top: 10px; display: flex; gap:10px; align-items: center;">
+                            <div class="channel-point-reward" @click="GenEventByType(GenerateChannelPointRedeem({
+                                amount: item.cost,
+                                redemption: item.name,
+                                name: displayName,
+                            }))">
+                                <div>{{ item.name }}</div>
+                                <div>{{ item.cost }}</div>
+                            </div>
+                            <div>
+                                <button @click="devKitCache.channelPointRewards.splice(index, 1)"
+                                    style="padding: 15px"><i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div style="margin-top: 10px;">
-                        <button @click="AddChannelPointReward">Add New Reward</button>
+                </div>
+                <div class="btn-group">
+                    <div><strong>Test Events</strong></div>
+                    <div>
+                        <button class="button" @click="DeleteRandomMessage">Delete Random Message</button>
                     </div>
-                    <div v-for="(item, index) in devKitCache.channelPointRewards"
-                        style="margin-top: 10px; display: flex; gap:10px; align-items: center;">
-                        <div class="channel-point-reward" @click="GenEventByType(GenerateChannelPointRedeem({
-                            amount: item.cost,
-                            redemption: item.name,
+                    <div>
+                        <button class="button"
+                            @click="GenEventByType(GenerateEvent('follower-latest', { name: displayName }))">Follow
+                            Event</button>
+                    </div>
+                    <div>
+                        <button class="button"
+                            @click="GenEventByType(GenerateEvent('tip-latest', { name: displayName }))">Donation
+                            Event</button>
+                    </div>
+                    <div>
+                        <button class="button"
+                            @click="GenEventByType(GenerateEvent('cheer-latest', { name: displayName }))">Cheer
+                            Event</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="GenEventByType(GenerateEvent('tip-latest', {
+                            message: 'This is a test message!',
+                            name: displayName
+                        }))">Donation Message Event</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                            gifted: true,
+                            tier: '2000',
                             name: displayName,
-                        }))">
-                            <div>{{ item.name }}</div>
-                            <div>{{ item.cost }}</div>
+                        }))">Gifted Sub Event</button>
+                    </div>
+                    <div>
+                        <button class="button"
+                            @click="GenEventByType(GenerateEvent('raid-latest', { name: displayName }))">Raid
+                            Event</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                            message: 'This is a test sub!',
+                            name: displayName,
+                        }))">Sub w/ Message Event</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                            message: 'This is a test sub!',
+                            tier: '1000',
+                            name: displayName,
+                        }))">Sub Event</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="GenEventByType(GenerateChannelPointRedeem({
+                            amount: 1000,
+                            redemption: 'Test Redeem',
+                            name: displayName,
+                        }))">Channel Point Redeem</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="TriggerRandomEvent">Random Event</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="TriggerRandomMessage">Random Message</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="BanRandomUser">Ban/Timeout Random User</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ?
+                            'On' :
+                            'Off'}`
+                        }}</button>
+                    </div>
+                </div>
+                <div style="padding: 10px;">
+                    <div class="input-section">
+                        <div><strong>Editor Settings</strong></div>
+                        <div>
+                            <button class="button" @click="ResetSessionData">Reset Session Data</button>
                         </div>
                         <div>
-                            <button @click="devKitCache.channelPointRewards.splice(index, 1)" style="padding: 15px"><i
-                                    class="fa-solid fa-trash"></i>
-                            </button>
+                            <button class="button" @click="CopyPreviewURL">Copy Preview URL</button>
+                        </div>
+                        <div>Editor Background Color</div>
+                        <LD-ColorPicker :mode="'compact'" v-model="devKitCache.bgColor" />
+                        <div>Widget Dimensions</div>
+                        <div style="display: flex; gap: 10px;">
+                            <input class="widget-dimensions-input" type="number"
+                                v-model="devKitCache.widgetDimensions.width" placeholder="800" />
+                            <input class="widget-dimensions-input" type="number"
+                                v-model="devKitCache.widgetDimensions.height" placeholder="1000" />
                         </div>
                     </div>
+                    <div>
+                    </div>
                 </div>
             </div>
-            <div class="btn-group">
-                <div><strong>Test Events</strong></div>
-                <div>
-                    <button class="button" @click="DeleteRandomMessage">Delete Random Message</button>
-                </div>
-                <div>
-                    <button class="button"
-                        @click="GenEventByType(GenerateEvent('follower-latest', { name: displayName }))">Follow
-                        Event</button>
-                </div>
-                <div>
-                    <button class="button"
-                        @click="GenEventByType(GenerateEvent('tip-latest', { name: displayName }))">Donation
-                        Event</button>
-                </div>
-                <div>
-                    <button class="button"
-                        @click="GenEventByType(GenerateEvent('cheer-latest', { name: displayName }))">Cheer
-                        Event</button>
-                </div>
-                <div>
-                    <button class="button" @click="GenEventByType(GenerateEvent('tip-latest', {
-                        message: 'This is a test message!',
-                        name: displayName
-                    }))">Donation Message Event</button>
-                </div>
-                <div>
-                    <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
-                        gifted: true,
-                        tier: '2000',
-                        name: displayName,
-                    }))">Gifted Sub Event</button>
-                </div>
-                <div>
-                    <button class="button"
-                        @click="GenEventByType(GenerateEvent('raid-latest', { name: displayName }))">Raid Event</button>
-                </div>
-                <div>
-                    <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
-                        message: 'This is a test sub!',
-                        name: displayName,
-                    }))">Sub w/ Message Event</button>
-                </div>
-                <div>
-                    <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
-                        message: 'This is a test sub!',
-                        tier: '1000',
-                        name: displayName,
-                    }))">Sub Event</button>
-                </div>
-                <div>
-                    <button class="button" @click="GenEventByType(GenerateChannelPointRedeem({
-                        amount: 1000,
-                        redemption: 'Test Redeem',
-                        name: displayName,
-                    }))">Channel Point Redeem</button>
-                </div>
-                <div>
-                    <button class="button" @click="TriggerRandomEvent">Random Event</button>
-                </div>
-                <div>
-                    <button class="button" @click="TriggerRandomMessage">Random Message</button>
-                </div>
-                <div>
-                    <button class="button" @click="BanRandomUser">Ban/Timeout Random User</button>
-                </div>
-                <div>
-                    <button class="button" @click="widgetKey++; simulate = !simulate">Simulation {{ `${simulate ? 'On' :
-                        'Off'}`
-                        }}</button>
-                </div>
-            </div>
-            <div style="padding: 10px;">
-                <div class="input-section">
-                    <div><strong>Editor Settings</strong></div>
-                    <div>
-                        <button class="button" @click="ResetSessionData">Reset Session Data</button>
-                    </div>
-                    <div>
-                        <button class="button" @click="CopyPreviewURL">Copy Preview URL</button>
-                    </div>
-                    <div>Editor Background Color</div>
-                    <LD-ColorPicker :mode="'compact'" v-model="devKitCache.bgColor" />
-                    <div>Widget Dimensions</div>
-                    <div style="display: flex; gap: 10px;">
-                        <input class="widget-dimensions-input" type="number"
-                            v-model="devKitCache.widgetDimensions.width" placeholder="800" />
-                        <input class="widget-dimensions-input" type="number"
-                            v-model="devKitCache.widgetDimensions.height" placeholder="1000" />
-                    </div>
-                </div>
-                <div>
+            <div class="sidebar-close-btn" @click="sidebarOpen = !sidebarOpen">
+                <div class="sidebar-close-btn-content">
+                    <svg style="fill: #616161; width: 1em; height: 1em; rotate: 270deg;"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                            d="M320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM441 335C450.4 344.4 450.4 359.6 441 368.9C431.6 378.2 416.4 378.3 407.1 368.9L320.1 281.9L233.1 368.9C223.7 378.3 208.5 378.3 199.2 368.9C189.9 359.5 189.8 344.3 199.2 335L303 231C312.4 221.6 327.6 221.6 336.9 231L441 335z" />
+                    </svg>
                 </div>
             </div>
         </div>
@@ -240,12 +253,14 @@ const widgetPreview = ref<InstanceType<typeof WidgetPreview>>();
 const widgetKey = ref(0);
 const textContent = ref<HTMLDivElement>();
 const recentMessagePos = ref(0);
+const sidebarOpen = ref(true);
 
 const fieldsdata = ref<IndexableType>(JSON.parse(widget.value.assets.fields));
 const simulate = ref(false);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
 const devKitCache = useDevKitCache();
+
 
 const displayName = computed(() => {
     return devKitCache.value.displayName.length === 0 ? undefined : devKitCache.value.displayName;
@@ -477,12 +492,39 @@ onUnmounted(() => {
 }
 
 .sidebar {
+    position: relative;
+}
+
+.sidebar-content {
     min-width: 300px;
     max-width: 300px;
     height: 100%;
-    background-color: #dbdbdb;
     overflow: auto;
     overflow-x: hidden;
+    background-color: #dbdbdb;
+    z-index: 2;
+}
+
+.sidebar-close-btn {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: -1.2em;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.sidebar-close-btn-content {
+    background-color: #dbdbdb;
+    display: flex;
+    align-items: center;
+    padding: 0.2em;
+    min-width: 1.2em;
+    min-height: 2em;
+    justify-content: end;   
+    border-radius: 0.5em;
 }
 
 .widget-editor {
