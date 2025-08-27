@@ -82,7 +82,7 @@ const handleScroll = (event: Event) => {
 };
 
 onMounted(() => {
-    console.log(props.fieldData);
+    console.log(currFont.value, props.fieldData!.value);
     LoadPrimaryFonts();
 })
 
