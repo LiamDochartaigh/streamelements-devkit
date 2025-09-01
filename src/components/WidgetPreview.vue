@@ -135,7 +135,7 @@ function InitializeWidget() {
                 iFrameDocument.head.appendChild(scriptElement);
                 iFrameDocument.head.appendChild(apiElement);
 
-                iFrameDocument.body.style.height = devKitCache.value.widgetDimensions.height + 'px';
+                iFrameDocument.body.style.height = routeHeight.value + 'px';
                 iFrameDocument.body.style.overflow = 'hidden';
 
                 LoadChatBox();
