@@ -1,5 +1,3 @@
-import type CustomField from "./components/CustomFields/CustomField.vue";
-
 export { };
 
 declare global {
@@ -25,58 +23,51 @@ export type WidgetEvents =
     {
         listener: 'follower-latest';
         event: {
-            avatar: string;
-            displayName: string;
             name: string;
-            originalEventName: 'follower-latest';
-            providerId: string;
+            activityId: string;
+            _id: string;
             sessionTop: boolean;
             type: 'follower';
-            _id: string;
+            originalEventName: 'follower-latest';
         }
     } | {
         listener: 'subscriber-latest'
         event: {
-            amount: number;
-            avatar: string;
-            displayName: string;
             name: string;
-            originalEventName: "subscriber-latest"
-            providerId: string;
-            sessionTop: boolean;
-            type: "subscriber"
+            amount: number;
+            gifted?: boolean;
+            tier?: '1000' | '2000' | '3000' | 'prime';
+            activityId: string;
             _id: string;
+            type: "subscriber"
+            originalEventName: "subscriber-latest"
             sender?: string;
             bulkGifted?: boolean;
-            gifted?: boolean;
             message?: string;
-            tier?: '1000' | '2000' | '3000' | 'prime';
             isCommunityGift?: boolean;
+            communityGifted?: boolean;
             playedAsCommunityGift?: boolean;
+            sessionTop: boolean;
         }
     } | {
         listener: 'tip-latest';
         event: {
-            amount: number;
-            avatar: string;
-            displayName: string;
             name: string;
-            originalEventName: "tip-latest"
-            providerId: string;
+            amount: number;
+            message?: string;
+            activityId: string;
+            _id: string;
             sessionTop: boolean;
             type: "tip";
-            message?: string;
-            _id: string;
+            originalEventName: "tip-latest"
         }
     } | {
         listener: 'cheer-latest';
         event: {
-            amount: number;
-            avatar: string;
-            displayName: string;
-            providerId: string;
-            message?: string;
             name: string;
+            amount: number;
+            message?: string;
+            activityId: string;
             _id: string;
             sessionTop: boolean;
             type: 'cheer';
@@ -86,11 +77,8 @@ export type WidgetEvents =
         listener: 'raid-latest';
         event: {
             amount: number;
-            avatar: string;
-            displayName: string;
             name: string;
             originalEventName: 'raid-latest';
-            providerId: string;
             sessionTop: boolean;
             type: 'raid';
             _id: string;

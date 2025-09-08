@@ -215,11 +215,9 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             listener: 'follower-latest',
             event: {
                 _id: uuidv4(),
-                avatar: avatar,
-                displayName: name,
                 name: name,
                 originalEventName: 'follower-latest',
-                providerId: providerId,
+                activityId: providerId,
                 sessionTop: sessionTop,
                 type: 'follower'
             }
@@ -233,15 +231,13 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             event: {
                 _id: uuidv4(),
                 amount: opts?.bulkGifted ? 10 : 1,
-                displayName: name,
                 name: name,
                 message: opts?.message || "",
                 type: 'subscriber',
                 tier: opts?.tier,
                 sessionTop: sessionTop,
                 originalEventName: 'subscriber-latest',
-                providerId: providerId,
-                avatar: avatar,
+                activityId: providerId,
                 ...(opts?.bulkGifted ? {
                     bulkGifted: true,
                     avatar: '',
@@ -266,12 +262,10 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             event: {
                 _id: uuidv4(),
                 amount: randomBitAmounts[randomIndex],
-                avatar: avatar,
-                displayName: name,
                 name: name,
                 message: opts?.message || "",
                 originalEventName: 'cheer-latest',
-                providerId: providerId,
+                activityId: providerId,
                 sessionTop: sessionTop,
                 type: 'cheer',
             }
@@ -285,12 +279,10 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             event: {
                 _id: uuidv4(),
                 amount: randomDollarAmounts[randomIndex],
-                avatar: avatar,
-                displayName: name,
                 name: name,
+                activityId: providerId,
                 message: opts?.message || "",
                 originalEventName: 'tip-latest',
-                providerId: providerId,
                 sessionTop: sessionTop,
                 type: 'tip',
             }
@@ -304,11 +296,8 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             event: {
                 _id: uuidv4(),
                 amount: 200,
-                avatar: avatar,
-                displayName: name,
                 name: name,
                 originalEventName: 'raid-latest',
-                providerId: providerId,
                 sessionTop: sessionTop,
                 type: 'raid',
             }
