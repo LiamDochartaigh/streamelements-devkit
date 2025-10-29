@@ -168,13 +168,6 @@
                         }))">Sub Event</button>
                     </div>
                     <div>
-                        <button class="button" @click="GenEventByType(GenerateChannelPointRedeem({
-                            amount: 1000,
-                            redemption: 'Test Redeem',
-                            name: displayName,
-                        }))">Channel Point Redeem</button>
-                    </div>
-                    <div>
                         <button class="button" @click="TriggerRandomEvent">Random Event</button>
                     </div>
                     <div>
