@@ -58,17 +58,24 @@
                         <div style="display: flex; margin-top: 2px; justify-content: space-between;">
                             <div style="display: flex; gap: 10px;">
                                 <div style="display: flex; flex-direction: column;">
-                                    <div style="font-size: 0.6em">Badge 1</div>
+                                    <div style="font-size: 0.8em">Badge 1</div>
                                     <BadgeSelection @badge-selected="devKitCache.firstBadge = $event"
                                         :badge="devKitCache.firstBadge?.type" />
                                 </div>
                                 <div style="display: flex; flex-direction: column;">
-                                    <div style="font-size: 0.6em">Badge 2</div>
+                                    <div style="font-size: 0.8em">Badge 2</div>
                                     <BadgeSelection @badge-selected="devKitCache.secondBadge = $event"
                                         :badge="devKitCache.secondBadge ? devKitCache.secondBadge?.type : 'no-badge-selected'" />
                                 </div>
                             </div>
-                            <button class="button" @click="SendMessage">Send Message</button>
+                        </div>
+                        <div style="margin-top: 5px; display: flex; flex-direction: column; gap: 0.5em;">
+                            <div>
+                                <button class="button" @click="SendMessage()">Send Message</button>
+                            </div>
+                            <div>
+                                <button class="button" @click="SendMessage(true)">Send Highlighted Message</button>
+                            </div>
                         </div>
                         <div style="margin-top: 10px;">
                             <LD-ColorPicker v-model="devKitCache.displayColor" />
@@ -350,7 +357,7 @@ function TriggerRandomMessage() {
     widgetPreview.value?.DispatchIframeEvent(event);
 }
 
-function SendMessage() {
+function SendMessage(highlighted = false) {
     if (textContent.value?.innerHTML == '<br>'
         || textContent.value?.innerHTML == ''
     ) return;
@@ -367,9 +374,12 @@ function SendMessage() {
         tags: {
             mod: devKitCache.value.sendMsgAsModerator ? '1' : '0',
             subscriber: devKitCache.value.sendMsgAsSubscriber ? '1' : '0',
+            ...(highlighted ? {
+                "msg-id": 'highlighted-message'
+            } : {})
         },
         displayColor: devKitCache.value.displayColor,
-        userId: '12345678'
+        userId: '12345678',
     });
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);

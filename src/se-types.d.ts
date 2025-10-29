@@ -116,6 +116,7 @@ export type WidgetEvents =
                     "returning-chatter"?: string;
                     "first-msg"?: string;
                     turbo?: string;
+                    "msg-id"?: 'highlighted-message';
                     [key: string]: string
                 };
                 text: string;
@@ -189,7 +190,7 @@ export type WidgetEvents =
         }
     }
 
-interface WidgetLoadEvent {
+export interface WidgetLoadEvent {
     channel: {
         username: string;
         providerId: string;
@@ -224,7 +225,7 @@ interface WidgetLoadEvent {
 
 }
 
-interface SessionData {
+export interface SessionData {
     "follower-latest": {
         name: string;
     };

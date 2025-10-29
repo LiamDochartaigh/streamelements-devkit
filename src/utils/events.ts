@@ -369,7 +369,8 @@ export function GenerateMessageEvent(opts: {
                     "tmi-sent-ts": "1698339405295",
                     turbo: "0",
                     "user-id": "135181000",
-                    "user-type": ""
+                    "user-type": "",
+                    ...(opts.tags?.['msg-id'] ? { 'msg-id': opts.tags['msg-id'] } : {})
                 },
                 nick: name,
                 userId: opts.userId || (Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000).toString(),
