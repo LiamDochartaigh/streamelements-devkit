@@ -29,9 +29,13 @@
             </div>
             <div class="dialog_content">
                 <template v-if="dialogTab === 0">
-                    
+                    <div class="dialog_content_row">
+                        <div class="dialog_content_cell">Latest Follower</div>
+                        <div class="dialog_content_cell">Latest Subscriber</div>
+                        <div class="dialog_content_cell">Latest Tipper</div>
+                        <div class="dialog_content_cell">Latest Cheerer</div>
+                    </div>
                 </template>
-                {{ dialogTab }}
             </div>
         </div>
     </div>
@@ -497,8 +501,8 @@ onUnmounted(() => {
 }
 
 .dialog {
-    min-width: 500px;
-    min-height: 300px;
+    min-width: 800px;
+    min-height: 500px;
     background-color: #bdbdbd;
     box-shadow: 0px 2px 5px 0px #00000096;
     border-radius: 15px;
@@ -514,11 +518,6 @@ onUnmounted(() => {
 .dialog_tabs {
     display: flex;
     margin-top: 0.5em;
-}
-
-.dialog_content {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
 }
 
 .dialog_tab {
@@ -557,6 +556,22 @@ onUnmounted(() => {
 .dialog_tab .dialog_underline {
     position: absolute;
 }
+
+.dialog_content {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.dialog_content_row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dialog_content_cell {
+    flex: 0 0 50%;
+    box-sizing: border-box;
+}
+
 
 .widget-dimensions-input {
     display: flex;
