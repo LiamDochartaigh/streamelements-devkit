@@ -1,4 +1,40 @@
 <template>
+    <div class="fullscreen-overlay">
+        <div class="dialog">
+            <div class="dialog_header">Session Data</div>
+            <div class="dialog_tabs">
+                <div @click="dialogTab = 0" class="dialog_tab" :class="dialogTab === 0 ? 'selected' : ''">
+                    Labels
+                    <div class="dialog_underline"></div>
+                </div>
+                <div class="dialog_tab" @click="dialogTab = 1" :class="dialogTab === 1 ? 'selected' : ''">
+                    Goals
+                    <div class="dialog_underline"></div>
+
+                </div>
+                <div class="dialog_tab" @click="dialogTab = 2" :class="dialogTab === 2 ? 'selected' : ''">
+                    Session Data
+                    <div class="dialog_underline"></div>
+
+                </div>
+                <div class="dialog_tab" @click="dialogTab = 3" :class="dialogTab === 3 ? 'selected' : ''">
+                    Totals
+                    <div class="dialog_underline"></div>
+
+                </div>
+                <div class="dialog_tab" @click="dialogTab = 4" :class="dialogTab === 4 ? 'selected' : ''">
+                    Aggregates
+                    <div class="dialog_underline"></div>
+                </div>
+            </div>
+            <div class="dialog_content">
+                <template v-if="dialogTab === 0">
+                    
+                </template>
+                {{ dialogTab }}
+            </div>
+        </div>
+    </div>
     <div class="widget-editor" :style="{ backgroundColor: devKitCache.bgColor }">
         <div class="sidebar">
             <div class="sidebar-content" v-if="sidebarOpen">
@@ -187,7 +223,7 @@
                     <div class="input-section">
                         <div><strong>Editor Settings</strong></div>
                         <div>
-                            <button class="button" @click="ResetSessionData">Reset Session Data</button>
+                            <button class="button" @click="ResetSessionData">Edit Session Data</button>
                         </div>
                         <div>
                             <button class="button" @click="CopyPreviewURL">Copy Preview URL</button>
@@ -237,6 +273,7 @@ import BadgeSelection from "@/components/BadgeSelection.vue";
 import { WidgetEvents } from "@/se-types";
 import { GenerateChannelPointRedeem, GenerateEvent } from "@/utils/events";
 import SessionData from "@/assets/SessionUpdateData.json";
+import { template } from "lodash";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 
@@ -260,6 +297,7 @@ const simulate = ref(false);
 const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
 const devKitCache = useDevKitCache();
+const dialogTab = ref(0);
 
 
 const displayName = computed(() => {
@@ -275,10 +313,15 @@ function CopyPreviewURL() {
     navigator.clipboard.writeText(`${window.location.origin}/preview-widget?name=${widgetName}&width=${devKitCache.value.widgetDimensions.width}&height=${devKitCache.value.widgetDimensions.height}`)
 }
 
+function EditSessionData() {
+
+}
+
 function ResetSessionData() {
     devKitCache.value.session = {
         ...SessionData.session
-    }
+    };
+    widgetKey.value++;
 }
 
 function AddChannelPointReward() {
@@ -440,7 +483,80 @@ onUnmounted(() => {
 });
 </script>
 
+
 <style>
+.fullscreen-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.dialog {
+    min-width: 500px;
+    min-height: 300px;
+    background-color: #bdbdbd;
+    box-shadow: 0px 2px 5px 0px #00000096;
+    border-radius: 15px;
+    padding: 1em;
+    box-sizing: border-box;
+    pointer-events: all;
+}
+
+.dialog_header {
+    font-size: 1.5em;
+}
+
+.dialog_tabs {
+    display: flex;
+    margin-top: 0.5em;
+}
+
+.dialog_content {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.dialog_tab {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    position: relative;
+    font-weight: 600;
+}
+
+.dialog_tab:first-child {
+    padding-left: 0;
+}
+
+.dialog_tab:last-child {
+    padding-right: 0;
+}
+
+.dialog_tab.selected {
+    color: #00b7ff;
+}
+
+.dialog_tab.selected .dialog_underline {
+    background-color: #00b7ff;
+}
+
+.dialog_underline {
+    left: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 1px;
+    background-color: #12121263;
+}
+
+.dialog_tab .dialog_underline {
+    position: absolute;
+}
 
 .widget-dimensions-input {
     display: flex;

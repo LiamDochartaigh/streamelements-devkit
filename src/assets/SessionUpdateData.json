@@ -19,10 +19,10 @@
             "count": 0
         },
         "follower-goal": {
-            "amount": 16
+            "amount": 0
         },
         "follower-total": {
-            "count": 17
+            "count": 0
         },
         "subscriber-latest": {
             "name": "",
@@ -75,7 +75,7 @@
             "amount": 0
         },
         "subscriber-alltime-gifter": {
-            "amount": 20,
+            "amount": 0,
             "name": "answessie"
         },
         "host-latest": {
@@ -187,13 +187,13 @@
             "amount": 0
         },
         "tip-total": {
-            "amount": 303.76
+            "amount": 0
         },
         "tip-count": {
             "count": 0
         },
         "tip-goal": {
-            "amount": 303.76
+            "amount": 0
         },
         "merch-goal-orders": {
             "amount": 0
