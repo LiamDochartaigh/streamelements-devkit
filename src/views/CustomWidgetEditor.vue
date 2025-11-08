@@ -30,10 +30,62 @@
             <div class="dialog_content">
                 <template v-if="dialogTab === 0">
                     <div class="dialog_content_row">
-                        <div class="dialog_content_cell">Latest Follower</div>
-                        <div class="dialog_content_cell">Latest Subscriber</div>
-                        <div class="dialog_content_cell">Latest Tipper</div>
-                        <div class="dialog_content_cell">Latest Cheerer</div>
+                        <div class="dialog_content_cell">
+                            <div>Latest Follower</div>
+                            <div class="subtitle">Name</div>
+                            <div><input v-model="devKitCache.session['follower-latest']['name']"></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Latest Subscriber</div>
+                            <div class="subtitle">Name</div>
+                            <div><input v-model="devKitCache.session['subscriber-latest']['name']"></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Latest Tipper</div>
+                            <div class="subtitle">Name</div>
+                            <div><input v-model="devKitCache.session['tip-latest']['name']"></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Latest Cheerer</div>
+                            <div class="subtitle">Name</div>
+                            <div><input v-model="devKitCache.session['cheer-latest']['name']"></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Recent Tips</div>
+                            <div class="input-tags">
+                                <template
+                                    v-for="{ name, amount, createdAt, type } in devKitCache.session['tip-recent']">
+                                    <span class="tag">{{ name }}</span>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Recent Subscribers</div>
+                            <div class="input-tags">
+                                <template
+                                    v-for="{ name, amount, createdAt, type } in devKitCache.session['subscriber-recent']">
+                                    <span class="tag">{{ name }}</span>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Recent Cheers</div>
+                            <div class="input-tags">
+                                <template
+                                    v-for="{ name, amount, createdAt, type } in devKitCache.session['cheer-recent']">
+                                    <span class="tag">{{ name }}</span>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Recent Followers</div>
+                            <div class="input-tags">
+                                <template
+                                    v-for="{ name, amount, createdAt, type } in devKitCache.session['follower-recent']">
+                                    <span class="tag">{{ name }}</span>
+                                </template>
+                            </div>
+                        </div>
                     </div>
                 </template>
             </div>
@@ -277,7 +329,6 @@ import BadgeSelection from "@/components/BadgeSelection.vue";
 import { WidgetEvents } from "@/se-types";
 import { GenerateChannelPointRedeem, GenerateEvent } from "@/utils/events";
 import SessionData from "@/assets/SessionUpdateData.json";
-import { template } from "lodash";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 
@@ -501,8 +552,8 @@ onUnmounted(() => {
 }
 
 .dialog {
-    min-width: 800px;
-    min-height: 500px;
+    max-width: 800px;
+    max-height: 500px;
     background-color: #bdbdbd;
     box-shadow: 0px 2px 5px 0px #00000096;
     border-radius: 15px;
@@ -572,6 +623,26 @@ onUnmounted(() => {
     box-sizing: border-box;
 }
 
+.dialog_content_cell .subtitle {
+    font-size: 0.8em;
+}
+
+.dialog .input-tags {
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-y: scroll;
+    position: relative;
+    max-height: 100px;
+}
+
+.dialog .input-tags .tag {
+    background-color: #5e5e5e;
+    padding: 0.3em;
+    border-radius: 0.4em;
+}
 
 .widget-dimensions-input {
     display: flex;
