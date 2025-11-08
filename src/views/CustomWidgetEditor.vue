@@ -699,7 +699,6 @@ function HandleKeyDown(event: KeyboardEvent) {
 
 function handleClickOutside(event: PointerEvent) {
     if (showDialog.value && dialogRef.value && !dialogRef.value.contains(event.target)) {
-        console.log("click ", dialogRef.value, event.target, showDialog.value, dialogRef.value.contains(event.target));
         showDialog.value = false
     }
 }
