@@ -109,8 +109,8 @@
             "amount": 0
         },
         "cheer-session-top-donation": {
-            "name": "",
-            "amount": 0
+            "name": "Liam",
+            "amount": 1000
         },
         "cheer-weekly-top-donation": {
             "name": "",
@@ -125,8 +125,8 @@
             "amount": 0
         },
         "cheer-session-top-donator": {
-            "name": "",
-            "amount": 0
+            "name": "tasty",
+            "amount": 10000
         },
         "cheer-weekly-top-donator": {
             "name": "",
@@ -146,8 +146,8 @@
             "message": " "
         },
         "tip-session-top-donation": {
-            "name": "",
-            "amount": 0
+            "name": "we",
+            "amount": 38.9
         },
         "tip-weekly-top-donation": {
             "name": "we",
@@ -162,8 +162,8 @@
             "amount": 38.9
         },
         "tip-session-top-donator": {
-            "name": "angeroow",
-            "amount": 50
+            "name": "we",
+            "amount": 38.9
         },
         "tip-weekly-top-donator": {
             "name": "we",
@@ -178,7 +178,7 @@
             "amount": 155.6
         },
         "tip-session": {
-            "amount": 0
+            "amount": 75.94
         },
         "tip-week": {
             "amount": 0
@@ -190,7 +190,7 @@
             "amount": 0
         },
         "tip-count": {
-            "count": 0
+            "count": 7
         },
         "tip-goal": {
             "amount": 0

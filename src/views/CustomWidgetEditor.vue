@@ -1,6 +1,9 @@
 <template>
-    <div class="fullscreen-overlay">
-        <div class="dialog">
+    <div class="fullscreen-overlay" :style="!showDialog ? 'display: none;' : ''">
+        <div ref="dialogRef" class="dialog">
+            <div style="position: absolute; right: 1em;">
+                <button class="button" @click="showDialog = false">X</button>
+            </div>
             <div class="dialog_header">Session Data</div>
             <div class="dialog_tabs">
                 <div @click="dialogTab = 0" class="dialog_tab" :class="dialogTab === 0 ? 'selected' : ''">
@@ -40,6 +43,8 @@
                             <div class="subtitle">Name</div>
                             <div><input v-model="devKitCache.session['subscriber-latest']['name']"></input></div>
                         </div>
+                    </div>
+                    <div class="dialog_content_row">
                         <div class="dialog_content_cell">
                             <div>Latest Tipper</div>
                             <div class="subtitle">Name</div>
@@ -50,6 +55,8 @@
                             <div class="subtitle">Name</div>
                             <div><input v-model="devKitCache.session['cheer-latest']['name']"></input></div>
                         </div>
+                    </div>
+                    <div class="dialog_content_row">
                         <div class="dialog_content_cell">
                             <div>Recent Tips</div>
                             <div class="input-tags">
@@ -68,6 +75,8 @@
                                 </template>
                             </div>
                         </div>
+                    </div>
+                    <div class="dialog_content_row">
                         <div class="dialog_content_cell">
                             <div>Recent Cheers</div>
                             <div class="input-tags">
@@ -88,6 +97,169 @@
                         </div>
                     </div>
                 </template>
+                <template v-if="dialogTab === 1">
+                    <div class="dialog_content_row gap-half">
+                        <div class="dialog_content_cell">
+                            <div>Follow Goal Progress</div>
+                            <div><input v-model="devKitCache.session['follower-goal']['amount']"></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Sub Goal Progress</div>
+                            <div><input v-model="devKitCache.session['subscriber-goal']['amount']"></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Tip Goal Progress</div>
+                            <div><input v-model="devKitCache.session['tip-goal']['amount']"></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Cheer Goal Progress</div>
+                            <div><input v-model="devKitCache.session['cheer-goal']['amount']"></input></div>
+                        </div>
+                    </div>
+                    <div class="dialog_content_row gap-half">
+                        <div class="dialog_content_cell">
+                            <div>Revenue Goal</div>
+                            <div><input></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Merchandise Goal Items</div>
+                            <div><input v-model="devKitCache.session['merch-goal-items']['amount']"></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Merchandise Goal Orders</div>
+                            <div><input v-model="devKitCache.session['merch-goal-orders']['amount']"></input></div>
+                        </div>
+                    </div>
+                </template>
+                <template v-if="dialogTab === 2">
+                    <div class="dialog_content_row gap-half">
+                        <div class="dialog_content_cell">
+                            <div>Follower Count</div>
+                            <div><input v-model="devKitCache.session['follower-session']['amount']"></input></div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Subscriber Count</div>
+                            <div><input v-model="devKitCache.session['subscriber-session']['amount']"></input></div>
+                        </div>
+                    </div>
+                    <div class="dialog_content_row gap-half">
+                        <div class="dialog_content_cell">
+                            <div>Top Tip</div>
+                            <div style="display: flex;">
+                                <div>
+                                    <div class="subtitle">Name</div>
+                                    <div><input
+                                            v-model="devKitCache.session['tip-session-top-donation']['name']"></input>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="subtitle">Amount</div>
+                                    <div><input
+                                            v-model="devKitCache.session['tip-session-top-donation']['amount']"></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Top Cheer</div>
+                            <div style="display: flex;">
+                                <div>
+                                    <div class="subtitle">Name</div>
+                                    <div><input
+                                            v-model="devKitCache.session['cheer-session-top-donation']['name']"></input>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="subtitle">Amount</div>
+                                    <div><input
+                                            v-model="devKitCache.session['cheer-session-top-donation']['amount']"></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dialog_content_row gap-half">
+                        <div class="dialog_content_cell">
+                            <div>Top Tipper</div>
+                            <div style="display: flex;">
+                                <div>
+                                    <div class="subtitle">Name</div>
+                                    <div><input
+                                            v-model="devKitCache.session['tip-session-top-donator']['name']"></input>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="subtitle">Amount</div>
+                                    <div><input
+                                            v-model="devKitCache.session['tip-session-top-donator']['amount']"></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Top Cheerer</div>
+                            <div style="display: flex;">
+                                <div>
+                                    <div class="subtitle">Name</div>
+                                    <div><input
+                                            v-model="devKitCache.session['cheer-session-top-donator']['name']"></input>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="subtitle">Name</div>
+                                    <div><input
+                                            v-model="devKitCache.session['cheer-session-top-donator']['amount']"></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dialog_content_row gap-half">
+                        <div class="dialog_content_cell">
+                            <div style="display: flex;">
+                                <div>
+                                    <div>Tip Count</div>
+                                    <div><input v-model="devKitCache.session['tip-count']['count']"></input>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>Tips Amount</div>
+                                    <div><input v-model="devKitCache.session['tip-session']['amount']"></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template v-if="dialogTab === 3">
+                    <div class="dialog_content_row gap-half">
+                        <div class="dialog_content_cell">
+                            <div>Total Subscribers</div>
+                            <div><input disabled v-model="devKitCache.session['subscriber-total']['count']"></input>
+                            </div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Total Followers</div>
+                            <div><input disabled v-model="devKitCache.session['follower-total']['count']"></input>
+                            </div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Total Cheers</div>
+                            <div><input disabled v-model="devKitCache.session['cheer-total']['amount']"></input>
+                            </div>
+                        </div>
+                        <div class="dialog_content_cell">
+                            <div>Total Tips</div>
+                            <div><input disabled v-model="devKitCache.session['tip-total']['amount']"></input>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div class="dialog_footer">
+                <div>
+                    <button class="button" @click="ResetSessionData">Reset Session Data</button>
+                </div>
             </div>
         </div>
     </div>
@@ -279,7 +451,7 @@
                     <div class="input-section">
                         <div><strong>Editor Settings</strong></div>
                         <div>
-                            <button class="button" @click="ResetSessionData">Edit Session Data</button>
+                            <button class="button" @click.stop="showDialog = true;">Edit Session Data</button>
                         </div>
                         <div>
                             <button class="button" @click="CopyPreviewURL">Copy Preview URL</button>
@@ -353,7 +525,8 @@ const customFieldGroups = ref<string[]>([]);
 const customFieldsRefs = ref<IndexableType>({});
 const devKitCache = useDevKitCache();
 const dialogTab = ref(0);
-
+const showDialog = ref(false);
+const dialogRef = ref();
 
 const displayName = computed(() => {
     return devKitCache.value.displayName.length === 0 ? undefined : devKitCache.value.displayName;
@@ -366,10 +539,6 @@ const rewardForm = ref({
 
 function CopyPreviewURL() {
     navigator.clipboard.writeText(`${window.location.origin}/preview-widget?name=${widgetName}&width=${devKitCache.value.widgetDimensions.width}&height=${devKitCache.value.widgetDimensions.height}`)
-}
-
-function EditSessionData() {
-
 }
 
 function ResetSessionData() {
@@ -528,14 +697,27 @@ function HandleKeyDown(event: KeyboardEvent) {
     }
 }
 
+function handleClickOutside(event: PointerEvent) {
+    if (showDialog.value && dialogRef.value && !dialogRef.value.contains(event.target)) {
+        console.log("click ", dialogRef.value, event.target, showDialog.value, dialogRef.value.contains(event.target));
+        showDialog.value = false
+    }
+}
+
 onMounted(() => {
     BuildSidebar();
+    document.addEventListener('click', handleClickOutside);
     document.addEventListener('keydown', HandleKeyDown);
 });
 
 onUnmounted(() => {
     document.removeEventListener('keydown', HandleKeyDown);
 });
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside)
+})
+
 </script>
 
 
@@ -552,7 +734,7 @@ onUnmounted(() => {
 }
 
 .dialog {
-    max-width: 800px;
+    max-width: 900px;
     max-height: 500px;
     background-color: #bdbdbd;
     box-shadow: 0px 2px 5px 0px #00000096;
@@ -560,6 +742,7 @@ onUnmounted(() => {
     padding: 1em;
     box-sizing: border-box;
     pointer-events: all;
+    position: relative;
 }
 
 .dialog_header {
@@ -604,6 +787,10 @@ onUnmounted(() => {
     background-color: #12121263;
 }
 
+.gap-half {
+    gap: 0.5em;    
+}
+
 .dialog_tab .dialog_underline {
     position: absolute;
 }
@@ -611,16 +798,21 @@ onUnmounted(() => {
 .dialog_content {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
+    display: flex;
+    flex-direction: column;
 }
 
 .dialog_content_row {
     display: flex;
-    flex-wrap: wrap;
 }
 
 .dialog_content_cell {
-    flex: 0 0 50%;
+    flex: 1;
     box-sizing: border-box;
+}
+
+.dialog_content_cell div {
+    white-space: nowrap;
 }
 
 .dialog_content_cell .subtitle {
