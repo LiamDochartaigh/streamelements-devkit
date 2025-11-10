@@ -2,7 +2,7 @@
     <div class="fullscreen-overlay" :style="!showDialog ? 'display: none;' : ''">
         <div ref="dialogRef" class="dialog">
             <div style="position: absolute; right: 1em;">
-                <button class="button" @click="showDialog = false">X</button>
+                <button class="button" @click="hideDialog">X</button>
             </div>
             <div class="dialog_header">Session Data</div>
             <div class="dialog_tabs">
@@ -101,19 +101,23 @@
                     <div class="dialog_content_row gap-half">
                         <div class="dialog_content_cell">
                             <div>Follow Goal Progress</div>
-                            <div><input v-model="devKitCache.session['follower-goal']['amount']"></input></div>
+                            <div><input type="number"
+                                    v-model.number="devKitCache.session['follower-goal']['amount']"></input></div>
                         </div>
                         <div class="dialog_content_cell">
                             <div>Sub Goal Progress</div>
-                            <div><input v-model="devKitCache.session['subscriber-goal']['amount']"></input></div>
+                            <div><input type="number"
+                                    v-model.number="devKitCache.session['subscriber-goal']['amount']"></input></div>
                         </div>
                         <div class="dialog_content_cell">
                             <div>Tip Goal Progress</div>
-                            <div><input v-model="devKitCache.session['tip-goal']['amount']"></input></div>
+                            <div><input type="number"
+                                    v-model.number="devKitCache.session['tip-goal']['amount']"></input></div>
                         </div>
                         <div class="dialog_content_cell">
                             <div>Cheer Goal Progress</div>
-                            <div><input v-model="devKitCache.session['cheer-goal']['amount']"></input></div>
+                            <div><input type="number"
+                                    v-model.number="devKitCache.session['cheer-goal']['amount']"></input></div>
                         </div>
                     </div>
                     <div class="dialog_content_row gap-half">
@@ -123,11 +127,13 @@
                         </div>
                         <div class="dialog_content_cell">
                             <div>Merchandise Goal Items</div>
-                            <div><input v-model="devKitCache.session['merch-goal-items']['amount']"></input></div>
+                            <div><input type="number"
+                                    v-model.number="devKitCache.session['merch-goal-items']['amount']"></input></div>
                         </div>
                         <div class="dialog_content_cell">
                             <div>Merchandise Goal Orders</div>
-                            <div><input v-model="devKitCache.session['merch-goal-orders']['amount']"></input></div>
+                            <div><input v-model.number="devKitCache.session['merch-goal-orders']['amount']"></input>
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -135,11 +141,13 @@
                     <div class="dialog_content_row gap-half">
                         <div class="dialog_content_cell">
                             <div>Follower Count</div>
-                            <div><input v-model="devKitCache.session['follower-session']['amount']"></input></div>
+                            <div><input type="number"
+                                    v-model.number="devKitCache.session['follower-session']['amount']"></input></div>
                         </div>
                         <div class="dialog_content_cell">
                             <div>Subscriber Count</div>
-                            <div><input v-model="devKitCache.session['subscriber-session']['amount']"></input></div>
+                            <div><input type="number"
+                                    v-model.number="devKitCache.session['subscriber-session']['amount']"></input></div>
                         </div>
                     </div>
                     <div class="dialog_content_row gap-half">
@@ -154,8 +162,8 @@
                                 </div>
                                 <div>
                                     <div class="subtitle">Amount</div>
-                                    <div><input
-                                            v-model="devKitCache.session['tip-session-top-donation']['amount']"></input>
+                                    <div><input type="number"
+                                            v-model.number="devKitCache.session['tip-session-top-donation']['amount']"></input>
                                     </div>
                                 </div>
                             </div>
@@ -171,8 +179,8 @@
                                 </div>
                                 <div>
                                     <div class="subtitle">Amount</div>
-                                    <div><input
-                                            v-model="devKitCache.session['cheer-session-top-donation']['amount']"></input>
+                                    <div><input type="number"
+                                            v-model.number="devKitCache.session['cheer-session-top-donation']['amount']"></input>
                                     </div>
                                 </div>
                             </div>
@@ -190,8 +198,8 @@
                                 </div>
                                 <div>
                                     <div class="subtitle">Amount</div>
-                                    <div><input
-                                            v-model="devKitCache.session['tip-session-top-donator']['amount']"></input>
+                                    <div><input type="number"
+                                            v-model.number="devKitCache.session['tip-session-top-donator']['amount']"></input>
                                     </div>
                                 </div>
                             </div>
@@ -207,8 +215,8 @@
                                 </div>
                                 <div>
                                     <div class="subtitle">Name</div>
-                                    <div><input
-                                            v-model="devKitCache.session['cheer-session-top-donator']['amount']"></input>
+                                    <div><input type="number"
+                                            v-model.number="devKitCache.session['cheer-session-top-donator']['amount']"></input>
                                     </div>
                                 </div>
                             </div>
@@ -219,12 +227,14 @@
                             <div style="display: flex;">
                                 <div>
                                     <div>Tip Count</div>
-                                    <div><input v-model="devKitCache.session['tip-count']['count']"></input>
+                                    <div><input type="number"
+                                            v-model.number="devKitCache.session['tip-count']['count']"></input>
                                     </div>
                                 </div>
                                 <div>
                                     <div>Tips Amount</div>
-                                    <div><input v-model="devKitCache.session['tip-session']['amount']"></input>
+                                    <div><input type="number"
+                                            v-model.number="devKitCache.session['tip-session']['amount']"></input>
                                     </div>
                                 </div>
                             </div>
@@ -235,22 +245,26 @@
                     <div class="dialog_content_row gap-half">
                         <div class="dialog_content_cell">
                             <div>Total Subscribers</div>
-                            <div><input disabled v-model="devKitCache.session['subscriber-total']['count']"></input>
+                            <div><input type="number" disabled
+                                    v-model.number="devKitCache.session['subscriber-total']['count']"></input>
                             </div>
                         </div>
                         <div class="dialog_content_cell">
                             <div>Total Followers</div>
-                            <div><input disabled v-model="devKitCache.session['follower-total']['count']"></input>
+                            <div><input type="number" disabled
+                                    v-model.number="devKitCache.session['follower-total']['count']"></input>
                             </div>
                         </div>
                         <div class="dialog_content_cell">
                             <div>Total Cheers</div>
-                            <div><input disabled v-model="devKitCache.session['cheer-total']['amount']"></input>
+                            <div><input type="number" disabled
+                                    v-model.number="devKitCache.session['cheer-total']['amount']"></input>
                             </div>
                         </div>
                         <div class="dialog_content_cell">
                             <div>Total Tips</div>
-                            <div><input disabled v-model="devKitCache.session['tip-total']['amount']"></input>
+                            <div><input type="number" disabled
+                                    v-model.number="devKitCache.session['tip-total']['amount']"></input>
                             </div>
                         </div>
                     </div>
@@ -697,10 +711,15 @@ function HandleKeyDown(event: KeyboardEvent) {
     }
 }
 
+function hideDialog() {
+    showDialog.value = false;
+    widgetKey.value++;
+
+}
+
 function handleClickOutside(event: PointerEvent) {
     if (showDialog.value && dialogRef.value && !dialogRef.value.contains(event.target)) {
-        console.log("click ", dialogRef.value, event.target, showDialog.value, dialogRef.value.contains(event.target));
-        showDialog.value = false
+        hideDialog();
     }
 }
 
