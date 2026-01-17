@@ -19,7 +19,6 @@ declare module 'vue' {
     EmoteSelection: typeof import('./components/EmoteSelection.vue')['default']
     GoogleFont: typeof import('./components/CustomFields/GoogleFont.vue')['default']
     Hidden: typeof import('./components/CustomFields/Hidden.vue')['default']
-    Image: typeof import('./components/CustomFields/Image.vue')['default']
     LDColorPicker: typeof import('./components/LD-ColorPicker.vue')['default']
     Number: typeof import('./components/CustomFields/Number.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
