@@ -117,6 +117,7 @@ export type WidgetEvents =
                     "first-msg"?: string;
                     turbo?: string;
                     "msg-id"?: 'highlighted-message';
+                    "custom-reward-id"?: string;
                     [key: string]: string
                 };
                 text: string;
@@ -181,6 +182,7 @@ export type WidgetEvents =
                 redemption: string;
                 quantity: number;
                 avatar: string;
+                message?: string;
             };
             _id: string;
             expiresAt: string;
