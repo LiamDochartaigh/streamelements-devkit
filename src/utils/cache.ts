@@ -23,7 +23,7 @@ let cache = ref<DevKitCache>({
     sendMsgAsBroadcaster: false,
     sendMsgAsSubscriber: false,
     sendMsgAsModerator: false,
-    bgColor: '#FFFFFF',
+    bgColor: '#6e6e6e',
     channelPointRewards: [],
     recentMessages: [],
     session: SessionData.session

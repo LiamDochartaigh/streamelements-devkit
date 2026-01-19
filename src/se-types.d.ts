@@ -182,6 +182,7 @@ export type WidgetEvents =
                 redemption: string;
                 quantity: number;
                 avatar: string;
+                message?: string;
             };
             _id: string;
             expiresAt: string;
