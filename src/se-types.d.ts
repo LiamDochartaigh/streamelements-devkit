@@ -117,6 +117,7 @@ export type WidgetEvents =
                     "first-msg"?: string;
                     turbo?: string;
                     "msg-id"?: 'highlighted-message';
+                    "custom-reward-id"?: string;
                     [key: string]: string
                 };
                 text: string;

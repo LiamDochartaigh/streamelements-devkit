@@ -16,6 +16,8 @@ export interface DevKitCache {
     channelPointRewards: {
         name: string;
         cost: number;
+        messageRequired: boolean;
+        id: string;
     }[];
     [string: string]: any;
     recentMessages: string[];

@@ -352,7 +352,8 @@
                                 <button class="button" @click="SendMessage()">Send Message</button>
                             </div>
                             <div>
-                                <button class="button" @click="SendMessage(true)">Send Highlighted Message</button>
+                                <button :disabled="messageRedeem ? true : false" class="button"
+                                    @click="SendMessage(true)">Send Highlighted Message</button>
                             </div>
                         </div>
                         <div style="margin-top: 10px;">
@@ -372,25 +373,44 @@
                                 <div>Reward Cost</div>
                                 <input v-model="rewardForm.cost" type="text" placeholder="0" />
                             </div>
+                            <div>
+                                <div>Reward Id</div>
+                                <input v-model="rewardForm.id" type="text" placeholder="redeem id" />
+                            </div>
+                            <div>
+                                <div>Message Required</div>
+                                <input type="checkbox" v-model="rewardForm.messageRequired" />
+                            </div>
+
                         </div>
                         <div style="margin-top: 10px;">
                             <button @click="AddChannelPointReward">Add New Reward</button>
                         </div>
                         <div v-for="(item, index) in devKitCache.channelPointRewards"
-                            style="margin-top: 10px; display: flex; gap:10px; align-items: center;">
-                            <div class="channel-point-reward" @click="GenEventByType(GenerateChannelPointRedeem({
+                            style="margin-top: 10px; display: flex; gap:5px; align-items: center;">
+                            <button :disabled="messageRedeem ? true : false" class="channel-point-reward" @click="item.messageRequired ? messageRedeem = { id: item.id, amount: item.cost, redemption: item.name } : GenEventByType(GenerateChannelPointRedeem({
                                 amount: item.cost,
                                 redemption: item.name,
+                                id: item.id,
                                 name: displayName,
                             }))">
-                                <div>{{ item.name }}</div>
-                                <div>{{ item.cost }}</div>
-                            </div>
+                                <div>
+                                    <div>{{ item.name }}</div>
+                                    <div>{{ item.cost }}</div>
+                                    <div v-if="item.messageRequired" style="font-style: italic; font-size: 0.5em;">
+                                        Message
+                                        Required</div>
+                                </div>
+                            </button>
                             <div>
-                                <button @click="devKitCache.channelPointRewards.splice(index, 1)"
-                                    style="padding: 15px"><i class="fa-solid fa-trash"></i>
+                                <button :disabled="messageRedeem ? true : false"
+                                    @click="devKitCache.channelPointRewards.splice(index, 1)" style="padding: 5px"><i
+                                        class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
+                        </div>
+                        <div v-if="messageRedeem" class="alert" style="margin-top: 10px;">Send message to complete
+                            redeem
                         </div>
                     </div>
                 </div>
@@ -515,6 +535,7 @@ import BadgeSelection from "@/components/BadgeSelection.vue";
 import { WidgetEvents } from "@/se-types";
 import { GenerateChannelPointRedeem, GenerateEvent } from "@/utils/events";
 import SessionData from "@/assets/SessionUpdateData.json";
+import { nanoid } from "nanoid";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 
@@ -541,6 +562,11 @@ const devKitCache = useDevKitCache();
 const dialogTab = ref(0);
 const showDialog = ref(false);
 const dialogRef = ref();
+const messageRedeem = ref<{
+    redemption: string,
+    amount: number,
+    id: string,
+} | undefined>();
 
 const displayName = computed(() => {
     return devKitCache.value.displayName.length === 0 ? undefined : devKitCache.value.displayName;
@@ -548,7 +574,9 @@ const displayName = computed(() => {
 
 const rewardForm = ref({
     name: '',
-    cost: 0
+    cost: 0,
+    messageRequired: false,
+    id: ''
 });
 
 function CopyPreviewURL() {
@@ -563,10 +591,12 @@ function ResetSessionData() {
 }
 
 function AddChannelPointReward() {
-    if (devKitCache.value.channelPointRewards.length >= 3) return;
+    if (devKitCache.value.channelPointRewards.length >= 10) return;
     devKitCache.value.channelPointRewards.push({
         name: rewardForm.value.name,
-        cost: rewardForm.value.cost
+        cost: rewardForm.value.cost,
+        messageRequired: rewardForm.value.messageRequired,
+        id: rewardForm.value.id ? rewardForm.value.id : nanoid()
     });
 }
 
@@ -639,6 +669,16 @@ function SendMessage(highlighted = false) {
     if (devKitCache.value.firstBadge && devKitCache.value.firstBadge.type !== 'no-badge-selected') { badgesArr.push(devKitCache.value.firstBadge); }
     if (devKitCache.value.secondBadge && devKitCache.value.secondBadge.type !== 'no-badge-selected') { badgesArr.push(devKitCache.value.secondBadge); }
 
+    if (messageRedeem.value) {
+        // Send channel points
+        GenEventByType(GenerateChannelPointRedeem({
+            amount: messageRedeem.value.amount,
+            id: messageRedeem.value.id,
+            redemption: messageRedeem.value.redemption,
+            name: displayName.value
+        }));
+    }
+
     let eventData = GenerateMessageEvent({
         msgTxt: textContent.value!.innerHTML,
         renderedText: textContent.value!.innerHTML,
@@ -650,11 +690,15 @@ function SendMessage(highlighted = false) {
             subscriber: devKitCache.value.sendMsgAsSubscriber ? '1' : '0',
             ...(highlighted ? {
                 "msg-id": 'highlighted-message'
-            } : {})
+            } : {}),
+            ...(messageRedeem.value ? {
+                "custom-reward-id": messageRedeem.value.id
+            } : {}),
         },
         displayColor: devKitCache.value.displayColor,
         userId: '12345678',
     });
+
     const event = new CustomEvent('onEventReceived', { detail: eventData });
     widgetPreview.value?.DispatchIframeEvent(event);
 
@@ -667,6 +711,7 @@ function SendMessage(highlighted = false) {
     }
 
     textContent.value!.innerText = '';
+    messageRedeem.value = undefined;
     recentMessagePos.value = devKitCache.value.recentMessages.length;
 }
 
@@ -872,9 +917,9 @@ onBeforeUnmount(() => {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer;
     border-radius: 8px;
     background-color: #95c1d3;
+    border: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
@@ -971,5 +1016,9 @@ onBeforeUnmount(() => {
 
 .button {
     padding: 10px;
+}
+
+.alert {
+    color: rgb(190, 35, 35);
 }
 </style>

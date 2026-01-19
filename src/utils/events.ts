@@ -1,110 +1,15 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { type WidgetEvents } from '@/se-types';
+import emotes from '@/assets/emotes.json'
+import type { Emote } from '@/types/widget-types';
+import { nanoid } from 'nanoid';
 
 let preview_Messages_Counter = 0;
 let chatMessageIds: string[] = [];
 let chatMessageUserIds: string[] = [];
 let devKitCache = useDevKitCache();
-
-const PREVIEW_CHAT_EMOTES = [
-    {
-        "type": "ffz",
-        "name": "CatBag",
-        "id": "25927",
-        "gif": false,
-        "urls": {
-            "1": "https://cdn.frankerfacez.com/emote/25927/1",
-            "2": "https://cdn.frankerfacez.com/emote/25927/2",
-            "4": "https://cdn.frankerfacez.com/emote/25927/4"
-        },
-        "start": 0,
-        "end": 6
-    },
-    {
-        "type": "twitch",
-        "name": "LUL",
-        "id": "425618",
-        "gif": false,
-        "urls": {
-            "1": "https://static-cdn.jtvnw.net/emoticons/v2/425618/default/dark/1.0",
-            "2": "https://static-cdn.jtvnw.net/emoticons/v2/425618/default/dark/2.0",
-            "4": "https://static-cdn.jtvnw.net/emoticons/v2/425618/default/dark/3.0"
-        },
-        "start": 13,
-        "end": 15
-    },
-    {
-        "type": "twitch",
-        "name": "DansGame",
-        "id": "33",
-        "gif": false,
-        "animated": false,
-        "urls": {
-            "1": "https://static-cdn.jtvnw.net/emoticons/v2/33/static/dark/1.0",
-            "2": "https://static-cdn.jtvnw.net/emoticons/v2/33/static/dark/2.0",
-            "4": "https://static-cdn.jtvnw.net/emoticons/v2/33/static/dark/3.0"
-        },
-        "start": 0,
-        "end": 8
-    },
-    {
-        "type": "twitch",
-        "name": "<3",
-        "id": "9",
-        "gif": false,
-        "animated": false,
-        "urls": {
-            "1": "https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/1.0",
-            "2": "https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/2.0",
-            "4": "https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/3.0"
-        },
-        "start": 9,
-        "end": 11
-    },
-    {
-        "type": "twitch",
-        "name": "Kreygasm",
-        "id": "41",
-        "gif": false,
-        "animated": false,
-        "urls": {
-            "1": "https://static-cdn.jtvnw.net/emoticons/v2/41/static/dark/1.0",
-            "2": "https://static-cdn.jtvnw.net/emoticons/v2/41/static/dark/2.0",
-            "4": "https://static-cdn.jtvnw.net/emoticons/v2/41/static/dark/3.0"
-        },
-        "start": 12,
-        "end": 20
-    },
-    {
-        "type": "twitch",
-        "name": "Kappa",
-        "id": "25",
-        "gif": false,
-        "animated": false,
-        "urls": {
-            "1": "https://static-cdn.jtvnw.net/emoticons/v2/25/static/dark/1.0",
-            "2": "https://static-cdn.jtvnw.net/emoticons/v2/25/static/dark/2.0",
-            "4": "https://static-cdn.jtvnw.net/emoticons/v2/25/static/dark/3.0"
-        },
-        "start": 21,
-        "end": 26
-    },
-    {
-        "type": "twitch",
-        "name": "PogChamp",
-        "id": "305954156",
-        "gif": false,
-        "animated": false,
-        "urls": {
-            "1": "https://static-cdn.jtvnw.net/emoticons/v2/305954156/static/dark/1.0",
-            "2": "https://static-cdn.jtvnw.net/emoticons/v2/305954156/static/dark/2.0",
-            "4": "https://static-cdn.jtvnw.net/emoticons/v2/305954156/static/dark/3.0"
-        },
-        "start": 27,
-        "end": 35
-    }
-];
+const typedEmotes: { [key: string]: Emote } = emotes;
 
 // Use rendered text instead of message
 const PREVIEW_CHAT_MESSAGES = [
@@ -331,6 +236,65 @@ export function GenerateBanEvent() {
     return event;
 }
 
+function matchEmotes(message: string) {
+    const emotes: {
+        type: string,
+        name: string,
+        id: string,
+        urls: {
+            1: string;
+            2: string;
+            4: string
+        },
+        gif: boolean;
+        start: number;
+        end: number;
+    }[] = []
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(message, 'text/html');
+    const parsedEmotes = Array.from(doc.querySelectorAll("img"));
+
+    parsedEmotes.forEach(emote => {
+        const match = Object.entries(typedEmotes).find(emoteEntry => emoteEntry[1].src === emote.src);
+        if (match) {
+
+            const entries = match[1].srcset.split(",").map(s => s.trim());
+
+            const urls = [];
+            for (let i = 0; i < entries.length; i++) {
+                const entry = entries[i];
+                const match = entry.match(/^(.*?)\s+([\d.]+)x$/);
+                if (!match) continue;
+
+                const url = match[1];
+                urls.push(url);
+            }
+
+            let result: {
+                1: string;
+                2: string;
+                4: string;
+            } = {
+                "1": urls[0],
+                "2": urls[1],
+                "4": urls[2]
+            };
+            emotes.push({
+                name: match[1].name,
+                type: "twitch",
+                end: 0,
+                start: 0,
+                gif: false,
+                id: nanoid(),
+                urls: result
+            })
+        }
+    })
+
+    return emotes;
+}
+
 export function GenerateMessageEvent(opts: {
     name?: string;
     msgTxt: string;
@@ -345,6 +309,8 @@ export function GenerateMessageEvent(opts: {
     const randomID = uuidv4();
     const badgeTags = opts.badges?.map(badge => `${badge.type}/${badge.version}`) || [];
     const name = opts.name || randomDisplayName();
+
+    const matchedEmotes = matchEmotes(opts.msgTxt);
 
     const chatMessage: (WidgetEvents & { listener: 'message' }) = {
         listener: "message",
@@ -370,7 +336,8 @@ export function GenerateMessageEvent(opts: {
                     turbo: "0",
                     "user-id": "135181000",
                     "user-type": "",
-                    ...(opts.tags?.['msg-id'] ? { 'msg-id': opts.tags['msg-id'] } : {})
+                    ...(opts.tags?.['msg-id'] ? { 'msg-id': opts.tags['msg-id'] } : {}),
+                    ...(opts.tags?.['custom-reward-id'] ? { 'custom-reward-id': opts.tags['custom-reward-id'] } : {})
                 },
                 nick: name,
                 userId: opts.userId || (Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000).toString(),
@@ -387,7 +354,7 @@ export function GenerateMessageEvent(opts: {
                 channel: opts.channel || name,
                 text: opts.msgTxt,
                 isAction: false,
-                emotes: PREVIEW_CHAT_EMOTES,
+                emotes: matchedEmotes,
                 msgId: randomID,
             },
             renderedText: opts.renderedText
@@ -406,12 +373,13 @@ export function GenerateMessageEvent(opts: {
 }
 
 function randomDisplayName() {
-    return PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;   
+    return PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;
 }
 
 export function GenerateChannelPointRedeem(opts: {
     redemption: string,
     amount: number,
+    id: string,
     name?: string,
 }) {
 
