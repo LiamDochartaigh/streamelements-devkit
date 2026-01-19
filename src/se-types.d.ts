@@ -104,7 +104,7 @@ export type WidgetEvents =
                     name: string;
                     start: number;
                     type: string;
-                    urls: { [key as number]: string };
+                    urls: { [key: number]: string };
                 }[];
                 isAction: boolean;
                 msgId: string;
