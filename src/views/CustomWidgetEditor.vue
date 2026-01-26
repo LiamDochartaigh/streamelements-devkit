@@ -466,6 +466,27 @@
                         }))">Sub Event</button>
                     </div>
                     <div>
+                        <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                            message: 'This is a test sub!',
+                            tier: '2000',
+                            name: displayName,
+                        }))">Sub Event T2</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                            message: 'This is a test sub!',
+                            tier: '3000',
+                            name: displayName,
+                        }))">Sub Event T3</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                            message: 'This is a test sub!',
+                            tier: 'prime',
+                            name: displayName,
+                        }))">Sub Event Prime</button>
+                    </div>
+                    <div>
                         <button class="button" @click="TriggerRandomEvent">Random Event</button>
                     </div>
                     <div>
