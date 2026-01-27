@@ -937,6 +937,7 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    white-space: pre-wrap;
 }
 
 .btn-group {
