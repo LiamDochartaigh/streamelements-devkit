@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import lodash from "lodash";
+import lodash, { flatMap } from "lodash";
 import seData from "@/assets/StreamElementsData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { widgets } from "../widget-registry";
@@ -224,6 +224,7 @@ function MessageHandler(event: MessageEvent<{
     request: string;
     response: string;
     value: string;
+    reload?: boolean;
 }>): void {
 
     const resolveEvent = (result: any) => new MessageEvent('message', {
@@ -257,7 +258,8 @@ function MessageHandler(event: MessageEvent<{
     else if (event.data.request == 'set_field') {
         emit('fieldUpdated', {
             key: event.data.key,
-            value: event.data.value
+            value: event.data.value,
+            reload: event.data.reload ?? false
         });
     }
     else if (event.data.request == 'btnClick') {
@@ -306,6 +308,7 @@ const emit = defineEmits<{
     fieldUpdated: [{
         key: string;
         value: string;
+        reload?: boolean;
     }]
 }>()
 

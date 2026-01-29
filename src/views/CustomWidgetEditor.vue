@@ -525,8 +525,8 @@
                     </div>
                 </div>
             </div>
-            <div class="sidebar-close-btn" @click="sidebarOpen = !sidebarOpen">
-                <div class="sidebar-close-btn-content">
+            <div class="sidebar-close-btn">
+                <div class="sidebar-close-btn-content" @click="sidebarOpen = !sidebarOpen">
                     <svg style="fill: #616161; width: 1em; height: 1em; rotate: 270deg;"
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                         <path
@@ -537,7 +537,7 @@
         </div>
         <div class="overlay-wrapper">
             <div id="overlay" class="overlay">
-                <WidgetPreview @field-updated="FieldUpdated($event.value, $event.key)" :key="widgetKey"
+                <WidgetPreview @field-updated="FieldUpdated($event.value, $event.key, $event.reload)" :key="widgetKey"
                     ref="widgetPreview" :simulate="simulate" :fields="fieldsdata">
                 </WidgetPreview>
             </div>
@@ -621,9 +621,11 @@ function AddChannelPointReward() {
     });
 }
 
-function FieldUpdated(event: any, fieldName: any) {
+function FieldUpdated(event: any, fieldName: any, reload: boolean) {
     fieldsdata.value[fieldName].value = event;
-    widgetKey.value++;
+    if (reload === undefined || reload) {
+        widgetKey.value++;
+    }
 }
 
 function EmoteAdded(emote: Emote) {
@@ -992,11 +994,11 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: center;
     position: absolute;
-    right: -1.2em;
+    right: 0;
+    margin-right: -1.55em;
     top: 0;
     bottom: 0;
     z-index: 1;
-    cursor: pointer;
 }
 
 .sidebar-close-btn-content {
@@ -1008,6 +1010,7 @@ onBeforeUnmount(() => {
     min-height: 2em;
     justify-content: end;   
     border-radius: 0.5em;
+        cursor: pointer;
 }
 
 .widget-editor {
