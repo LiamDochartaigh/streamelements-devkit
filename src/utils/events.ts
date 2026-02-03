@@ -102,6 +102,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
     tier?: (WidgetEvents & { listener: 'subscriber-latest' })['event']['tier'],
     message?: string,
     name?: string,
+    userId?: string
 }) {
 
     const name = opts?.name ? opts.name : randomDisplayName();
@@ -119,7 +120,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'follower-latest',
             event: {
-                _id: uuidv4(),
+                _id: opts?.userId ?? uuidv4(),
                 name: name,
                 originalEventName: 'follower-latest',
                 activityId: providerId,
@@ -134,7 +135,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'subscriber-latest',
             event: {
-                _id: uuidv4(),
+                _id: opts?.userId ?? uuidv4(),
                 amount: opts?.bulkGifted ? 10 : 1,
                 name: name,
                 message: opts?.message || "",
@@ -165,7 +166,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'cheer-latest',
             event: {
-                _id: uuidv4(),
+                _id: opts?.userId ?? uuidv4(),
                 amount: randomBitAmounts[randomIndex],
                 name: name,
                 message: opts?.message || "",
@@ -182,7 +183,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'tip-latest',
             event: {
-                _id: uuidv4(),
+                _id: opts?.userId ?? uuidv4(),
                 amount: randomDollarAmounts[randomIndex],
                 name: name,
                 activityId: providerId,
@@ -199,7 +200,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'raid-latest',
             event: {
-                _id: uuidv4(),
+                _id: opts?.userId ?? uuidv4(),
                 amount: 200,
                 name: name,
                 originalEventName: 'raid-latest',

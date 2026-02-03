@@ -20,6 +20,7 @@ let cache = ref<DevKitCache>({
     },
     displayColor: '#502fb5',
     displayName: 'test_user',
+    userId: '',
     sendMsgAsBroadcaster: false,
     sendMsgAsSubscriber: false,
     sendMsgAsModerator: false,

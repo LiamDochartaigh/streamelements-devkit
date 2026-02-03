@@ -10,6 +10,7 @@ export interface DevKitCache {
         height: number;
     };
     displayName: string;
+    userId: string;
     sendMsgAsBroadcaster: boolean;
     sendMsgAsModerator: boolean;
     sendMsgAsSubscriber: boolean;

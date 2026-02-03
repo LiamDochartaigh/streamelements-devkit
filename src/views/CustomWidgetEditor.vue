@@ -322,6 +322,10 @@
                             <input type="text" v-model="devKitCache.displayName" />
                         </div>
                         <div>
+                            <div>User Id</div>
+                            <input type="text" v-model="devKitCache.userId" />
+                        </div>
+                        <div>
                             <div>Send Msg as Broadcaster</div>
                             <input type="checkbox" v-model="devKitCache.sendMsgAsBroadcaster" />
                         </div>
@@ -421,23 +425,24 @@
                     </div>
                     <div>
                         <button class="button"
-                            @click="GenEventByType(GenerateEvent('follower-latest', { name: displayName }))">Follow
+                            @click="GenEventByType(GenerateEvent('follower-latest', { name: displayName, userId: userId }))">Follow
                             Event</button>
                     </div>
                     <div>
                         <button class="button"
-                            @click="GenEventByType(GenerateEvent('tip-latest', { name: displayName }))">Donation
+                            @click="GenEventByType(GenerateEvent('tip-latest', { name: displayName, userId: userId }))">Donation
                             Event</button>
                     </div>
                     <div>
                         <button class="button"
-                            @click="GenEventByType(GenerateEvent('cheer-latest', { name: displayName }))">Cheer
+                            @click="GenEventByType(GenerateEvent('cheer-latest', { name: displayName, userId: userId }))">Cheer
                             Event</button>
                     </div>
                     <div>
                         <button class="button" @click="GenEventByType(GenerateEvent('tip-latest', {
                             message: 'This is a test message!',
-                            name: displayName
+                            name: displayName,
+                            userId: userId
                         }))">Donation Message Event</button>
                     </div>
                     <div>
@@ -445,17 +450,19 @@
                             gifted: true,
                             tier: '2000',
                             name: displayName,
+                            userId: userId
                         }))">Gifted Sub Event</button>
                     </div>
                     <div>
                         <button class="button"
-                            @click="GenEventByType(GenerateEvent('raid-latest', { name: displayName }))">Raid
+                            @click="GenEventByType(GenerateEvent('raid-latest', { name: displayName, userId: userId }))">Raid
                             Event</button>
                     </div>
                     <div>
                         <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                             message: 'This is a test sub!',
                             name: displayName,
+                            userId: userId
                         }))">Sub w/ Message Event</button>
                     </div>
                     <div>
@@ -463,6 +470,7 @@
                             message: 'This is a test sub!',
                             tier: '1000',
                             name: displayName,
+                            userId: userId
                         }))">Sub Event</button>
                     </div>
                     <div>
@@ -470,6 +478,7 @@
                             message: 'This is a test sub!',
                             tier: '2000',
                             name: displayName,
+                            userId: userId
                         }))">Sub Event T2</button>
                     </div>
                     <div>
@@ -477,6 +486,7 @@
                             message: 'This is a test sub!',
                             tier: '3000',
                             name: displayName,
+                            userId: userId
                         }))">Sub Event T3</button>
                     </div>
                     <div>
@@ -484,6 +494,7 @@
                             message: 'This is a test sub!',
                             tier: 'prime',
                             name: displayName,
+                            userId: userId
                         }))">Sub Event Prime</button>
                     </div>
                     <div>
@@ -591,6 +602,10 @@ const messageRedeem = ref<{
 
 const displayName = computed(() => {
     return devKitCache.value.displayName.length === 0 ? undefined : devKitCache.value.displayName;
+});
+
+const userId = computed(() => {
+    return devKitCache.value.userId.length === 0 ? undefined : devKitCache.value.userId;
 });
 
 const rewardForm = ref({
@@ -719,7 +734,7 @@ function SendMessage(highlighted = false) {
             } : {}),
         },
         displayColor: devKitCache.value.displayColor,
-        userId: '12345678',
+        userId: devKitCache.value.userId,
     });
 
     const event = new CustomEvent('onEventReceived', { detail: eventData });
@@ -875,7 +890,7 @@ onBeforeUnmount(() => {
 }
 
 .gap-half {
-    gap: 0.5em;    
+    gap: 0.5em;
 }
 
 .dialog_tab .dialog_underline {
@@ -1008,9 +1023,9 @@ onBeforeUnmount(() => {
     padding: 0.2em;
     min-width: 1.2em;
     min-height: 2em;
-    justify-content: end;   
+    justify-content: end;
     border-radius: 0.5em;
-        cursor: pointer;
+    cursor: pointer;
 }
 
 .widget-editor {
