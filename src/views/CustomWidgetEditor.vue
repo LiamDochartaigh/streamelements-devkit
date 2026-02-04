@@ -562,9 +562,9 @@
 
 <script setup lang="ts">
 import CustomField from "@/components/CustomFields/CustomField.vue";
-import { widgets } from "@/widget-registry";
 import WidgetPreview from "@/components/WidgetPreview.vue";
 import { type IndexableType } from '@/utility/CustomTypes';
+import { widgets } from "@/widget-registry";
 import EmoteSelection from "@/components/EmoteSelection.vue";
 import { Emote } from '@/types/widget-types';
 import BadgeSelection from "@/components/BadgeSelection.vue";
@@ -575,15 +575,7 @@ import { nanoid } from "nanoid";
 
 const widgetName = useRouter().currentRoute.value.query.name as string;
 
-if (import.meta.hot) {
-    import.meta.hot.accept(['../widget-registry'], ([newModule]) => {
-    });
-
-    import.meta.hot.dispose((data) => {
-    });
-}
-
-const widget = ref(widgets.find(widget => widget.name === widgetName)!);
+const widget = computed(() => { return widgets.find(widget => widget.name === widgetName)! });
 const widgetPreview = ref<InstanceType<typeof WidgetPreview>>();
 const widgetKey = ref(0);
 const textContent = ref<HTMLDivElement>();

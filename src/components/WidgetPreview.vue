@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import lodash, { flatMap } from "lodash";
+import lodash from "lodash";
 import seData from "@/assets/StreamElementsData.json";
 import { type IndexableType } from '@/utility/CustomTypes';
 import { widgets } from "../widget-registry";
