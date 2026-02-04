@@ -322,7 +322,7 @@
                             <input type="text" v-model="devKitCache.displayName" />
                         </div>
                         <div>
-                            <div>User Id</div>
+                            <div>User Id (Random if not provided)</div>
                             <input type="text" v-model="devKitCache.userId" />
                         </div>
                         <div>
@@ -433,34 +433,44 @@
                             Event</button>
                     </div>
                     <div>
-                        <button class="button"
-                            @click="GenEventByType(GenerateEvent('tip-latest', { name: displayName, userId: userId }))">Donation
-                            Event</button>
-                    </div>
-                    <div>
-                        <button class="button"
-                            @click="GenEventByType(GenerateEvent('cheer-latest', { name: displayName, userId: userId }))">Cheer
-                            Event</button>
-                    </div>
-                    <div>
+                        <button style="min-width: 100px;" class="button"
+                            @click="GenEventByType(GenerateEvent('tip-latest', { name: displayName, userId: userId, amount: donationAmount }))">Donation
+                            Event
+                        </button>
                         <button class="button" @click="GenEventByType(GenerateEvent('tip-latest', {
                             message: 'This is a test message!',
                             name: displayName,
-                            userId: userId
+                            userId: userId,
+                            amount: donationAmount
                         }))">Donation Message Event</button>
+                        <input style="min-height: 2em;" placeholder="donation amount" type="number"
+                            v-model="donationAmount" />
+                    </div>
+                    <div>
+                        <button class="button"
+                            @click="GenEventByType(GenerateEvent('cheer-latest', { name: displayName, userId: userId, amount: cheerAmount }))">Cheer
+                            Event</button>
+                        <input style="min-height: 2em;" placeholder="cheer amount" type="number"
+                            v-model="cheerAmount" />
                     </div>
                     <div>
                         <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                             gifted: true,
-                            tier: '2000',
+                            tier: '1000',
                             name: displayName,
-                            userId: userId
+                            userId: userId,
+                            amount: giftSubAmount,
+                            bulkGifted: true
                         }))">Gifted Sub Event</button>
+                        <input style="min-height: 2em;" placeholder="num gifted subs" type="number"
+                            v-model="giftSubAmount" />
                     </div>
                     <div>
                         <button class="button"
-                            @click="GenEventByType(GenerateEvent('raid-latest', { name: displayName, userId: userId }))">Raid
+                            @click="GenEventByType(GenerateEvent('raid-latest', { name: displayName, userId: userId, amount: raidAmount }))">Raid
                             Event</button>
+                        <input style="min-height: 2em;" placeholder="number of raiders" type="number"
+                            v-model="raidAmount" />
                     </div>
                     <div>
                         <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
@@ -552,8 +562,8 @@
         </div>
         <div class="overlay-wrapper">
             <div id="overlay" class="overlay">
-                <WidgetPreview @field-updated="FieldUpdated($event.value, $event.key, $event.reload ?? false)" :key="widgetKey"
-                    ref="widgetPreview" :simulate="simulate" :fields="fieldsdata">
+                <WidgetPreview @field-updated="FieldUpdated($event.value, $event.key, $event.reload ?? false)"
+                    :key="widgetKey" ref="widgetPreview" :simulate="simulate" :fields="fieldsdata">
                 </WidgetPreview>
             </div>
         </div>
@@ -579,6 +589,10 @@ const widget = computed(() => { return widgets.find(widget => widget.name === wi
 const widgetPreview = ref<InstanceType<typeof WidgetPreview>>();
 const widgetKey = ref(0);
 const textContent = ref<HTMLDivElement>();
+const donationAmount = ref();
+const cheerAmount = ref();
+const raidAmount = ref();
+const giftSubAmount = ref();
 const recentMessagePos = ref(0);
 const sidebarOpen = ref(true);
 

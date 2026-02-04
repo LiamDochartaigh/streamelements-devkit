@@ -102,17 +102,20 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
     tier?: (WidgetEvents & { listener: 'subscriber-latest' })['event']['tier'],
     message?: string,
     name?: string,
-    userId?: string
+    userId?: string,
+    amount?: number
 }) {
 
     const name = opts?.name ? opts.name : randomDisplayName();
     const sender = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;
-    const avatar = "https://cdn.streamelements.com/assets/dashboard/my-overlays/overlay-default-preview-2.jpg";
     const providerId = "135181000";
     const sessionTop = false;
     const randomBitAmounts = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
     const randomDollarAmounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const randomIndex = Math.floor(Math.random() * randomBitAmounts.length);
+    const realAmount = opts?.amount ?
+        opts.amount > 0 ? opts.amount :
+            10 : 10;
 
     let event: WidgetEvents = {} as WidgetEvents;
 
@@ -136,7 +139,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             listener: 'subscriber-latest',
             event: {
                 _id: opts?.userId ?? uuidv4(),
-                amount: opts?.bulkGifted ? 10 : 1,
+                amount: opts?.bulkGifted ? realAmount : 1,
                 name: name,
                 message: opts?.message || "",
                 type: 'subscriber',
@@ -146,7 +149,6 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
                 activityId: providerId,
                 ...(opts?.bulkGifted ? {
                     bulkGifted: true,
-                    avatar: '',
                     sessionTop: false,
                     sender: name,
                 } : opts?.gifted ? {
@@ -167,7 +169,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             listener: 'cheer-latest',
             event: {
                 _id: opts?.userId ?? uuidv4(),
-                amount: randomBitAmounts[randomIndex],
+                amount: realAmount ?? randomBitAmounts[randomIndex],
                 name: name,
                 message: opts?.message || "",
                 originalEventName: 'cheer-latest',
@@ -184,7 +186,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             listener: 'tip-latest',
             event: {
                 _id: opts?.userId ?? uuidv4(),
-                amount: randomDollarAmounts[randomIndex],
+                amount: realAmount ?? randomDollarAmounts[randomIndex],
                 name: name,
                 activityId: providerId,
                 message: opts?.message || "",
@@ -201,7 +203,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             listener: 'raid-latest',
             event: {
                 _id: opts?.userId ?? uuidv4(),
-                amount: 200,
+                amount: realAmount ?? 200,
                 name: name,
                 originalEventName: 'raid-latest',
                 sessionTop: sessionTop,
