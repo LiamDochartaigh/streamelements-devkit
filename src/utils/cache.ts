@@ -24,6 +24,7 @@ let cache = ref<DevKitCache>({
     sendMsgAsBroadcaster: false,
     sendMsgAsSubscriber: false,
     sendMsgAsModerator: false,
+    sendAsFirstMessage: false,
     bgColor: '#6e6e6e',
     channelPointRewards: [],
     recentMessages: [],

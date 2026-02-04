@@ -297,7 +297,7 @@
                             style="display: none; padding: 10px;">
                             <div v-for="(field) in GetFieldsKeyByGroup(group)">
                                 <CustomField :type="fieldsdata[field].type" :fieldData="fieldsdata[field]"
-                                    :fieldIndex="field" @input="FieldUpdated($event, field)"
+                                    :fieldIndex="field" @input="FieldUpdated($event, field, false)"
                                     @btnClick="EditorButtonClicked" />
                             </div>
                         </div>
@@ -336,6 +336,10 @@
                         <div>
                             <div>Send Msg as Moderator</div>
                             <input type="checkbox" v-model="devKitCache.sendMsgAsModerator" />
+                        </div>
+                        <div>
+                            <div>Send as "First Message"</div>
+                            <input type="checkbox" v-model="devKitCache.sendAsFirstMessage" />
                         </div>
                         <div style="display: flex; margin-top: 2px; justify-content: space-between;">
                             <div style="display: flex; gap: 10px;">
@@ -548,7 +552,7 @@
         </div>
         <div class="overlay-wrapper">
             <div id="overlay" class="overlay">
-                <WidgetPreview @field-updated="FieldUpdated($event.value, $event.key, $event.reload)" :key="widgetKey"
+                <WidgetPreview @field-updated="FieldUpdated($event.value, $event.key, $event.reload ?? false)" :key="widgetKey"
                     ref="widgetPreview" :simulate="simulate" :fields="fieldsdata">
                 </WidgetPreview>
             </div>
@@ -726,6 +730,9 @@ function SendMessage(highlighted = false) {
         tags: {
             mod: devKitCache.value.sendMsgAsModerator ? '1' : '0',
             subscriber: devKitCache.value.sendMsgAsSubscriber ? '1' : '0',
+            ...(devKitCache.value.sendAsFirstMessage ? {
+                "first-msg": '1'
+            } : {}),
             ...(highlighted ? {
                 "msg-id": 'highlighted-message'
             } : {}),

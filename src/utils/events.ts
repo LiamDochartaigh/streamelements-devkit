@@ -326,7 +326,7 @@ export function GenerateMessageEvent(opts: {
                     color: "",
                     "display-name": name,
                     emotes: "",
-                    "first-msg": "0",
+                    "first-msg": opts.tags?.['first-msg'] ?? "0",
                     flags: "",
                     id: "49e016c7-c47b-4679-9cf0-83e27a48dd8d",
                     mod: opts.tags?.mod || "0",

@@ -13,6 +13,7 @@ export interface DevKitCache {
     userId: string;
     sendMsgAsBroadcaster: boolean;
     sendMsgAsModerator: boolean;
+    sendAsFirstMessage: boolean;
     sendMsgAsSubscriber: boolean;
     channelPointRewards: {
         name: string;
