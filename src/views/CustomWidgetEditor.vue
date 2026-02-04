@@ -297,7 +297,7 @@
                             style="display: none; padding: 10px;">
                             <div v-for="(field) in GetFieldsKeyByGroup(group)">
                                 <CustomField :type="fieldsdata[field].type" :fieldData="fieldsdata[field]"
-                                    :fieldIndex="field" @input="FieldUpdated($event, field, false)"
+                                    :fieldIndex="field" @input="FieldUpdated($event, field, true)"
                                     @btnClick="EditorButtonClicked" />
                             </div>
                         </div>
