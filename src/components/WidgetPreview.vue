@@ -100,6 +100,9 @@ function InitializeWidget() {
         updatedSeData.fieldData[key] = props.fields[key].value;
     });
 
+    updatedSeData.channel.username = devKitCache.value.displayName;
+    updatedSeData.channel.id = devKitCache.value.userId;
+
     updatedCSS.value = ApplyTemplateToFile(widget.assets.css);
     updatedJS.value = ApplyTemplateToFile(widget.assets.js);
     updatedJS.value = WrapJSFile(updatedJS.value);
