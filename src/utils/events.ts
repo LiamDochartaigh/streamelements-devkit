@@ -211,6 +211,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             }
         }
     }
+    console.log(event);
     return event;
 }
 

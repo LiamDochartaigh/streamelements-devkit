@@ -9,6 +9,7 @@ export interface DevKitCache {
         width: number;
         height: number;
     };
+    sidebarstate: boolean;
     displayName: string;
     userId: string;
     sendMsgAsBroadcaster: boolean;

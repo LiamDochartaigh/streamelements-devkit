@@ -279,7 +279,7 @@
     </div>
     <div class="widget-editor" :style="{ backgroundColor: devKitCache.bgColor }">
         <div class="sidebar">
-            <div class="sidebar-content" v-if="sidebarOpen">
+            <div class="sidebar-content" v-if="devKitCache.sidebarstate">
                 <div class="custom-fields">
                     <div class="custom-field" v-for="(group, index) in customFieldGroups" :key="index">
                         <div class="custom-field-header"
@@ -551,7 +551,7 @@
                 </div>
             </div>
             <div class="sidebar-close-btn">
-                <div class="sidebar-close-btn-content" @click="sidebarOpen = !sidebarOpen">
+                <div class="sidebar-close-btn-content" @click="devKitCache.sidebarstate = !devKitCache.sidebarstate">
                     <svg style="fill: #616161; width: 1em; height: 1em; rotate: 270deg;"
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                         <path
@@ -594,7 +594,6 @@ const cheerAmount = ref();
 const raidAmount = ref();
 const giftSubAmount = ref();
 const recentMessagePos = ref(0);
-const sidebarOpen = ref(true);
 
 const fieldsdata = ref<IndexableType>(JSON.parse(widget.value.assets.fields));
 const simulate = ref(false);

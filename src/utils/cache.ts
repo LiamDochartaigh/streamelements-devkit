@@ -18,6 +18,7 @@ let cache = ref<DevKitCache>({
         url: '',
         version: '1.0.0',
     },
+    sidebarstate: true,
     displayColor: '#502fb5',
     displayName: 'test_user',
     userId: '',
