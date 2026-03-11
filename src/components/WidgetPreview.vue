@@ -1,6 +1,5 @@
 <template>
-    <div ref="iFrameContainer" class="widget"
-        :style="{ width: routeWidth + 'px', height: routeHeight + 'px' }">
+    <div ref="iFrameContainer" class="widget" :style="{ width: routeWidth + 'px', height: routeHeight + 'px' }">
     </div>
 </template>
 
@@ -17,14 +16,14 @@ const devKitCache = useDevKitCache();
 const route = useRoute();
 
 const routeWidth = computed(() => {
-    if(route.query.width) {
+    if (route.query.width) {
         return route.query.width;
     }
     else return devKitCache.value.widgetDimensions.width;
 })
 
 const routeHeight = computed(() => {
-    if(route.query.height) {
+    if (route.query.height) {
         return route.query.height
     }
     else {
@@ -107,6 +106,11 @@ function InitializeWidget() {
     updatedJS.value = ApplyTemplateToFile(widget.assets.js);
     updatedJS.value = WrapJSFile(updatedJS.value);
     updatedHTML.value = ApplyTemplateToFile(widget.assets.template);
+
+    if (!iFrameContainer.value) {
+        return;
+    }
+    
     iFrameContainer.value.innerHTML = "";
     const iframe = document.createElement('iframe');
     iframe.srcdoc = updatedHTML.value;
