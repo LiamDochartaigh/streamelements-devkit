@@ -283,7 +283,7 @@
                 <div class="custom-fields">
                     <div class="custom-field" v-for="(group, index) in customFieldGroups" :key="index">
                         <div class="custom-field-header"
-                            @click="ExpandSidebarGroup(`${group}Group${index + 1}`.replace(/\s+/g, ''))">
+                            @click="ExpandSidebarGroup(`${group}Group${+index + 1}`.replace(/\s+/g, ''))">
                             <svg width="10px" style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 512 512">
                                 <path
@@ -293,7 +293,7 @@
                                 <strong style="text-decoration: underline;">{{ group }}</strong>
                             </span>
                         </div>
-                        <div :ref="el => customFieldsRefs[`${group}Group${index + 1}`.replace(/\s+/g, '')] = el"
+                        <div :ref="el => customFieldsRefs[`${group}Group${+index + 1}`.replace(/\s+/g, '')] = el"
                             style="display: none; padding: 10px;">
                             <div v-for="(field) in GetFieldsKeyByGroup(group)">
                                 <CustomField :type="fieldsdata[field].type" :fieldData="fieldsdata[field]"
@@ -657,9 +657,17 @@ function EmoteAdded(emote: Emote) {
     textContent.value!.innerHTML += (emoteTemplate);
 }
 
-function GenEventByType(eventData: WidgetEvents) {
-    const event = new CustomEvent('onEventReceived', { detail: eventData });
-    widgetPreview.value?.DispatchIframeEvent(event);
+function GenEventByType(eventData: WidgetEvents | WidgetEvents[]) {
+    if (Array.isArray(eventData)) {
+        eventData.forEach(event_ => {
+            const event = new CustomEvent('onEventReceived', { detail: event_ });
+            widgetPreview.value?.DispatchIframeEvent(event);
+        })
+    }
+    else {
+        const event = new CustomEvent('onEventReceived', { detail: eventData });
+        widgetPreview.value?.DispatchIframeEvent(event);
+    }
 }
 
 function EditorButtonClicked(clickEvent: any) {

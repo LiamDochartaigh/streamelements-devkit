@@ -14,52 +14,52 @@ const typedEmotes: { [key: string]: Emote } = emotes;
 // Use rendered text instead of message
 const PREVIEW_CHAT_MESSAGES = [
     {
-        name: "steviebiscuits",
+        name: "H0bbitguy",
         message: "I always find the best music from this stream. CatBag",
         renderedText: "I always find the best music from this stream. <img src=\"https://cdn.frankerfacez.com/emote/25927/1\"  class=\"emote\" />"
     },
     {
-        name: "johndoe123",
+        name: "hlong110906",
         message: "Hey everyone, what's up? PogChamp.",
         renderedText: `Hey everyone, what's up? <img src="https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/1.0" srcset="https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/3.0 4x" title="PogChamp" class="emote">.`
     },
     {
-        name: "kittykat",
+        name: "Werewolfhero",
         message: "This stream is so much fun! Kappa",
         renderedText: `This stream is so much fun! <img src="https://static-cdn.jtvnw.net/emoticons/v2/25/static/dark/1.0" srcset="https://static-cdn.jtvnw.net/emoticons/v2/25/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/25/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/25/static/dark/3.0 4x" title="Kappa" class="emote">`
     },
     {
-        name: "gamer_girl",
+        name: "SzVoid1",
         message: "I love playing games with you all! <3",
         renderedText: `I love playing games with you all! <img src="https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/1.0" srcset="https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/3.0 4x" title="&lt;3" class="emote">`
     },
     {
-        name: "codingmaster",
+        name: "Metropole_Kurios",
         message: "I'm learning so much from this stream!",
         renderedText: "I'm learning so much from this stream!"
     },
     {
-        name: "streamfan",
+        name: "dzparks",
         message: "I never miss a stream! Keep up the great work.",
         renderedText: "I never miss a stream! Keep up the great work."
     },
     {
-        name: "randomuser",
+        name: "noshwolf",
         message: "This chat is so friendly and welcoming! Keep it up! <3",
         renderedText: `This chat is so friendly and welcoming! Keep it up! <img src="https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/1.0" srcset="https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/9/static/dark/3.0 4x" title="&lt;3" class="emote">`
     },
     {
-        name: "H0bbitguy",
+        name: "Seven_clix",
         message: "OMG that 360 no-scope was straight PogChamp! Enemy didn’t even touch you EZ Clap! Meanwhile, I’m here stuck in the gulag like KEKW. Teach me your ways, oh sweaty one BibleThump. Honestly, you're carrying harder than a backpack on TriHard mode.",
         renderedText: `OMG that 360 no-scope was straight <img src="https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/1.0" srcset="https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/3.0 4x" title="PogChamp" class="emote">! Enemy didn’t even touch you <img src="https://cdn.7tv.app/emote/01GB9W6V0000098BZVD7GKTW0F/1x.webp" srcset="https://cdn.7tv.app/emote/01GB9W6V0000098BZVD7GKTW0F/1x.webp 1x, https://cdn.7tv.app/emote/01GB9W6V0000098BZVD7GKTW0F/2x.webp 2x, https://cdn.7tv.app/emote/01GB9W6V0000098BZVD7GKTW0F/4x.webp 4x" title="EZ" class="emote">Clap! Meanwhile, I’m here stuck in the gulag like KEKW. Teach me your ways, oh sweaty one BibleThump. Honestly, you're carrying harder than a backpack on <img src="https://static-cdn.jtvnw.net/emoticons/v2/120232/static/dark/1.0" srcset="https://static-cdn.jtvnw.net/emoticons/v2/120232/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/120232/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/120232/static/dark/3.0 4x" title="TriHard" class="emote">mode.`
     },
     {
-        name: "emoteSpammer",
+        name: "unholyevelyn",
         message: " JinxLUL JinxLUL JinxLUL JinxLUL JinxLUL TwitchConHYPE TwitchConHYPE TwitchConHYPE TwitchConHYPE TwitchConHYPE NewRecord NewRecord NiceTry NiceTry NiceTry NiceTry FallWinning FallWinning FallWinning MechaRobot MechaRobot MechaRobot ImTyping ImTyping Shush Shush Shush",
         renderedText: `<img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/3.0 4x\" title=\"JinxLUL\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/3.0 4x\" title=\"JinxLUL\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/3.0 4x\" title=\"JinxLUL\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/3.0 4x\" title=\"JinxLUL\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4e1c5651219a462894aefa8b6720efc5/static/dark/3.0 4x\" title=\"JinxLUL\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/3.0 4x\" title=\"TwitchConHYPE\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/3.0 4x\" title=\"TwitchConHYPE\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/3.0 4x\" title=\"TwitchConHYPE\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/3.0 4x\" title=\"TwitchConHYPE\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96/animated/dark/3.0 4x\" title=\"TwitchConHYPE\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_53f6a6af8b0e453d874bbefee49b3e73/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_53f6a6af8b0e453d874bbefee49b3e73/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_53f6a6af8b0e453d874bbefee49b3e73/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_53f6a6af8b0e453d874bbefee49b3e73/static/dark/3.0 4x\" title=\"NewRecord\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_53f6a6af8b0e453d874bbefee49b3e73/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_53f6a6af8b0e453d874bbefee49b3e73/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_53f6a6af8b0e453d874bbefee49b3e73/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_53f6a6af8b0e453d874bbefee49b3e73/static/dark/3.0 4x\" title=\"NewRecord\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/3.0 4x\" title=\"NiceTry\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/3.0 4x\" title=\"NiceTry\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/3.0 4x\" title=\"NiceTry\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_1f524be9838146e3bc9e529c17f797d3/static/dark/3.0 4x\" title=\"NiceTry\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/3.0 4x\" title=\"FallWinning\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/3.0 4x\" title=\"FallWinning\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_dee4ecfb7f0940bead9765da02c57ca9/static/dark/3.0 4x\" title=\"FallWinning\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/3.0 4x\" title=\"MechaRobot\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/3.0 4x\" title=\"MechaRobot\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_0be25a1663bd472495b91e0302cec166/static/dark/3.0 4x\" title=\"MechaRobot\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b0c6ccb3b12b4f99a9cc83af365a09f1/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b0c6ccb3b12b4f99a9cc83af365a09f1/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b0c6ccb3b12b4f99a9cc83af365a09f1/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b0c6ccb3b12b4f99a9cc83af365a09f1/static/dark/3.0 4x\" title=\"ImTyping\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b0c6ccb3b12b4f99a9cc83af365a09f1/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b0c6ccb3b12b4f99a9cc83af365a09f1/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b0c6ccb3b12b4f99a9cc83af365a09f1/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b0c6ccb3b12b4f99a9cc83af365a09f1/static/dark/3.0 4x\" title=\"ImTyping\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/3.0 4x\" title=\"Shush\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/3.0 4x\" title=\"Shush\" class=\"emote\"><img src=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/1.0\" srcset=\"https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_819621bcb8f44566a1bd8ea63d06c58f/static/dark/3.0 4x\" title=\"Shush\" class=\"emote\">`
     },
     {
-        name: "twitchfan",
+        name: "pinkybirb",
         message: "I love this channel so much! Kreygasm",
         renderedText: `I love this channel so much! <img src="https://static-cdn.jtvnw.net/emoticons/v2/41/static/dark/1.0" srcset="https://static-cdn.jtvnw.net/emoticons/v2/41/static/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/41/static/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/41/static/dark/3.0 4x" title="Kreygasm" class="emote">`
     },
@@ -138,7 +138,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'subscriber-latest',
             event: {
-                _id: opts?.userId ?? uuidv4(),
+                _id: uuidv4(),
                 amount: opts?.bulkGifted ? realAmount : 1,
                 name: name,
                 message: opts?.message || "",
@@ -146,7 +146,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
                 tier: opts?.tier,
                 sessionTop: sessionTop,
                 originalEventName: 'subscriber-latest',
-                activityId: providerId,
+                activityId: uuidv4(),
                 ...(opts?.bulkGifted ? {
                     bulkGifted: true,
                     sessionTop: false,
@@ -173,7 +173,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
                 name: name,
                 message: opts?.message || "",
                 originalEventName: 'cheer-latest',
-                activityId: providerId,
+                activityId: uuidv4(),
                 sessionTop: sessionTop,
                 type: 'cheer',
             }
@@ -188,7 +188,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
                 _id: opts?.userId ?? uuidv4(),
                 amount: realAmount ?? randomDollarAmounts[randomIndex],
                 name: name,
-                activityId: providerId,
+                activityId: uuidv4(),
                 message: opts?.message || "",
                 originalEventName: 'tip-latest',
                 sessionTop: sessionTop,
@@ -211,8 +211,35 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
             }
         }
     }
-    console.log(event);
-    return event;
+
+    if (opts.bulkGifted && type === 'subscriber-latest') {
+        const giftedEvents: WidgetEvents[] = [event];
+        for (let i = 0; i < opts.amount; i++) {
+            giftedEvents.push({
+                listener: 'subscriber-latest',
+                event: {
+                    _id: uuidv4(),
+                    name: randomDisplayName(),
+                    activityId: uuidv4(),
+                    amount: 1,
+                    originalEventName: 'subscriber-latest',
+                    sessionTop: false,
+                    type: 'subscriber',
+                    tier: opts.tier,
+                    gifted: true,
+                    communityGifted: true,
+                    sender: opts.name,
+                    message: '',
+                    isCommunityGift: true,
+                    playedAsCommunityGift: false
+                }
+            });
+        }
+        return giftedEvents;
+    }
+    else {
+        return event;
+    }
 }
 
 export function GenerateDeleteMessageEvent() {
