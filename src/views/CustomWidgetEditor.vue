@@ -429,18 +429,17 @@
                     </div>
                     <div>
                         <button class="button"
-                            @click="GenEventByType(GenerateEvent('follower-latest', { name: displayName, userId: userId }))">Follow
+                            @click="GenEventByType(GenerateEvent('follower-latest', { name: displayName }))">Follow
                             Event</button>
                     </div>
                     <div>
                         <button style="min-width: 100px;" class="button"
-                            @click="GenEventByType(GenerateEvent('tip-latest', { name: displayName, userId: userId, amount: donationAmount }))">Donation
+                            @click="GenEventByType(GenerateEvent('tip-latest', { name: displayName, amount: donationAmount }))">Donation
                             Event
                         </button>
                         <button class="button" @click="GenEventByType(GenerateEvent('tip-latest', {
                             message: 'This is a test message!',
                             name: displayName,
-                            userId: userId,
                             amount: donationAmount
                         }))">Donation Message Event</button>
                         <input style="min-height: 2em;" placeholder="donation amount" type="number"
@@ -448,18 +447,25 @@
                     </div>
                     <div>
                         <button class="button"
-                            @click="GenEventByType(GenerateEvent('cheer-latest', { name: displayName, userId: userId, amount: cheerAmount }))">Cheer
+                            @click="GenEventByType(GenerateEvent('cheer-latest', { name: displayName, amount: cheerAmount }))">Cheer
                             Event</button>
                         <input style="min-height: 2em;" placeholder="cheer amount" type="number"
                             v-model="cheerAmount" />
                     </div>
                     <div>
                         <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
+                            name: displayName,
+                            amount: 1,
+                            tier: '1000',
                             gifted: true,
+                            isCommunityGift: false
+                        }))">Single Gifted Event</button>
+                    </div>
+                    <div>
+                        <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                             tier: '1000',
                             name: displayName,
-                            userId: userId,
-                            amount: giftSubAmount,
+                            amount: giftSubAmount ?? 3,
                             bulkGifted: true
                         }))">Gifted Sub Event</button>
                         <input style="min-height: 2em;" placeholder="num gifted subs" type="number"
@@ -467,7 +473,7 @@
                     </div>
                     <div>
                         <button class="button"
-                            @click="GenEventByType(GenerateEvent('raid-latest', { name: displayName, userId: userId, amount: raidAmount }))">Raid
+                            @click="GenEventByType(GenerateEvent('raid-latest', { name: displayName, amount: raidAmount }))">Raid
                             Event</button>
                         <input style="min-height: 2em;" placeholder="number of raiders" type="number"
                             v-model="raidAmount" />
@@ -476,39 +482,34 @@
                         <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                             message: 'This is a test sub!',
                             name: displayName,
-                            userId: userId
                         }))">Sub w/ Message Event</button>
                     </div>
                     <div>
                         <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                             message: 'This is a test sub!',
                             tier: '1000',
-                            name: displayName,
-                            userId: userId
+                            name: displayName
                         }))">Sub Event</button>
                     </div>
                     <div>
                         <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                             message: 'This is a test sub!',
                             tier: '2000',
-                            name: displayName,
-                            userId: userId
+                            name: displayName
                         }))">Sub Event T2</button>
                     </div>
                     <div>
                         <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                             message: 'This is a test sub!',
                             tier: '3000',
-                            name: displayName,
-                            userId: userId
+                            name: displayName
                         }))">Sub Event T3</button>
                     </div>
                     <div>
                         <button class="button" @click="GenEventByType(GenerateEvent('subscriber-latest', {
                             message: 'This is a test sub!',
                             tier: 'prime',
-                            name: displayName,
-                            userId: userId
+                            name: displayName
                         }))">Sub Event Prime</button>
                     </div>
                     <div>
@@ -592,7 +593,7 @@ const textContent = ref<HTMLDivElement>();
 const donationAmount = ref();
 const cheerAmount = ref();
 const raidAmount = ref();
-const giftSubAmount = ref();
+const giftSubAmount = ref(3);
 const recentMessagePos = ref(0);
 
 const fieldsdata = ref<IndexableType>(JSON.parse(widget.value.assets.fields));

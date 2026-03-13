@@ -102,12 +102,11 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
     tier?: (WidgetEvents & { listener: 'subscriber-latest' })['event']['tier'],
     message?: string,
     name?: string,
-    userId?: string,
     amount?: number
 }) {
 
-    const name = opts?.name ? opts.name : randomDisplayName();
-    const sender = PREVIEW_CHAT_MESSAGES[Math.floor(Math.random() * PREVIEW_CHAT_MESSAGES.length)].name;
+    const name = !opts.gifted ? (opts?.name ? opts.name : randomDisplayName()) : randomDisplayName();
+    const sender = opts.gifted ? opts.name : randomDisplayName();
     const providerId = "135181000";
     const sessionTop = false;
     const randomBitAmounts = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
@@ -123,7 +122,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'follower-latest',
             event: {
-                _id: opts?.userId ?? uuidv4(),
+                _id: uuidv4(),
                 name: name,
                 originalEventName: 'follower-latest',
                 activityId: providerId,
@@ -168,7 +167,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'cheer-latest',
             event: {
-                _id: opts?.userId ?? uuidv4(),
+                _id: uuidv4(),
                 amount: realAmount ?? randomBitAmounts[randomIndex],
                 name: name,
                 message: opts?.message || "",
@@ -185,7 +184,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'tip-latest',
             event: {
-                _id: opts?.userId ?? uuidv4(),
+                _id: uuidv4(),
                 amount: realAmount ?? randomDollarAmounts[randomIndex],
                 name: name,
                 activityId: uuidv4(),
@@ -202,7 +201,7 @@ export function GenerateEvent(type: WidgetEvents['listener'], opts?: {
         event = {
             listener: 'raid-latest',
             event: {
-                _id: opts?.userId ?? uuidv4(),
+                _id: uuidv4(),
                 amount: realAmount ?? 200,
                 name: name,
                 originalEventName: 'raid-latest',
