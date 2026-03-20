@@ -100,7 +100,7 @@ function InitializeWidget() {
     });
 
     updatedSeData.channel.username = devKitCache.value.displayName;
-    updatedSeData.channel.id = devKitCache.value.userId;
+    updatedSeData.channel.providerId = devKitCache.value.userId;
 
     updatedCSS.value = ApplyTemplateToFile(widget.assets.css);
     updatedJS.value = ApplyTemplateToFile(widget.assets.js);

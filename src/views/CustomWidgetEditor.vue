@@ -614,10 +614,6 @@ const displayName = computed(() => {
     return devKitCache.value.displayName.length === 0 ? undefined : devKitCache.value.displayName;
 });
 
-const userId = computed(() => {
-    return devKitCache.value.userId.length === 0 ? undefined : devKitCache.value.userId;
-});
-
 const rewardForm = ref({
     name: '',
     cost: 0,
