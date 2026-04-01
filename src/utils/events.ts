@@ -353,7 +353,7 @@ export function GenerateMessageEvent(opts: {
                     badges: badgeTags.join(",") || "moderator/1",
                     "client-nonce": "e9f7e38996c0063fa9a8e2f8fc8c5bc2",
                     color: "",
-                    "display-name": name,
+                    "display-name": name.charAt(0).toUpperCase() + name.slice(1),
                     emotes: "",
                     "first-msg": opts.tags?.['first-msg'] ?? "0",
                     flags: "",
@@ -369,9 +369,9 @@ export function GenerateMessageEvent(opts: {
                     ...(opts.tags?.['msg-id'] ? { 'msg-id': opts.tags['msg-id'] } : {}),
                     ...(opts.tags?.['custom-reward-id'] ? { 'custom-reward-id': opts.tags['custom-reward-id'] } : {})
                 },
-                nick: name,
+                nick: name.toLowerCase(),
                 userId: opts.userId || (Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000).toString(),
-                displayName: name,
+                displayName: name.charAt(0).toUpperCase() + name.slice(1),
                 displayColor: opts.displayColor || "#FFFFFF",
                 badges: opts.badges || [
                     {
