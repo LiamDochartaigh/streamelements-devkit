@@ -95,6 +95,11 @@ export type WidgetEvents =
                 }[];
                 channel: string;
                 displayColor: string;
+                /**
+                    * Display name as provided by Twitch.
+                    * May contain uppercase characters.
+                    * Use `nick` if you need the lowercase true username.
+                */
                 displayName: string;
                 emotes: {
                     animated?: boolean;
@@ -108,6 +113,10 @@ export type WidgetEvents =
                 }[];
                 isAction: boolean;
                 msgId: string;
+                /**
+                    * True login name as provided by Twitch.
+                    * Always lowercase
+                */
                 nick: string;
                 tags: {
                     badges?: string;
