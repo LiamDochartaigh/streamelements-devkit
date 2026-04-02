@@ -12,6 +12,9 @@
     "moduleResolution": "node16",
     "module": "Node16",
     "resolveJsonModule": true,
-    "strict": true
+    "strict": true,
+    "types": [
+      "jquery"
+    ]
   }
 }
