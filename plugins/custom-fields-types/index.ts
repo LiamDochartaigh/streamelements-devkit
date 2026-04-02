@@ -86,7 +86,8 @@ async function writeConfigFile(modulePath: string) {
       "moduleResolution": "node16",
       "module": "Node16",
       "resolveJsonModule": true,
-      "strict": true
+      "strict": true,
+      "types": ["jquery"]
     }
   }
   const tsconfigFile = path.join(modulePath, 'tsconfig.json');
