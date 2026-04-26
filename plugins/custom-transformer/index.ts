@@ -7,21 +7,23 @@ export default function customTransformer(options: any = {
     modulesDir: 'src/widgets'
 }): Plugin {
     const { modulesDir } = options;
+    const EXCLUDED_DIRS = ['.git', '__tests__', 'node_modules'];
+
     return {
         name: 'custom-transformer',
         async buildStart() {
             const widgetEntries = await fs.readdir(modulesDir, { withFileTypes: true });
             widgetEntries
-            .filter(entry => entry.isDirectory() && entry.name !== '.git')
-            .map(async entry => {
-                const files = await fs.readdir(path.join(modulesDir, entry.name));
-                files.filter(file => file.endsWith('.ts') && !file.includes('.d.ts'))
-                .map(async file => {
-                    const filePath = path.posix.join(modulesDir, entry.name, file);
-                    await transform(modulesDir, filePath);
-                })
+                .filter(entry => entry.isDirectory() && !EXCLUDED_DIRS.includes(entry.name))
+                .map(async entry => {
+                    const files = await fs.readdir(path.join(modulesDir, entry.name));
+                    files.filter(file => file.endsWith('.ts') && !file.includes('.d.ts'))
+                        .map(async file => {
+                            const filePath = path.posix.join(modulesDir, entry.name, file);
+                            await transform(modulesDir, filePath);
+                        })
 
-            });
+                });
         },
         async handleHotUpdate({ file, server, modules }) {
             transform(modulesDir, file);
