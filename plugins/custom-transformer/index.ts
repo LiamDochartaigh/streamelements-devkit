@@ -1,5 +1,4 @@
 import { Plugin, transformWithEsbuild } from 'vite';
-import * as ts from 'typescript';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
